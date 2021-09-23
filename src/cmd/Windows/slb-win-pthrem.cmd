@@ -105,4 +105,4 @@ ENDLOCAL & GOTO :eof
 ::   /?        Help
 ::
 :: Sample:
-::    slb-win-pthrem -opt:USER -str:"Juca Pirama"
+::   slb-win-pthrem -opt:USER -str:"Juca Pirama"

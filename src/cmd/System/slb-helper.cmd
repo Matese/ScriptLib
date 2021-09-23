@@ -73,7 +73,7 @@ ENDLOCAL & GOTO :eof
 :: convention defined at the end of the script, where angle brackets means required argument and square brackets
 :: means optional argument. Also, : after an argument means it has value.
 ::
-:: ___________________________________________________
+::___________________________________________________
 ::
 :: slb-xxx <a> <-x> <-o:> [-v] [/?]
 ::   a          Unnamed argument

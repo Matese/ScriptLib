@@ -55,4 +55,4 @@ ENDLOCAL & GOTO :eof
 ::   /?        Help
 ::
 :: Sample:
-::    slb-win-pthcur -opt:USER
+::   slb-win-pthcur -opt:USER

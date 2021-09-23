@@ -84,4 +84,4 @@ ENDLOCAL & GOTO :eof
 ::   /?        Help
 ::
 :: Sample:
-::    slb-win-pthpty -opt:USER
+::   slb-win-pthpty -opt:USER

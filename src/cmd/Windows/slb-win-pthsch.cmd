@@ -46,4 +46,4 @@ ENDLOCAL & GOTO :eof
 ::   /?         Shows this help
 ::
 :: Sample:
-::    slb-win-pthsch java.exe
+::   slb-win-pthsch java.exe

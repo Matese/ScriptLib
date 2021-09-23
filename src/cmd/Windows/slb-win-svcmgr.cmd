@@ -112,6 +112,6 @@ ENDLOCAL & GOTO :eof
 ::   /?         Shows this help
 ::
 :: Sample:
-::    slb-win-svcmgr -service:"TcpWinSvc"
-::    slb-win-svcmgr -service:"TcpWinSvc" -command:"uninstall" -server:"\\FOO" -user:"INTRANET\binho" -pass:"XXX"
-::    slb-win-svcmgr -service:"TcpWinSvc" -command:"start" -args:"silent bruteforce"
+::   slb-win-svcmgr -service:"TcpWinSvc"
+::   slb-win-svcmgr -service:"TcpWinSvc" -command:"uninstall" -server:"\\FOO" -user:"INTRANET\binho" -pass:"XXX"
+::   slb-win-svcmgr -service:"TcpWinSvc" -command:"start" -args:"silent bruteforce"
