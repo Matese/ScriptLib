@@ -1,10 +1,19 @@
-::slb-git-config Version 0.1
+::slb-git-config.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Create git configurations.
 ::
 :: History:
 ::   - v0.1 2019-12-03 Initial versioned release with embedded documentation
+::
+:: Remarks:
+::   Inspired by
+::     -> https://stackoverflow.com/questions/9876370/echo-line-to-a-file-on-windows-with-a-unix-linebreak
+::     -> https://stackoverflow.com/questions/6379619/explain-how-windows-batch-newline-variable-hack-works
+::     -> https://stackoverflow.com/questions/11962172/echo-utf-8-characters-in-windows-batch
+::     -> https://stackoverflow.com/questions/1427796/batch-file-encoding
+::     -> https://stackoverflow.com/questions/6828751/batch-character-escaping
+::     -> http://tdongsi.github.io/blog/2016/02/20/symlinks-in-git/
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL
@@ -12,50 +21,57 @@ SETLOCAL
 :: default help
 CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
-FOR %%I IN ("%~dp0\..") DO SET "-scriptlibgit=%%~fI\libraries\.scriptlib"
-
 :: parse the arguments
 CALL slb-argadd %*
-IF NOT DEFINED -name SET "-name=not defined"
-IF NOT DEFINED -email SET "-email=not defined"
 
-:: default variables
-SET -scriptlib=%HOMEDRIVE%%HOMEPATH%\.scriptlib
+:: check for empty arguments
+IF NOT DEFINED -name ECHO -name is not defined & GOTO :eof
+IF NOT DEFINED -email ECHO -email is not defined & GOTO :eof
+
+:: create .gitconfig file name
 SET -gitconfig=%HOMEDRIVE%%HOMEPATH%\.gitconfig
 
-:: delete old configurations
-RMDIR /S /Q %-scriptlib% 2>nul
+:: delete old .gitconfig file
 DEL %-gitconfig% 2>nul
 
-:: create a new configurations
-MKDIR %-scriptlib%
-XCOPY /S /Q %-scriptlibgit% %-scriptlib%>nul
+:: create new .gitconfig file
 TYPE NUL>%-gitconfig%
 
-:: get current encoding and then change it
+:: get current encoding and then change it to UTF8
 FOR /f "tokens=2 delims=:." %%x IN ('chcp') DO SET cp=%%x
 CHCP 65001 >nul
 
-:: write the content of the file
-ECHO [core]>> %-gitconfig%
-ECHO 	autocrlf = false>> %-gitconfig%
-ECHO 	symlinks = true>> %-gitconfig%
-ECHO [user]>> %-gitconfig%
-ECHO 	name = %-name%>> %-gitconfig%
-ECHO 	email = %-email%>> %-gitconfig%
-ECHO [alias]>> %-gitconfig%
-ECHO 	super = !$HOMEDRIVE$HOMEPATH/.scriptlib/super.sh>> %-gitconfig%
-ECHO 	getter = !$HOMEDRIVE$HOMEPATH/.scriptlib/getter.sh>> %-gitconfig%
-ECHO 	lister = !$HOMEDRIVE$HOMEPATH/.scriptlib/lister.sh>> %-gitconfig%
-ECHO 	sender = !$HOMEDRIVE$HOMEPATH/.scriptlib/sender.sh>> %-gitconfig%
-ECHO 	updater = !$HOMEDRIVE$HOMEPATH/.scriptlib/updater.sh>> %-gitconfig%
-ECHO 	checker = !$HOMEDRIVE$HOMEPATH/.scriptlib/checker.sh>> %-gitconfig%
-ECHO 	temper = !$HOMEDRIVE$HOMEPATH/.scriptlib/temper.sh>> %-gitconfig%
-ECHO 	stater = !$HOMEDRIVE$HOMEPATH/.scriptlib/stater.sh>> %-gitconfig%
-ECHO 	wisher = !$HOMEDRIVE$HOMEPATH/.scriptlib/wisher.sh>> %-gitconfig%
+SETLOCAL EnableDelayedExpansion
+
+:: newline hack
+(SET LF=^
+%=EMPTY=%
+)
+
+:: create content variable
+set -content=!-content![core]!LF!>> !-gitconfig!
+set -content=!-content!	symlinks = true!LF!>> !-gitconfig!
+set -content=!-content![user]!LF!>> !-gitconfig!
+set -content=!-content!	name = !-name!!LF!>> !-gitconfig!
+set -content=!-content!	email = !-email!!LF!>> !-gitconfig!
+set -content=!-content![alias]!LF!>> !-gitconfig!
+set -content=!-content!	super = ^^!$ScriptLib/src/sh/Git/slb-git-super.sh!LF!>> !-gitconfig!
+set -content=!-content!	getter = ^^!$ScriptLib/src/sh/Git/slb-git-getter.sh!LF!>> !-gitconfig!
+set -content=!-content!	lister = ^^!$ScriptLib/src/sh/Git/slb-git-lister.sh!LF!>> !-gitconfig!
+set -content=!-content!	sender = ^^!$ScriptLib/src/sh/Git/slb-git-sender.sh!LF!>> !-gitconfig!
+set -content=!-content!	updater = ^^!$ScriptLib/src/sh/Git/slb-git-updter.sh!LF!>> !-gitconfig!
+set -content=!-content!	checker = ^^!$ScriptLib/src/sh/Git/slb-git-checkr.sh!LF!>> !-gitconfig!
+set -content=!-content!	temper = ^^!$ScriptLib/src/sh/Git/slb-git-temper.sh!LF!>> !-gitconfig!
+set -content=!-content!	stater = ^^!$ScriptLib/src/sh/Git/slb-git-stater.sh!LF!>> !-gitconfig!
+set -content=!-content!	wisher = ^^!$ScriptLib/src/sh/Git/slb-git-wisher.sh!LF!>> !-gitconfig!
+
+:: write content variable to .gitconfig file
+ECHO !-content!>> !-gitconfig!
+
+SETLOCAL DisableDelayedExpansion
 
 :: set old encoding
-CHCP %cp%>nul
+CHCP %cp% >nul
 
 ENDLOCAL & GOTO :eof
 
@@ -64,11 +80,11 @@ ENDLOCAL & GOTO :eof
 ::
 :: Create git configurations.
 ::
-:: slb-git-config <-name:""> <-email:""> [-v] [/?]
+:: slb-git-config <-name> <-email> [-v] [/?]
 ::   -name     The name of the user
 ::   -email    The email of the user
 ::   -v        Shows the batch version
 ::   /?        Help
 ::
-:: Sample: 
+:: Sample:
 ::    slb-git-config -name:"Juca Pirama" -email:"jucapirama@bixao.com.br"
