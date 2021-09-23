@@ -1,4 +1,4 @@
-::slb-win-pthrem Version 0.1
+::slb-win-pthrem.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Remove the entry from PATH that ends with input string.
@@ -20,11 +20,10 @@ CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
 :: parse the arguments
 CALL slb-argadd %*
-IF NOT DEFINED -opt ECHO -opt is not defined & GOTO :eof
-IF NOT DEFINED -str ECHO -str is not defined & GOTO :eof
 
 :: check for empty argument
-IF "%-opt%" EQU "" ECHO. & ECHO option cannot be empty, choose USER or SYSTEM & ENDLOCAL & GOTO :eof
+IF NOT DEFINED -opt ECHO -opt is not defined & GOTO :eof
+IF NOT DEFINED -str ECHO -str is not defined & GOTO :eof
 
 :: check for valid argument (accepts USER or SYSTEM)
 IF NOT "%-opt%" EQU "USER" IF NOT "%-opt%" EQU "SYSTEM" ECHO. & ECHO invalid option, needs to be USER or SYSTEM & ENDLOCAL & GOTO :eof
@@ -87,7 +86,7 @@ ENDLOCAL & GOTO :eof
 ::
 :: Remove the entry from PATH that ends with input string.
 ::
-:: slb-win-pthrem <-opt:""> <-str:""> [-v] [/?]
+:: slb-win-pthrem <-opt> <-str> [-v] [/?]
 ::   -opt      USER or SYSTEM
 ::   -str      The ends with string
 ::   -v        Shows the batch version
