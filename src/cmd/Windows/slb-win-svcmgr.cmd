@@ -28,10 +28,6 @@
 ::     -> http://dotnetlearners.com/windowsservice/installing-windows-service-using-sc-exe-in-windows-command-prompt
 ::     -> https://serverfault.com/questions/143367/how-to-start-a-service-with-certain-start-parameters-on-windows
 ::     -> https://stackoverflow.com/questions/3663331/when-creating-a-service-with-sc-exe-how-to-pass-in-context-parameters
-::
-::   Sample 1: slb-win-svcmgr -service:"TcpWinSvc"
-::   Sample 2: slb-win-svcmgr -service:"TcpWinSvc" -command:"uninstall" -server:"\\INTTRA" -user:"INTRANET\fabio.sistemas" -pass:"XXX"
-::   Sample 3: slb-win-svcmgr -service:"TcpWinSvc" -command:"start" -args:"silent bruteforce"
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL EnableDelayedExpansion
@@ -114,3 +110,8 @@ ENDLOCAL & GOTO :eof
 ::   -args      (optional) Arguments
 ::   -v         Shows the batch version
 ::   /?         Shows this help
+::
+:: Sample:
+::    slb-win-svcmgr -service:"TcpWinSvc"
+::    slb-win-svcmgr -service:"TcpWinSvc" -command:"uninstall" -server:"\\FOO" -user:"INTRANET\binho" -pass:"XXX"
+::    slb-win-svcmgr -service:"TcpWinSvc" -command:"start" -args:"silent bruteforce"

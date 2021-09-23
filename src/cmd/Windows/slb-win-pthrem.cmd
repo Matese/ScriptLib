@@ -21,9 +21,20 @@ CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 :: parse the arguments
 CALL slb-argadd %*
 
-:: check for empty argument
+:: check for empty arguments
 IF NOT DEFINED -opt ECHO -opt is not defined & GOTO :eof
 IF NOT DEFINED -str ECHO -str is not defined & GOTO :eof
+IF "%-opt%" EQU "1" ECHO -opt is not defined & GOTO :eof
+IF "%-str%" EQU "1" ECHO -str is not defined & GOTO :eof
+
+:: replace + by %
+IF DEFINED -r (
+  SETLOCAL EnableDelayedExpansion
+  set temp=!-str!
+  set temp=!temp:+=%%!
+  set -str=!temp!
+  SETLOCAL DisableDelayedExpansion
+)
 
 :: check for valid argument (accepts USER or SYSTEM)
 IF NOT "%-opt%" EQU "USER" IF NOT "%-opt%" EQU "SYSTEM" ECHO. & ECHO invalid option, needs to be USER or SYSTEM & ENDLOCAL & GOTO :eof
@@ -86,9 +97,10 @@ ENDLOCAL & GOTO :eof
 ::
 :: Remove the entry from PATH that ends with input string.
 ::
-:: slb-win-pthrem <-opt> <-str> [-v] [/?]
-::   -opt      USER or SYSTEM
-::   -str      The ends with string
+:: slb-win-pthrem <-opt:> <-str:> [-r] [-v] [/?]
+::   -opt:     USER or SYSTEM
+::   -str:     The ends with string
+::   -r        Should replace + by %
 ::   -v        Shows the batch version
 ::   /?        Help
 ::

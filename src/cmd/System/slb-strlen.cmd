@@ -18,7 +18,10 @@ CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
 :: parse the arguments
 CALL slb-argadd %*
+
+:: check for empty arguments
 IF NOT DEFINED -str ECHO -str is not defined & GOTO :eof
+IF "%-str%" EQU "1" ECHO -str is not defined & GOTO :eof
 
 :: calculate and print the string length
 CALL :strlen -str -length
@@ -49,8 +52,8 @@ ENDLOCAL & GOTO :eof
 ::
 :: This function can be used to return the length of a string.
 ::
-:: slb-strlen <-str:""> [-v] [/?]
-::   -str      The string to calculate the length
+:: slb-strlen <-str:> [-v] [/?]
+::   -str:     The string to calculate the length
 ::   -v        Shows the batch version
 ::   /?        Help
 ::

@@ -23,13 +23,6 @@ SET -slb=%~dp0
 :: remove last character (it is a Backslash)
 SET -slb=%-slb:~0,-1%
 
-:: other variables
-SET -cmd=%%ScriptLib%%\src\cmd\
-SET -git=%-cmd%Git
-SET -sys=%-cmd%System
-SET -tps=%-cmd%Tips
-SET -win=%-cmd%Windows
-
 :: go to System directory
 CD %~dp0%\src\cmd\System
 
@@ -37,10 +30,15 @@ CD %~dp0%\src\cmd\System
 ECHO | CALL %~dp0uninstall >NUL
 
 :: add ScriptLib environment variables to -path variable
-SET -path=%-path%%-git%;
-SET -path=%-path%%-sys%;
-SET -path=%-path%%-tps%;
-SET -path=%-path%%-win%;
+SET -cmd=%%ScriptLib%%\src\cmd\
+SET -path=%-path%%-cmd%Git;
+SET -path=%-path%%-cmd%System;
+SET -path=%-path%%-cmd%Tips;
+SET -path=%-path%%-cmd%Windows;
+SET -sh=%%ScriptLib%%\src\sh\
+SET -path=%-path%%-sh%Git;
+SET -path=%-path%%-sh%Linux;
+SET -path=%-path%%-sh%System;
 
 :: set environment variables
 SETX ScriptLib "%-slb%" >NUL

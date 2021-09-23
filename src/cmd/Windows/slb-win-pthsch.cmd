@@ -13,7 +13,6 @@
 ::
 ::   Inspired by https://stackoverflow.com/questions/638301/discover-from-a-batch-file-where-is-java-installed.
 ::
-::   Sample: slb-win-pthsch java.exe
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL EnableDelayedExpansion
@@ -41,7 +40,10 @@ ENDLOCAL & GOTO :eof
 ::
 :: Searches everything in your PATH for the first occurance of a file.
 ::
-::   slb-win-pthsch FileName [-v] [/?]
+::   slb-win-pthsch <FileName> [-v] [/?]
 ::   FileName   The name of the file to be searched
 ::   -v         Shows the batch version
 ::   /?         Shows this help
+::
+:: Sample:
+::    slb-win-pthsch java.exe

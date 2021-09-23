@@ -17,22 +17,20 @@ CALL %~dp0src\cmd\System\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :EOF
 
 ECHO Uninstalling ScriptLib...
 
-:: variables
-SET -cmd=%%ScriptLib%%\src\cmd\
-SET -git=%-cmd%Git
-SET -sys=%-cmd%System
-SET -tps=%-cmd%Tips
-SET -win=%-cmd%Windows
-
 :: go to System directory
 CD %~dp0%\src\cmd\System
 
 :: remove environment variables
 REG delete HKCU\Environment /F /V ScriptLib >NUL 2>NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-git% >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sys% >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-tps% >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-win% >NUL
+SET -cmd=+ScriptLib+\src\cmd\
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Git -r >NUL
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%System -r >NUL
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Tips -r >NUL
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Windows -r >NUL
+SET -sh=+ScriptLib+\src\sh\
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%Git -r >NUL
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%Linux -r >NUL
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%System -r >NUL
 
 ECHO.
 ECHO User variables:

@@ -22,6 +22,7 @@ CALL slb-argadd %*
 
 :: check for empty argument
 IF NOT DEFINED -opt ECHO -opt is not defined & GOTO :eof
+IF "%-opt%" EQU "1" ECHO -opt is not defined & GOTO :eof
 
 :: check for valid argument (accepts USER or SYSTEM)
 IF NOT "%-opt%" EQU "USER" IF NOT "%-opt%" EQU "SYSTEM" ECHO. & ECHO invalid option, needs to be USER or SYSTEM & ENDLOCAL & GOTO :eof
@@ -32,6 +33,8 @@ IF "%-opt%" EQU "SYSTEM" SET -query="HKLM\SYSTEM\CurrentControlSet\Control\Sessi
 
 :: set -path variable with reg query, "skip=2 tokens=2*" will skip "path" and "REG_EXPAND_SZ"
 FOR /F "skip=2 tokens=2*" %%a IN ('reg query %-query% /v path') DO (SET -path="%%b")
+
+ECHO.
 
 :: preety print
 CALL :prettyPrint
@@ -75,10 +78,10 @@ ENDLOCAL & GOTO :eof
 ::
 :: Pretty print windows environment variables (USER or SYSTEM)
 ::
-:: slb-win-pthpty <-opt> [-v] [/?]
-::   -opt      USER or SYSTEM
+:: slb-win-pthpty <-opt:> [-v] [/?]
+::   -opt:     USER or SYSTEM
 ::   -v        Shows the batch version
 ::   /?        Help
 ::
 :: Sample:
-::    slb-win-pthpty -opt USER
+::    slb-win-pthpty -opt:USER

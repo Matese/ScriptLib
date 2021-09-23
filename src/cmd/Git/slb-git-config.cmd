@@ -80,11 +80,11 @@ ENDLOCAL & GOTO :eof
 ::
 :: Create git configurations.
 ::
-:: slb-git-config <-name> <-email> [-v] [/?]
-::   -name     The name of the user
-::   -email    The email of the user
+:: slb-git-config <-name:> <-email:> [-v] [/?]
+::   -name:    The name of the user
+::   -email:   The email of the user
 ::   -v        Shows the batch version
 ::   /?        Help
 ::
 :: Sample:
-::    slb-git-config -name:"Juca Pirama" -email:"jucapirama@bixao.com.br"
+::    slb-git-config -name:"Juca Pirama" -email:jucapirama@bixao.com.br

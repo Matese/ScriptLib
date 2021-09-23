@@ -38,7 +38,7 @@ SET "-vars="
 
 :: get all args and save them into local variable
 FOR %%G IN (%*) DO FOR /F "tokens=1,* delims=:" %%H IN ("%%G") DO (
-    SET "%%H=%%~I" & IF -%%~I-==-- SET "%%H="
+    SET "%%H=%%~I" & IF -%%~I-==-- SET "%%H=1"
     CALL SET "-vars=%%-vars%%%%H "
 )
 
