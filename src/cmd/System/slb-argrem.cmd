@@ -1,4 +1,4 @@
-::slb-argrem Version 0.1
+::slb-argrem.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Remove (via SET command) args.

@@ -1,4 +1,4 @@
-::slb-helper Version 0.3
+::slb-helper.cmd Version 0.3
 ::......................................................................................................................
 :: Description:
 ::   Performs file documentation analysis.

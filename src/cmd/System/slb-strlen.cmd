@@ -1,4 +1,4 @@
-::slb-strlen Version 0.1
+::slb-strlen.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Get the length of a String.

@@ -1,4 +1,4 @@
-::slb-win-pthsch Version 0.1
+::slb-win-pthsch.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   A handy little batch file that will search everything in your PATH for the first occurance of a file.

@@ -1,4 +1,4 @@
-::slb-argadd Version 0.2
+::slb-argadd.cmd Version 0.2
 ::......................................................................................................................
 :: Description:
 ::   Parse and define (via SET command) args to be used.
@@ -17,7 +17,7 @@
 ::    - Have a default value, wich is used if the option is not provided
 ::
 ::   If the default value contains spaces, special characters, or starts with a colon,
-::   then it should be enclosed within double quotes. The default can be undefined by 
+::   then it should be enclosed within double quotes. The default can be undefined by
 ::   specifying the default as empty quotes "".
 ::   NOTE - defaults cannot contain * or ? with this solution.
 ::
@@ -33,12 +33,12 @@ SETLOCAL
 :: default help
 CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
-:: local variable used to maintain the args temporarily 
+:: local variable used to maintain the args temporarily
 SET "-vars="
 
 :: get all args and save them into local variable
 FOR %%G IN (%*) DO FOR /F "tokens=1,* delims=:" %%H IN ("%%G") DO (
-    SET "%%H=%%~I" & IF -%%~I-==-- SET "%%H=1"
+    SET "%%H=%%~I" & IF -%%~I-==-- SET "%%H="
     CALL SET "-vars=%%-vars%%%%H "
 )
 

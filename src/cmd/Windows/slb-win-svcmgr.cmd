@@ -1,4 +1,4 @@
-::slb-win-svcmgr Version 0.7
+::slb-win-svcmgr.cmd Version 0.7
 ::......................................................................................................................
 :: Description:
 ::   Communicates with Service Control Manager interacting with services.

@@ -1,4 +1,4 @@
-::slb-return Version 3.4
+::slb-return.cmd Version 3.4
 ::......................................................................................................................
 :: Description:
 ::   slb-return simulates the return concept of a function. In other words, it can safely return any value across 

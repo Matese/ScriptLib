@@ -1,4 +1,4 @@
-::slb-tps-escpgs Version 0.1
+::slb-tps-escpgs.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Batch script escaping patterns.

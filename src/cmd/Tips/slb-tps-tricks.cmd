@@ -1,4 +1,4 @@
-::slb-tps-tricks Version 0.1
+::slb-tps-tricks.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Some tips and tricks related to batch programming.
