@@ -11,6 +11,7 @@
 ::     -> https://stackoverflow.com/questions/5471556/pretty-print-windows-path-variable-how-to-split-on-in-cmd-shell
 ::     -> https://stackoverflow.com/questions/21765687/remove-quotes-from-string-in-batch-file
 ::     -> https://stackoverflow.com/questions/49651545/use-an-environment-variable-in-a-windows-cmd-file-as-substring-length-parameter
+::     -> http://scripts.dragon-it.co.uk/scripts.nsf/docs/batch-search-replace-substitute
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL

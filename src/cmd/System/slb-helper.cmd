@@ -31,17 +31,17 @@ SET -arg2=%-arg2:"=%
 SET "-help="
 
 IF %-arg1%==-/?- (
-    SET -p=%~f0 & CALL :showHelp & SET -help=1
+    SET -p=%~f0 & CALL :showHelp & SET -help="/?"
 ) ELSE IF %-arg2%==-/?- (
-    SET -p=%~1  & CALL :showHelp & SET -help=1
+    SET -p=%~1  & CALL :showHelp & SET -help="/?"
 ) ELSE IF %-arg1%==--v- (
-    SET -p=%~f0 & CALL :showVersion & SET -help=1
+    SET -p=%~f0 & CALL :showVersion & SET -help=-v
 ) ELSE IF %-arg1%==--V- (
-    SET -p=%~f0 & CALL :showVersion & SET -help=1
+    SET -p=%~f0 & CALL :showVersion & SET -help=-v
 ) ELSE IF %-arg2%==--v- (
-    SET -p=%~1  & CALL :showVersion & SET -help=1
+    SET -p=%~1  & CALL :showVersion & SET -help=-v
 ) ELSE IF %-arg2%==--V- (
-    SET -p=%~1  & CALL :showVersion & SET -help=1
+    SET -p=%~1  & CALL :showVersion & SET -help=-v
 )
 
 CALL %~dp0\slb-return -help -help
@@ -54,7 +54,7 @@ ENDLOCAL & GOTO :eof
 :showHelp
     SETLOCAL
     FOR /f "delims=:" %%G IN ('FINDSTR /rbn ":::HELP:::" "%-p%"') DO SET "-s=%%G"
-    FOR /f "delims=: skip=%-s% tokens=1*" %%G IN ('FINDSTR /n "^" "%-p%"') DO ECHO+%%H
+    IF EXIST "%-s%" FOR /f "delims=: skip=%-s% tokens=1*" %%G IN ('FINDSTR /n "^" "%-p%"') DO ECHO+%%H
     ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
