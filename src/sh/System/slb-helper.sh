@@ -12,8 +12,13 @@
 #   documentation convention as this script. In other words, the script passed as
 #   argument should have "#/" before documentation lines.
 #
-#   Sample 1: Show this script help
-#   > slb-helper.sh --help
+#   Inspired by
+#     -> https://www.cyberciti.biz/faq/howto-use-cat-command-in-unix-linux-shell-script/
+#     -> https://stackoverflow.com/questions/16136943/how-to-get-the-second-column-from-command-output
+#     -> https://unix.stackexchange.com/questions/449498/call-function-declared-below
+#     -> https://stackoverflow.com/questions/49857332/bash-exit-from-source-d-script
+#     -> https://datacadamia.com/os/process/exit_code
+#     -> https://unix.stackexchange.com/questions/79343/how-to-loop-through-arguments-in-a-bash-script
 #
 
 #..................................................................................
@@ -21,11 +26,38 @@
 #
 main()
 {
-    # shows the script version
-    expr "$*" : ".*--version" > /dev/null && showVersion
+    checkSource
 
-    # shows the help
-    expr "$*" : ".*--help" > /dev/null && showHelp
+    for i in "$@"; do
+        if [ "$i" == "-v" ]; then
+            showVersion && $exit 0
+        elif [ "$i" == "--version" ]; then
+            showVersion && $exit 0
+        elif [ "$i" == "--help" ]; then
+            showHelp && $exit 0
+        elif [ "$i" == "/?" ]; then
+            showHelp && $exit 0
+        fi
+    done
+
+    $exit 1
+}
+
+#..................................................................................
+# Find out how the script was invoked
+#
+checkSource()
+{
+    # we don't want to end the user's terminal session!
+    if [[ "$0" != "$BASH_SOURCE" ]] ; then
+        # this script is executed via `source`,
+        # an `exit` will close the user's console
+        exit=return
+    else
+        # this script is not `source`-d,
+        # it's safe to exit via `exit`
+        exit=exit
+    fi
 }
 
 #..................................................................................
@@ -34,7 +66,6 @@ main()
 showHelp()
 {
     grep '^#/' "$0" | cut -c4-;
-    exit 0;
 }
 
 #..................................................................................
@@ -42,17 +73,13 @@ showHelp()
 #
 showVersion()
 {
-    # https://www.cyberciti.biz/faq/howto-use-cat-command-in-unix-linux-shell-script/
-    # https://stackoverflow.com/questions/16136943/how-to-get-the-second-column-from-command-output
-    cat ${0} | head -2 | tail -1 | sed 's/#//'
-    exit 0;
+    echo & cat ${0} | head -2 | tail -1 | sed 's/#//'
 }
 
 #..................................................................................
-# Calls the main script, inspired by:
-# - https://unix.stackexchange.com/questions/449498/call-function-declared-below
+# Calls the main script
 #
-main "$@";
+main "$@"
 
 #..................................................................................
 #..HELP...
@@ -60,7 +87,10 @@ main "$@";
 #/ Performs sh file analysis discovering and displaying documentation if any.
 #/ Documentation should follow the convention defined at the end of the script.
 #/
-#/   slb-helper <FilePath> [--version] [--help]
+#/ slb-helper.sh <FilePath> [-] [/?]
 #/   FilePath   File path to parse
-#/   --version  Shows the script version
-#/   --help     Shows this help
+#/   -v         Shows the script version
+#/   /?         Shows this help
+#/
+#/ Sample 1: Show this script help
+#/   > slb-helper.sh --help

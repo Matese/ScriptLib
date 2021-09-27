@@ -1,14 +1,27 @@
 #!/bin/sh
-#wisher.sh Version 0.1
+#slb-git-wisher.sh Version 0.1
 #..................................................................................
 # Description:
 #   Wish git-gui if status has changes.
 #
 # History:
 #   - v0.1 2020-09-10 Initial release including basic documentation
+#   - v0.2 2021-09-23 Refactor with OS type check
 #
 # Remarks:
-#   TODO
+#   Inspired by
+#     -> https://how.wtf/ternary-operator-in-bash.html
+#     -> https://stackoverflow.com/questions/16905183/dash-double-semicolon-syntax
+#     -> https://stackoverflow.com/questions/394230/how-to-detect-the-os-from-a-bash-script
+#     -> https://stackoverflow.com/questions/8352851/how-to-call-one-shell-script-from-another-shell-script
+#     -> https://stackoverflow.com/questions/31128783/how-to-find-the-install-path-of-git-in-mac-or-linux
+#     -> https://askubuntu.com/questions/408784/after-doing-a-sudo-apt-get-install-app-where-does-the-application-get-stored
+#     -> https://stackoverflow.com/questions/18937393/list-of-executables-installed-from-package
+#     -> https://stackoverflow.com/questions/21231359/running-executable-files-in-linux
+#     -> https://stackoverflow.com/questions/59002095/when-i-run-the-git-gui-in-git-bash-on-windows-10-i-get-line-3-exec-wish-not
+#     -> https://stackoverflow.com/questions/53563543/bash-shell-access-to-programfilesx86-environment-variable
+#     -> https://tecadmin.net/bash-remove-double-quote-string/
+#     -> https://stackoverflow.com/questions/59838/how-can-i-check-if-a-directory-exists-in-a-bash-shell-script
 #
 
 #..................................................................................
@@ -16,29 +29,68 @@
 #
 main()
 {
-    WISH='"C:/Program Files/Git/mingw64/bin/wish.exe" '
-    GITGUI='"C:/Program Files/Git/mingw64/libexec/git-core/git-gui" "--working-dir" '
+    # default help
+    . slb-helper.sh && return 0
 
-    if [[ `git status ${1} --porcelain` ]];
-    then
-        eval $WISH$GITGUI\"$1\"
+    # parse the arguments
+    . slb-argadd.sh $*
+
+    # if -dir argument is empty, set it to current directory
+    if [ -z ${dir+x} ] || [ "${dir}" == "" ] || [ "${dir}" == "-dir" ]; then dir=$PWD; fi
+
+    setMingw64Dir
+    setWishDir
+    setGitguiDir
+
+    if [[ `git status $dir --porcelain` ]]; then
+        eval "\"$wish\" \"$gitgui\" \"--working-dir\" \"$dir\"";
     fi
 }
 
 #..................................................................................
-# Parse help and calls the main script
-# - https://stackoverflow.com/questions/8352851/how-to-call-one-shell-script-from-another-shell-script
-# - https://unix.stackexchange.com/questions/449498/call-function-declared-below
+# Set mingw64 dir to a variable
 #
-. ${PWD}/lar-help.sh
-main "$@"; exit
+setMingw64Dir()
+{
+    mingw64dir="$(cygpath -m "$PROGRAMFILES")/Git/mingw64"
+
+    # if directory doesn't exist.
+    [ ! -d "$mingw64dir" ] && echo "Couldn't find mingw64 at \"$mingw64dir\"" & return 1
+}
+
+#..................................................................................
+# Set wish dir to a variable
+#
+setWishDir()
+{
+    wish="$mingw64dir/bin/wish.exe"
+
+    # if file doesn't exist.
+    [ ! -f "$wish" ] && echo "Couldn't find wish at \"$wish\"" & return 1
+}
+
+#..................................................................................
+# Set git-gui dir to a variable
+#
+setGitguiDir()
+{
+    gitgui="$mingw64dir/libexec/git-core/git-gui"
+
+    # if file doesn't exist.
+    [ ! -f "$gitgui" ] && echo "Couldn't find git-gui at \"$gitgui\"" & return 1
+}
+
+#..................................................................................
+# Calls the main script
+#
+main "$@"
 
 #..................................................................................
 #..HELP...
 #/
 #/ Wish git-gui if status has changes.
 #/
-#/   wisher TODO [--version] [--help]
-#/   TODO       TODO
-#/   --version  Shows the script version
-#/   --help     Shows this help
+#/ slb-git-wisher.sh [-dir:] [-v] [/?]
+#/   -dir       Directory of the repository
+#/   -v         Shows the script version
+#/   /?         Shows this help
