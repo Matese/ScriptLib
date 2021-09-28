@@ -1,5 +1,5 @@
 #!/bin/sh
-#slb-git-wisher.sh Version 0.1
+#slb-git-guider.sh Version 0.1
 #..................................................................................
 # Description:
 #   Wish git-gui if status has changes.
@@ -38,11 +38,14 @@ main()
     # if -dir argument is empty, set it to current directory
     if [ -z ${dir+x} ] || [ "${dir}" == "" ] || [ "${dir}" == "-dir" ]; then dir=$PWD; fi
 
-    setMingw64Dir
-    setWishDir
-    setGitguiDir
+    # set variables
+    setMingw64Var
+    setWishVar
+    setGitguiVar
 
+    # check if has changes
     if [[ `git status $dir --porcelain` ]]; then
+        # invoke git-gui
         eval "\"$wish\" \"$gitgui\" \"--working-dir\" \"$dir\"";
     fi
 }
@@ -50,20 +53,28 @@ main()
 #..................................................................................
 # Set mingw64 dir to a variable
 #
-setMingw64Dir()
+setMingw64Var()
 {
-    mingw64dir="$(cygpath -m "$PROGRAMFILES")/Git/mingw64"
+    if [[ "$(slb-ostype.sh)" == "WINDOWS" ]]; then
+        mingw64="$(cygpath -m "$PROGRAMFILES")/Git/mingw64"
+    else
+        mingw64="TODO"
+    fi
 
     # if directory doesn't exist.
-    [ ! -d "$mingw64dir" ] && echo "Couldn't find mingw64 at \"$mingw64dir\"" & return 1
+    [ ! -d "$mingw64" ] && echo "Couldn't find mingw64 at \"$mingw64\"" & return 1
 }
 
 #..................................................................................
 # Set wish dir to a variable
 #
-setWishDir()
+setWishVar()
 {
-    wish="$mingw64dir/bin/wish.exe"
+    if [[ "$(slb-ostype.sh)" == "WINDOWS" ]]; then
+        wish="$mingw64/bin/wish.exe"
+    else
+        wish="TODO"
+    fi
 
     # if file doesn't exist.
     [ ! -f "$wish" ] && echo "Couldn't find wish at \"$wish\"" & return 1
@@ -72,9 +83,13 @@ setWishDir()
 #..................................................................................
 # Set git-gui dir to a variable
 #
-setGitguiDir()
+setGitguiVar()
 {
-    gitgui="$mingw64dir/libexec/git-core/git-gui"
+    if [[ "$(slb-ostype.sh)" == "WINDOWS" ]]; then
+        gitgui="$mingw64/libexec/git-core/git-gui"
+    else
+        gitgui="TODO"
+    fi
 
     # if file doesn't exist.
     [ ! -f "$gitgui" ] && echo "Couldn't find git-gui at \"$gitgui\"" & return 1
@@ -90,7 +105,7 @@ main "$@"
 #/
 #/ Wish git-gui if status has changes.
 #/
-#/ slb-git-wisher.sh [-dir:] [-v] [/?]
+#/ slb-git-guider.sh [-dir:] [-v] [/?]
 #/   -dir       Directory of the repository
 #/   -v         Shows the script version
 #/   /?         Shows this help

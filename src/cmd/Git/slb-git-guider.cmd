@@ -1,12 +1,12 @@
-::slb-git-config.cmd
+::slb-git-guider.cmd
 ::......................................................................................................................
 :: Description:
-::   Wrapper that invokes slb-git-wisher.sh
+::   Wrapper that invokes slb-git-guider.sh
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL
 
-SET -script=-sh:"%ScriptLib%\src\sh\Git\slb-git-wisher.sh"
+SET -script=-sh:"%ScriptLib%\src\sh\Git\slb-git-guider.sh"
 
 :: default help
 CALL slb-helper "%~f0" "%~1" >NUL
