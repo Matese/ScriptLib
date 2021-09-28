@@ -1,8 +1,8 @@
 #!/bin/sh
-#slb-git-checkr.sh Version 0.1
+#slb-git-puller.sh Version 0.1
 #..................................................................................
 # Description:
-#   Check for changes in superproject and it´s submodules
+#   Pull superproject and it´s submodules
 #
 # History:
 #   - v0.1 2020-09-10 Initial release including basic documentation
@@ -19,8 +19,12 @@ main()
 {
     # check if is a git repository directory
     if [ -d .git ]; then
-        echo "checking submodules..." && git submodule foreach --quiet 'git guider $toplevel/$name' 
-        echo "checking superproject..." && git guider $PWD
+        if [ -z "$1" ]; then
+            echo "fatal: (null) is not a valid branch"
+        else
+            git submodule foreach git pull origin ${1}
+            git pull origin ${1}
+        fi;
     else
         echo "fatal: not a git repository (or any of the parent directories)"
     fi;
@@ -34,9 +38,9 @@ main "$@"
 #..................................................................................
 #..HELP...
 #/
-#/ Wish git-gui if status has changes.
+#/ Pull superproject and it´s submodules.
 #/
-#/ slb-git-checkr.sh [-dir:] [-v] [/?]
+#/ slb-git-puller.sh [-dir:] [-v] [/?]
 #/   -dir       Directory of the repository
 #/   -v         Shows the script version
 #/   /?         Shows this help

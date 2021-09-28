@@ -55,15 +55,14 @@ set -content=!-content![user]!LF!>> !-gitconfig!
 set -content=!-content!	name = !-name!!LF!>> !-gitconfig!
 set -content=!-content!	email = !-email!!LF!>> !-gitconfig!
 set -content=!-content![alias]!LF!>> !-gitconfig!
-set -content=!-content!	super = ^^!$ScriptLib/src/sh/Git/slb-git-super.sh!LF!>> !-gitconfig!
+set -content=!-content!	puller = ^^!$ScriptLib/src/sh/Git/slb-git-puller.sh!LF!>> !-gitconfig!
 set -content=!-content!	getter = ^^!$ScriptLib/src/sh/Git/slb-git-getter.sh!LF!>> !-gitconfig!
 set -content=!-content!	lister = ^^!$ScriptLib/src/sh/Git/slb-git-lister.sh!LF!>> !-gitconfig!
 set -content=!-content!	sender = ^^!$ScriptLib/src/sh/Git/slb-git-sender.sh!LF!>> !-gitconfig!
-set -content=!-content!	updater = ^^!$ScriptLib/src/sh/Git/slb-git-updter.sh!LF!>> !-gitconfig!
-set -content=!-content!	checker = ^^!$ScriptLib/src/sh/Git/slb-git-checkr.sh!LF!>> !-gitconfig!
-set -content=!-content!	temper = ^^!$ScriptLib/src/sh/Git/slb-git-temper.sh!LF!>> !-gitconfig!
+set -content=!-content!	updter = ^^!$ScriptLib/src/sh/Git/slb-git-updter.sh!LF!>> !-gitconfig!
+set -content=!-content!	checkr = ^^!$ScriptLib/src/sh/Git/slb-git-checkr.sh!LF!>> !-gitconfig!
 set -content=!-content!	stater = ^^!$ScriptLib/src/sh/Git/slb-git-stater.sh!LF!>> !-gitconfig!
-set -content=!-content!	wisher = ^^!$ScriptLib/src/sh/Git/slb-git-wisher.sh!LF!>> !-gitconfig!
+set -content=!-content!	guider = ^^!$ScriptLib/src/sh/Git/slb-git-guider.sh!LF!>> !-gitconfig!
 
 :: write content variable to .gitconfig file
 ECHO !-content!>> !-gitconfig!
