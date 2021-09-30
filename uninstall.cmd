@@ -24,6 +24,7 @@ CD %~dp0%\src\cmd\System
 REG delete HKCU\Environment /F /V ScriptLib >NUL 2>NUL
 SET -cmd=+ScriptLib+\src\cmd\
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Git -r >NUL
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%NET -r >NUL
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%System -r >NUL
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Windows -r >NUL
 SET -ps1=+ScriptLib+\src\ps1\
@@ -32,6 +33,7 @@ CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-ps1%System -r >NUL
 SET -sh=+ScriptLib+\src\sh\
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%Git -r >NUL
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%Linux -r >NUL
+CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%NET -r >NUL
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%System -r >NUL
 
 ECHO.

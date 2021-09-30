@@ -32,6 +32,7 @@ ECHO | CALL %~dp0uninstall >NUL
 :: add ScriptLib environment variables to -path variable
 SET -cmd=%%ScriptLib%%\src\cmd\
 SET -path=%-path%%-cmd%Git;
+SET -path=%-path%%-cmd%NET;
 SET -path=%-path%%-cmd%System;
 SET -path=%-path%%-cmd%Windows;
 SET -ps1=%%ScriptLib%%\src\ps1\
@@ -40,6 +41,7 @@ SET -path=%-path%%-ps1%System;
 SET -sh=%%ScriptLib%%\src\sh\
 SET -path=%-path%%-sh%Git;
 SET -path=%-path%%-sh%Linux;
+SET -path=%-path%%-sh%NET;
 SET -path=%-path%%-sh%System;
 
 :: set environment variables

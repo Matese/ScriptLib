@@ -34,6 +34,9 @@ main()
 
     # .NET submodule
     if [ ! -z ${dotnetsm+x} ]; then dotnetsm; fi
+
+    # .NET
+    if [ ! -z ${shdlib+x} ]; then slb-net-shdlib "$d/$n"; fi
 }
 
 #..................................................................................
@@ -52,10 +55,16 @@ dotnetsp()
     mkdir -p "$root" && >"$root/LICENSE" && licence "$root/LICENSE"
     mkdir -p "$root" && >"$root/README.md" && readme "$root/README.md"
 
-    # slb-symlnk.sh -f -l:"$root/.runsettings" -t:"$common/.runsettings"
-    # slb-symlnk.sh -f -l:"$root/.gitignore" -t:"$common/.gitignore"
-    # slb-symlnk.sh -f -l:"$root/.gitattributes" -t:"$common/.gitattributes"
-    # slb-symlnk.sh -f -l:"$root/Directory.Build.props" -t:"$common/Directory.Build.props"
+    slb-symlnk.sh -f -l:"$root/.runsettings" -t:"$common/.runsettings"
+    slb-symlnk.sh -f -l:"$root/.gitignore" -t:"$common/.gitignore"
+    slb-symlnk.sh -f -l:"$root/.gitattributes" -t:"$common/.gitattributes"
+    slb-symlnk.sh -f -l:"$root/Directory.Build.props" -t:"$common/Directory.Build.props"
+
+    # git submodule add http://tfs.larnet:8080/tfs/DESENVOLVIMENTO/LARGIT/_git/core modules/core
+    # git submodule add http://tfs.larnet:8080/tfs/DESENVOLVIMENTO/LARGIT/_git/<submodulo> modules/<submodulo>
+
+    # Efeturar o **_commit_** e o **_push_** das alterações em cada repositório.
+
 }
 
 #..................................................................................
@@ -73,11 +82,11 @@ dotnetsm()
     mkdir -p "$root/packages" && >"$root/packages/.gitkeep"
     mkdir -p "$root/src" && >"$root/src/.gitkeep"
     mkdir -p "$root/tests" && >"$root/tests/.gitkeep"
-    mkdir -p "$root" && >"$root/LICENSE"
-    mkdir -p "$root" && >"$root/README.md"
+    mkdir -p "$root" && >"$root/LICENSE" && licence "$root/LICENSE"
+    mkdir -p "$root" && >"$root/README.md" && readme "$root/README.md"
 
-    slb-git-symlnk.sh -f -l:"$root/.gitignore" -t:"$common/.gitignore"
-    slb-git-symlnk.sh -f -l:"$root/.gitattributes" -t:"$common/.gitattributes"
+    slb-symlnk.sh -f -l:"$root/.gitignore" -t:"$common/.gitignore"
+    slb-symlnk.sh -f -l:"$root/.gitattributes" -t:"$common/.gitattributes"
 }
 
 #..................................................................................
