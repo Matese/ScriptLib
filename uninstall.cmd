@@ -25,7 +25,6 @@ REG delete HKCU\Environment /F /V ScriptLib >NUL 2>NUL
 SET -cmd=+ScriptLib+\src\cmd\
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Git -r >NUL
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%System -r >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Tips -r >NUL
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Windows -r >NUL
 SET -ps1=+ScriptLib+\src\ps1\
 CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-ps1%Windows -r >NUL

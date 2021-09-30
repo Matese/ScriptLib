@@ -33,7 +33,6 @@ ECHO | CALL %~dp0uninstall >NUL
 SET -cmd=%%ScriptLib%%\src\cmd\
 SET -path=%-path%%-cmd%Git;
 SET -path=%-path%%-cmd%System;
-SET -path=%-path%%-cmd%Tips;
 SET -path=%-path%%-cmd%Windows;
 SET -ps1=%%ScriptLib%%\src\ps1\
 SET -path=%-path%%-ps1%Windows;

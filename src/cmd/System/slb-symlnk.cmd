@@ -1,12 +1,12 @@
-::slb-git-guider.cmd
+::slb-symlnk.cmd
 ::......................................................................................................................
 :: Description:
-::   Wrapper that invokes slb-git-guider.sh
+::   Wrapper that invokes slb-symlnk.sh
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL
 
-SET -script=-sh:"%ScriptLib%\src\sh\Git\%0.sh"
+SET -script=-sh:"%ScriptLib%\src\sh\System\%0.sh"
 
 :: boilerplate
 CALL slb-helper "%~f0" "%~1" >NUL

@@ -85,7 +85,6 @@ main "$@"
 #..HELP...
 #/
 #/ Performs sh file analysis discovering and displaying documentation if any.
-#/ Documentation should follow the convention defined at the end of the script.
 #/
 #/ slb-helper.sh <FilePath> [-v] [/?]
 #/   FilePath   File path to parse

@@ -1,4 +1,4 @@
-::slb-git-wrappr.cmd Version 0.1
+::slb-wrappr.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   A wrapper used to call shell scripts from batch
@@ -59,11 +59,11 @@ ENDLOCAL & "%-bash%" --login "%-script%" %-args%
 ::
 :: A wrapper used to call shell scripts from batch
 ::
-:: slb-git-wrappr <-sh:> [arg:] [-v] [/?]
+:: slb-wrappr <-sh:> [arg:] [-v] [/?]
 ::   -sh:      The shell script path
 ::   -arg:     The shell script argument (can have multiple)
 ::   -v        Shows the batch version
 ::   /?        Help
 ::
 :: Sample:
-::   slb-git-wrappr -sh:c:\foo.sh -arg:first -arg:"second argument"
+::   slb-wrappr -sh:c:\foo.sh -arg:first -arg:"second argument"

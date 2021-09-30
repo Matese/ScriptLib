@@ -1,5 +1,5 @@
 #!/bin/sh
-#slb-git-struct.sh Version 0.1
+#slb-scfdng.sh Version 0.1
 #..................................................................................
 # Description:
 #   todo
@@ -23,24 +23,23 @@ main()
     # parse the arguments
     . slb-argadd.sh "$@"
 
-    # optional arguments
+    # default arguments
     if [ -z ${d+x} ] || [ "${d}" == "" ] || [ "${d}" == "-d" ]; then d=$PWD; fi
-    if [ -z ${sp+x} ] && [ -z ${sm+x} ]; then echo "-sp or -sm is not defined" & return 1; fi
 
     # check for empty arguments
     if [ -z ${n+x} ] || [ "${n}" == "" ] || [ "${n}" == "-n" ]; then echo "-n is not defined" & return 1; fi
 
-    # superproject
-    if [ ! -z ${sp+x} ]; then superproject; fi
+    # .NET superproject
+    if [ ! -z ${dotnetsp+x} ]; then dotnetsp; fi
 
-    # submodule
-    if [ ! -z ${sm+x} ]; then submodule; fi
+    # .NET submodule
+    if [ ! -z ${dotnetsm+x} ]; then dotnetsm; fi
 }
 
 #..................................................................................
-# Create a superproject structure
+# Create superproject structure for .NET
 #
-superproject()
+dotnetsp()
 {
     root=$d/$n
     common=$root/modules/core/src/Common
@@ -50,19 +49,19 @@ superproject()
     mkdir -p "$root/modules" && >"$root/modules/.gitkeep"
     mkdir -p "$root" && >"$root/.gitmodules"
     mkdir -p "$root" && >"$root/.root"
-    mkdir -p "$root" && >"$root/LICENSE"
-    mkdir -p "$root" && >"$root/README.md"
+    mkdir -p "$root" && >"$root/LICENSE" && licence "$root/LICENSE"
+    mkdir -p "$root" && >"$root/README.md" && readme "$root/README.md"
 
-    slb-git-symlnk.sh -f -l:"$root/.runsettings" -t:"$common/.runsettings"
-    slb-git-symlnk.sh -f -l:"$root/.gitignore" -t:"$common/.gitignore"
-    slb-git-symlnk.sh -f -l:"$root/.gitattributes" -t:"$common/.gitattributes"
-    slb-git-symlnk.sh -f -l:"$root/Directory.Build.props" -t:"$common/Directory.Build.props"
+    # slb-symlnk.sh -f -l:"$root/.runsettings" -t:"$common/.runsettings"
+    # slb-symlnk.sh -f -l:"$root/.gitignore" -t:"$common/.gitignore"
+    # slb-symlnk.sh -f -l:"$root/.gitattributes" -t:"$common/.gitattributes"
+    # slb-symlnk.sh -f -l:"$root/Directory.Build.props" -t:"$common/Directory.Build.props"
 }
 
 #..................................................................................
-# Create a submodule structure
+# Create submodule structure for .NET
 #
-submodule()
+dotnetsm()
 {
     root=$d/$n
     common=${root%/*/*}/core/src/Common
@@ -82,6 +81,46 @@ submodule()
 }
 
 #..................................................................................
+# TODO
+#
+licence()
+{
+    echo "MIT License" >> $1
+    echo "" >> $1
+    echo "Copyright (c) 2021" >> $1
+    echo "" >> $1
+    echo "Permission is hereby granted, free of charge, to any person obtaining a copy" >> $1
+    echo "of this software and associated documentation files (the \"Software\"), to deal" >> $1
+    echo "in the Software without restriction, including without limitation the rights" >> $1
+    echo "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell" >> $1
+    echo "copies of the Software, and to permit persons to whom the Software is" >> $1
+    echo "furnished to do so, subject to the following conditions:" >> $1
+    echo "" >> $1
+    echo "The above copyright notice and this permission notice shall be included in all" >> $1
+    echo "copies or substantial portions of the Software." >> $1
+    echo "" >> $1
+    echo "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR" >> $1
+    echo "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY," >> $1
+    echo "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE" >> $1
+    echo "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER" >> $1
+    echo "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM," >> $1
+    echo "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE" >> $1
+    echo "SOFTWARE." >> $1
+    echo "" >> $1
+}
+
+#..................................................................................
+# TODO
+#
+readme()
+{
+    echo "TODO" >> $1
+    echo "" >> $1
+    echo "DEFINE THE STRUCTURE" >> $1
+    echo "" >> $1
+}
+
+#..................................................................................
 # Calls the main script
 #
 main "$@"
@@ -91,10 +130,10 @@ main "$@"
 #/
 #/ todo.
 #/
-#/ slb-git-struct.sh <-n:> [-d:] [-sp] [-sm] [-v] [/?]
+#/ slb-scfdng.sh <-n:> [-d:] [-dotnetsp] [-dotnetsm] [-v] [/?]
 #/   -n:        Project name
 #/   -d:        Directory
-#/   -sp        Superproject
+#/   -dotnetsp  Superproject structure for .NET
 #/                <-n>/
 #/                  artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)
 #/                  modules/              - Git submodules
@@ -106,7 +145,7 @@ main "$@"
 #/                  Directory.Build.props - Build customizations
 #/                  LICENSE               - License
 #/                  README.md             - Readme
-#/   -sm        Submodule
+#/   -dotnetsm  Submodule structure for .NET
 #/                <-n>/
 #/                  artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)
 #/                  docs/                 - Documentation (markdown, help, etc.)
@@ -116,7 +155,6 @@ main "$@"
 #/                  tests/                - Test projects
 #/                  LICENSE               - License
 #/                  README.md             - Readme
-#/
 #/   -v         Shows the script version
 #/   /?         Shows this help
 #/

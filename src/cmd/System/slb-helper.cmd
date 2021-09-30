@@ -9,14 +9,8 @@
 ::   - v0.3 2019-12-03 Bug with arg1 and arg2 ordering fixed
 ::
 :: Remarks:
-::   This script has the premise that the script passed as argument has the same documentation convention as this 
+::   This script has the premise that the script passed as argument has the same documentation convention as this
 ::   script. In other words, the script passed as argument should have a ":::HELP:::" at the end of the script.
-::
-::   Sample 1: Show this script help
-::   > slb-helper /?
-::
-::   Sample 2: Show another script help
-::   > slb-helper "C:\Users\juca.pirama\Scripts\LIB-WHERE" /?
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL
@@ -54,7 +48,7 @@ ENDLOCAL & GOTO :eof
 :showHelp
     SETLOCAL
     FOR /f "delims=:" %%G IN ('FINDSTR /rbn ":::HELP:::" "%-p%"') DO SET "-s=%%G"
-    IF EXIST "%-s%" FOR /f "delims=: skip=%-s% tokens=1*" %%G IN ('FINDSTR /n "^" "%-p%"') DO ECHO+%%H
+    IF NOT "%-s%"=="" FOR /f "delims=: skip=%-s% tokens=1*" %%G IN ('FINDSTR /n "^" "%-p%"') DO ECHO+%%H
     ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
@@ -69,23 +63,7 @@ ENDLOCAL & GOTO :eof
 ::......................................................................................................................
 :::HELP:::
 ::
-:: Performs batch file analysis discovering and displaying documentation if any. Documentation should follow the
-:: convention defined at the end of the script, where angle brackets means required argument and square brackets
-:: means optional argument. Also, : after an argument means it has value.
-::
-::___________________________________________________
-::
-:: slb-xxx <a> <-x> <-o:> [-v] [/?]
-::   a          Unnamed argument
-::   -x         Named argument
-::   -o:        Named argument with value
-::   -v         Shows the batch version
-::   /?         Shows this help
-::
-:: Sample:
-::   slb-xxx "foo" -x -o:something
-::   slb-xxx other -x -o:"something else"
-::___________________________________________________
+:: Performs batch file analysis discovering and displaying documentation if any.
 ::
 :: slb-helper <FilePath> [-v] [/?]
 ::   FilePath   File path to parse

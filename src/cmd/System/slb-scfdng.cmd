@@ -1,16 +1,17 @@
-::slb-git-struct.cmd
+::slb-scfdng.cmd
 ::......................................................................................................................
 :: Description:
-::   Wrapper that invokes slb-git-struct.sh
+::   Wrapper that invokes slb-scfdng.sh
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL
 
+SET -script=-sh:"%ScriptLib%\src\sh\System\%0.sh"
+
 :: boilerplate
-SET -script=-sh:"%ScriptLib%\src\sh\Git\%0.sh"
 CALL slb-helper "%~f0" "%~1" >NUL
 IF DEFINED -help SET -args=-arg:%-help%
 IF NOT DEFINED -help SET -args=%*
-CALL slb-git-wrappr %-script% %-args%
+CALL slb-wrappr %-script% %-args%
 
 ENDLOCAL & GOTO :eof

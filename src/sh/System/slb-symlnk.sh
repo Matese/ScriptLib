@@ -1,5 +1,5 @@
 #!/bin/sh
-#slb-git-symlnk.sh Version 0.1
+#slb-symlnk.sh Version 0.1
 #..................................................................................
 # Description:
 #   Create NTFS (Windows) links that is usable by Windows and Cygwin
@@ -76,7 +76,7 @@ main "$@"
 #/
 #/ Create NTFS (Windows) links that is usable by Windows and Cygwin
 #/
-#/ slb-git-symlnk.sh [-d] [-f] <-l:> <-t:> [-v] [/?]
+#/ slb-symlnk.sh [-d] [-f] <-l:> <-t:> [-v] [/?]
 #/   -d         Directory Symbolic Link
 #/   -f         File Symbolic Link
 #/   -l:        Link path

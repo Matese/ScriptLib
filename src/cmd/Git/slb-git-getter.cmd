@@ -1,16 +1,17 @@
-::slb-git-symlnk.cmd
+::slb-git-getter.cmd
 ::......................................................................................................................
 :: Description:
-::   Wrapper that invokes slb-git-symlnk.sh
+::   Wrapper that invokes slb-git-getter.sh
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL
 
-:: boilerplate
 SET -script=-sh:"%ScriptLib%\src\sh\Git\%0.sh"
+
+:: boilerplate
 CALL slb-helper "%~f0" "%~1" >NUL
 IF DEFINED -help SET -args=-arg:%-help%
 IF NOT DEFINED -help SET -args=%*
-CALL slb-git-wrappr %-script% %-args%
+CALL slb-wrappr %-script% %-args%
 
 ENDLOCAL & GOTO :eof
