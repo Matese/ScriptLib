@@ -5,7 +5,7 @@
 #   Performs file documentation analysis.
 #
 # History:
-#   - v0.1 2020-09-10 Initial release including basic documentation
+#   - v0.1 2021-09-23 Initial release including basic documentation
 #
 # Remarks:
 #   This script has the premise that the script passed as argument has the same
@@ -87,10 +87,8 @@ main "$@"
 #/ Performs sh file analysis discovering and displaying documentation if any.
 #/ Documentation should follow the convention defined at the end of the script.
 #/
-#/ slb-helper.sh <FilePath> [-] [/?]
+#/ slb-helper.sh <FilePath> [-v] [/?]
 #/   FilePath   File path to parse
 #/   -v         Shows the script version
 #/   /?         Shows this help
 #/
-#/ Sample 1: Show this script help
-#/   > slb-helper.sh --help

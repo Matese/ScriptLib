@@ -5,7 +5,7 @@
 #   Wish git-gui if status has changes.
 #
 # History:
-#   - v0.1 2020-09-10 Initial release including basic documentation
+#   - v0.1 2021-09-23 Initial release including basic documentation
 #   - v0.2 2021-09-23 Refactor with OS type check
 #
 # Remarks:
@@ -33,7 +33,7 @@ main()
     . slb-helper.sh && return 0
 
     # parse the arguments
-    . slb-argadd.sh $*
+    . slb-argadd.sh "$@"
 
     # if -dir argument is empty, set it to current directory
     if [ -z ${dir+x} ] || [ "${dir}" == "" ] || [ "${dir}" == "-dir" ]; then dir=$PWD; fi
@@ -109,3 +109,4 @@ main "$@"
 #/   -dir       Directory of the repository
 #/   -v         Shows the script version
 #/   /?         Shows this help
+#/

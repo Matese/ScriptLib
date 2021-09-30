@@ -4,7 +4,7 @@
 # Description:
 #   Save superproject and it´s submodules#
 # History:
-#   - v0.1 2020-09-10 Initial release including basic documentation
+#   - v0.1 2021-09-23 Initial release including basic documentation
 #
 # Remarks:
 #   Inspired by
@@ -43,3 +43,4 @@ main "$@"
 #/   -dir       Directory of the repository
 #/   -v         Shows the script version
 #/   /?         Shows this help
+#/

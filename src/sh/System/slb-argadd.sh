@@ -5,7 +5,7 @@
 #   Parse and define args to be used.
 #
 # History:
-#   - v0.1 2021-09-27 Initial release including basic documentation
+#   - v0.1 2021-09-23 Initial release including basic documentation
 #
 # Remarks:
 #   Inspired by
@@ -41,3 +41,4 @@ done
 #/   Value      The value of the argument (if nothing defined, defaults to 1)
 #/   -v         Shows the script version
 #/   /?         Shows this help
+#/
