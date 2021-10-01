@@ -44,4 +44,3 @@ main "$@"
 #/   -dir       Directory of the repository
 #/   -v         Shows the script version
 #/   /?         Shows this help
-#/

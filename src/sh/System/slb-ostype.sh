@@ -46,4 +46,3 @@ main "$@"
 #/ slb-ostype.sh [-v] [/?]
 #/   -v         Shows the script version
 #/   /?         Shows this help
-#/

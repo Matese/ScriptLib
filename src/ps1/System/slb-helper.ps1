@@ -53,6 +53,7 @@ function showHelp {
         if ($str.Length -gt 0) { $str = $str.Substring(1) }
         Write-Host $str
     }
+    Write-Host
 }
 
 #..................................................................................
@@ -85,4 +86,3 @@ main $args
 #/   FilePath   File path to parse
 #/   -v         Shows the script version
 #/   /?         Shows this help
-#/

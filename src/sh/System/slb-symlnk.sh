@@ -83,4 +83,3 @@ main "$@"
 #/   -t:        Target path
 #/   -v         Shows the script version
 #/   /?         Shows this help
-#/

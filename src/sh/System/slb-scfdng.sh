@@ -166,4 +166,3 @@ main "$@"
 #/                  README.md             - Readme
 #/   -v         Shows the script version
 #/   /?         Shows this help
-#/

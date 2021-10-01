@@ -90,4 +90,3 @@ main "$@"
 #/   FilePath   File path to parse
 #/   -v         Shows the script version
 #/   /?         Shows this help
-#/

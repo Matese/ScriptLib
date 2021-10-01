@@ -41,4 +41,3 @@ done
 #/   Value      The value of the argument (if nothing defined, defaults to 1)
 #/   -v         Shows the script version
 #/   /?         Shows this help
-#/

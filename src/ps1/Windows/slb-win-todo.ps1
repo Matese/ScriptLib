@@ -38,4 +38,3 @@ main $args
 #/ slb-win-todo.ps1 [-v] [/?]
 #/   -v         Shows the script version
 #/   /?         Shows this help
-#/
