@@ -1,4 +1,4 @@
-::uninstall Version 0.1
+::uninstall.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Uninstall ScriptLib
@@ -13,7 +13,7 @@
 SETLOCAL
 
 :: default help
-CALL %~dp0src\cmd\System\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :EOF
+CALL %~dp0src\cmd\System\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
 ECHO Uninstalling ScriptLib...
 

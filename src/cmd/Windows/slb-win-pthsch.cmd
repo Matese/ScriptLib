@@ -22,7 +22,7 @@
 SETLOCAL EnableDelayedExpansion
 
 :: default help
-CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :EOF
+CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
 :: check for empty argument
 IF "%~1" EQU "" ECHO. & ECHO filename cannot be empty & ENDLOCAL & GOTO :eof

@@ -15,7 +15,7 @@
 ::   > @ECHO OFF
 ::     CALL :foo
 ::     ECHO value=%value% & ECHO return=%return%
-::     GOTO :EOF
+::     GOTO :eof
 ::     :foo
 ::        SETLOCAL
 ::        SET value=juca pirama & SET return=
@@ -31,7 +31,7 @@
 ::     CALL :foo
 ::     ECHO value1=%value1% & ECHO value2=%value2%
 ::     ECHO return1=%return1% & ECHO return2=%return2%
-::     GOTO :EOF
+::     GOTO :eof
 ::     :foo
 ::        SETLOCAL
 ::        SET value1=juca & SET value2=pirama & SET return1= & SET return2=
