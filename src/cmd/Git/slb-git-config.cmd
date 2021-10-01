@@ -4,7 +4,7 @@
 ::   Create git configurations.
 ::
 :: History:
-::   - v0.1 2019-12-03 Initial versioned release with embedded documentation
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   Inspired by

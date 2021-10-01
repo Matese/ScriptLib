@@ -1,15 +1,10 @@
-::slb-win-svcmgr.cmd Version 0.7
+::slb-win-svcmgr.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Communicates with Service Control Manager interacting with services.
 ::
 :: History:
-::   - v0.1 2020-18-08 Initial versioned release with embedded documentation
-::   - v0.2 2020-20-08 Added more command options (start, stop and delete)
-::   - v0.3 2020-21-08 Now it can start, stop, delete or search
-::   - v0.4 2020-21-08 Now it can install
-::   - v0.5 2020-21-08 Delete is now uninstall
-::   - v0.6 2020-24-08 Start with parameters
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   Inspired by
@@ -29,6 +24,10 @@
 ::     -> https://serverfault.com/questions/143367/how-to-start-a-service-with-certain-start-parameters-on-windows
 ::     -> https://stackoverflow.com/questions/3663331/when-creating-a-service-with-sc-exe-how-to-pass-in-context-parameters
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL EnableDelayedExpansion
 

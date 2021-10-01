@@ -5,12 +5,12 @@
 #   todo
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   Inspired by
 #     -> https://stackoverflow.com/questions/3790101/bash-script-regex-to-get-directory-path-up-nth-levels
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

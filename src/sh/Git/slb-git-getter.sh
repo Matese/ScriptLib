@@ -5,13 +5,13 @@
 #   Clone superproject and it´s submodules
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   Inspired by
 #     -> https://stackoverflow.com/questions/8967902/why-do-you-need-to-put-bin-bash-at-the-beginning-of-a-script-file
 #     -> https://stackoverflow.com/questions/18096670/what-does-z-mean-in-bash
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

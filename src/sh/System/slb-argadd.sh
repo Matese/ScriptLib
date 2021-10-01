@@ -5,7 +5,7 @@
 #   Parse and define args to be used.
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   Inspired by
@@ -14,7 +14,7 @@
 #     -> https://janbio.home.blog/2020/03/18/remove-all-after-character-or-last-character-in-r
 #     -> https://stackoverflow.com/questions/13437104/compare-content-of-two-variables-in-bash
 #     -> https://stackoverflow.com/questions/20866832/is-it-possible-to-mimic-process-substitution-on-msys-mingw-with-bash-3-x
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

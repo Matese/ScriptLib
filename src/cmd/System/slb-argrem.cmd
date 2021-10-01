@@ -4,13 +4,17 @@
 ::   Remove (via SET command) args.
 ::
 :: History:
-::   - v0.1 2019-12-02 Initial versioned release with embedded documentation
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   Created to be used in conjunction with slb-argadd
 ::
 ::   Sample: slb-argrem -x -a -name -y
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL
 

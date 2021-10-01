@@ -1,15 +1,11 @@
-::slb-return.cmd Version 3.4
+::slb-return.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   slb-return simulates the return concept of a function. In other words, it can safely return any value across 
 ::   the ENDLOCAL barrier, regardless whether the parent context has delayed expansion enabled or disabled.
 ::
 :: History:
-::   v3.0 2019-10-15 Original version got from http://www.dostips.com/forum/viewtopic.php?f=3&t=6496
-::   v3.1 2019-10-18 Script renamed from RETURN to slb-return
-::   v3.2 2019-10-18 Source code RETURN refactored to slb-return and documentation customized
-::   v3.3 2019-10-21 Some indentation applied on labels and uppercase os commands
-::   v3.4 2019-11-28 Cut some of the help docs and put it in remarks
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   The code is designed to be a stand-alone utility that can be placed in a folder referenced by PATH so it can 
@@ -47,7 +43,14 @@
 ::     value2=
 ::     return1=juca
 ::     return2=pirama
+::
+::   Inspired by
+::     -> http://www.dostips.com/forum/viewtopic.php?f=3&t=6496
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @IF "%~2" EQU "" (GOTO :return.special) ELSE GOTO :return
 :::
 ::: Simulates the return concept of a function.

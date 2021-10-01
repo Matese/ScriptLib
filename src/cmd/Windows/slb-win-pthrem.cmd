@@ -13,6 +13,10 @@
 ::     -> https://stackoverflow.com/questions/49651545/use-an-environment-variable-in-a-windows-cmd-file-as-substring-length-parameter
 ::     -> http://scripts.dragon-it.co.uk/scripts.nsf/docs/batch-search-replace-substitute
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL
 

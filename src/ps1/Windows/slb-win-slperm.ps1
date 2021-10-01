@@ -4,7 +4,7 @@
 #   Add Symlink permissions to Local Security Policy
 #
 # History:
-#   - v0.1 2021-09-29 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 #   Inspired by
 #     -> https://dbondarchuk.com/2016/09/23/adding-permission-for-creating-symlink-using-powershell/
@@ -14,7 +14,7 @@
 #     -> https://www.jonathanmedd.net/2015/01/how-to-make-use-of-functions-in-powershell.html
 #     -> https://devblogs.microsoft.com/powershell/suppressing-return-values-in-powershell-functions/
 #     -> https://dotnet-helpers.com/powershell/how-to-use-multidimensional-arrays-in-powershell/
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

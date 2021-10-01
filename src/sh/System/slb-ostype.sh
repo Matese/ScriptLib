@@ -5,13 +5,13 @@
 #   Detect Operational System type.
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   Inspired by
 #     -> https://stackoverflow.com/questions/394230/how-to-detect-the-os-from-a-bash-script
 #     -> https://stackoverflow.com/questions/16905183/dash-double-semicolon-syntax
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

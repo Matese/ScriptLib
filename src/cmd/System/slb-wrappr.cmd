@@ -14,6 +14,10 @@
 ::     -> https://stackoverflow.com/questions/1964192/removing-double-quotes-from-variables-in-batch-file-creates-problems-with-cmd-en
 ::     -> https://stackoverflow.com/questions/9594066/how-to-get-program-files-x86-env-variable
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL
 

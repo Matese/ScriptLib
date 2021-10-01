@@ -4,7 +4,7 @@
 #   Performs file documentation analysis.
 #
 # History:
-#   - v0.1 2021-09-29 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   This script has the premise that the script passed as argument has the same
@@ -18,7 +18,7 @@
 #     -> https://superuser.com/questions/71446/equivalent-of-bashs-source-command-in-powershell
 #     -> https://stackoverflow.com/questions/4875912/determine-if-powershell-script-has-been-dot-sourced
 #     -> https://copdips.com/2018/09/terminate-powershell-script-or-session.html
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

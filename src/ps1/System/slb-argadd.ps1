@@ -4,7 +4,7 @@
 #   Parse and define args to be used.
 #
 # History:
-#   - v0.1 2021-09-29 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   Inspired by
@@ -13,7 +13,7 @@
 #     -> https://stackoverflow.com/questions/18877580/powershell-and-the-contains-operator
 #     -> https://techcommunity.microsoft.com/t5/itops-talk-blog/powershell-basics-detecting-if-a-string-ends-with-a-certain/ba-p/307848
 #     -> https://stackoverflow.com/questions/1303921/passing-around-command-line-args-in-powershell-from-function-to-function
-#
+#..................................................................................
 
 #..................................................................................
 # Collect the arguments

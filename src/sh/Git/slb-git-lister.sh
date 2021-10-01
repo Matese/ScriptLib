@@ -5,12 +5,12 @@
 #   List superprojects and submodules
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   Inspired by
 #     -> TODO
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

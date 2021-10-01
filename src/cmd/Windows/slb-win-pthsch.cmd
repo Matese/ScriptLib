@@ -4,7 +4,7 @@
 ::   A handy little batch file that will search everything in your PATH for the first occurance of a file.
 ::
 :: History:
-::   - v0.1 2019-12-02 Initial versioned release with embedded documentation
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   The magical little bit is the %%~dp$PATH:i in the FOR loop. %%~dp will expand the next variable to
@@ -14,6 +14,10 @@
 ::   Inspired by https://stackoverflow.com/questions/638301/discover-from-a-batch-file-where-is-java-installed.
 ::
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL EnableDelayedExpansion
 

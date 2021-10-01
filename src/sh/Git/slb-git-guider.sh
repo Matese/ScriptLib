@@ -5,8 +5,7 @@
 #   Wish git-gui if status has changes.
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
-#   - v0.2 2021-09-23 Refactor with OS type check
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   Inspired by
@@ -22,7 +21,7 @@
 #     -> https://stackoverflow.com/questions/53563543/bash-shell-access-to-programfilesx86-environment-variable
 #     -> https://tecadmin.net/bash-remove-double-quote-string/
 #     -> https://stackoverflow.com/questions/59838/how-can-i-check-if-a-directory-exists-in-a-bash-shell-script
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

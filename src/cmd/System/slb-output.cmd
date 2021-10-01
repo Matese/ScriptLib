@@ -1,11 +1,10 @@
-::slb-output.cmd Version 1.1
+::slb-output.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   slb-output is a batch macro for simple capturing of command outputs, a bit like the behaviour of the bash shell.
 ::
 :: History:
-::   v1.0 2020-08-19 Original version got from https://stackoverflow.com/questions/2323292/assign-output-of-a-program-to-a-variable-using-a-ms-batch-file/54425285#54425285
-::   v1.1 2019-08-19 Source code refactored and documentation customized
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   The usage of the macro is simple and looks like
@@ -20,8 +19,13 @@
 ::   > )
 ::
 ::   Inspired by
+::     -> https://stackoverflow.com/questions/2323292/assign-output-of-a-program-to-a-variable-using-a-ms-batch-file/54425285#54425285
 ::     -> https://stackoverflow.com/questions/28597379/what-does-1-do-in-this-batch-file
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL DisableDelayedExpansion
 

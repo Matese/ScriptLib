@@ -5,8 +5,8 @@
 #   Check for status changes
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
-#
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

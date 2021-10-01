@@ -2,10 +2,10 @@
 #slb.sh Version 0.1
 #..................................................................................
 # Description:
-#
+#   TODO
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   This script has the premise that the script passed as argument has the same
@@ -14,7 +14,7 @@
 #
 #   Inspired by
 #     -> todo
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

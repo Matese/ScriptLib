@@ -4,10 +4,13 @@
 ::   Install ScriptLib
 ::
 :: History:
-::   - v0.1 2019-12-03 Initial release including basic documentation
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   Modifies environment variables in the user environment
+::
+::   Inspired by
+::     -> https://stackoverflow.com/questions/3583565/how-to-skip-pause-in-batch-file
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL
@@ -26,7 +29,7 @@ SET -slb=%-slb:~0,-1%
 :: go to System directory
 CD %~dp0%\src\cmd\System
 
-:: https://stackoverflow.com/questions/3583565/how-to-skip-pause-in-batch-file
+:: uninstall
 ECHO | CALL %~dp0uninstall >NUL
 
 :: add ScriptLib environment variables to -path variable

@@ -1,11 +1,10 @@
-::slb-argadd.cmd Version 0.2
+::slb-argadd.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Parse and define (via SET command) args to be used.
 ::
 :: History:
-::   - v0.1 2019-09-06 Initial versioned release with embedded documentation
-::   - v0.2 2019-12-02 Using slb-return to keep variables alive after return
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   Args should:
@@ -27,6 +26,10 @@
 ::
 ::   Sample: slb-argadd -x -a:foo -name:"juca pirama" -y
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL
 

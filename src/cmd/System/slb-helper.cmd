@@ -1,17 +1,19 @@
-::slb-helper.cmd Version 0.3
+::slb-helper.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Performs file documentation analysis.
 ::
 :: History:
-::   - v0.1 2019-10-15 Initial release including basic documentation
-::   - v0.2 2019-11-29 Renamed from LIB-PARSEHELP fo slb-helper and using slb-return function to return -help
-::   - v0.3 2019-12-03 Bug with arg1 and arg2 ordering fixed
+::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
 ::   This script has the premise that the script passed as argument has the same documentation convention as this
 ::   script. In other words, the script passed as argument should have a ":::HELP:::" at the end of the script.
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL
 

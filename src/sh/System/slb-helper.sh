@@ -5,7 +5,7 @@
 #   Performs file documentation analysis.
 #
 # History:
-#   - v0.1 2021-09-23 Initial release including basic documentation
+#   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
 #   This script has the premise that the script passed as argument has the same
@@ -19,7 +19,7 @@
 #     -> https://stackoverflow.com/questions/49857332/bash-exit-from-source-d-script
 #     -> https://datacadamia.com/os/process/exit_code
 #     -> https://unix.stackexchange.com/questions/79343/how-to-loop-through-arguments-in-a-bash-script
-#
+#..................................................................................
 
 #..................................................................................
 # The main entry point for the script

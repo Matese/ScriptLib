@@ -11,6 +11,10 @@
 ::     -> https://stackoverflow.com/questions/5471556/pretty-print-windows-path-variable-how-to-split-on-in-cmd-shell
 ::     -> https://stackoverflow.com/questions/19581078/when-querying-the-registry-from-a-batch-file-can-i-query-the-data
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL
 
