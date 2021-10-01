@@ -27,6 +27,13 @@ CALL slb-argadd %*
 IF NOT DEFINED -sh ECHO -sh is not defined & GOTO :eof
 IF "%-sh%" EQU "1" ECHO -sh is not defined & GOTO :eof
 
+:: replace 'cmd' path to 'sh' path
+SETLOCAL EnableDelayedExpansion
+set -from=%ScriptLib%\src\cmd
+set -to=%ScriptLib%\src\sh
+CALL SET "-sh=%%-sh:!-from!=!-to!%%"
+SETLOCAL DisableDelayedExpansion
+
 :: check for valid argument
 IF NOT EXIST "%-sh%" ECHO Script "%-sh%" not found & ENDLOCAL & GOTO :eof
 
