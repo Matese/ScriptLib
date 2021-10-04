@@ -1,7 +1,7 @@
 ::slb-argrem.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   Remove (via SET command) args.
+::   Remove args.
 ::
 :: History:
 ::   - v0.1 2021-09-21 Initial versioned release with embedded documentation

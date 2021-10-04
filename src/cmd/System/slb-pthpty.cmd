@@ -1,7 +1,7 @@
 ::slb-pthpty.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   Pretty print windows environment variables (USER or SYSTEM)
+::   Pretty print windows environment variables (USER or SYSTEM).
 ::
 :: History:
 ::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
@@ -80,7 +80,7 @@ ENDLOCAL & GOTO :eof
 ::......................................................................................................................
 :::HELP:::
 ::
-:: Pretty print windows environment variables (USER or SYSTEM)
+:: Pretty print windows environment variables (USER or SYSTEM).
 ::
 :: slb-pthpty <-opt:> [-v] [/?]
 ::   -opt:     USER or SYSTEM

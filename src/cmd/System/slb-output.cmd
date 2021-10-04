@@ -1,7 +1,7 @@
 ::slb-output.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   slb-output is a batch macro for simple capturing of command outputs, a bit like the behaviour of the bash shell.
+::   Capture command outputs, a bit like the behaviour of the bash shell.
 ::
 :: History:
 ::   - v0.1 2021-09-21 Initial versioned release with embedded documentation

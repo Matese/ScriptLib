@@ -1,7 +1,7 @@
 ::slb-argadd.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   Parse and define (via SET command) args to be used.
+::   Parse and define args.
 ::
 :: History:
 ::   - v0.1 2021-09-21 Initial versioned release with embedded documentation

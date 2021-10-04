@@ -34,6 +34,7 @@ CALL :delEnvVars %-q%
 
 :: if not quiet
 IF NOT DEFINED -q PAUSE
+IF NOT DEFINED -q ECHO Done!
 
 :: return -path variable
 CALL %-system%\slb-return -path -path
@@ -73,7 +74,6 @@ ENDLOCAL & GOTO :eof
         ECHO.
         ECHO %-path%
         ECHO.
-        ECHO Done!
     )
 
     GOTO :eof

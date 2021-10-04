@@ -10,7 +10,8 @@
 ::   Modifies environment variables in the user environment
 ::
 ::   Inspired by
-::     -> https://stackoverflow.com/questions/3583565/how-to-skip-pause-in-batch-file
+::     -> https://www.tutorialspoint.com/batch_script/batch_script_aliases.htm
+::     -> https://stackoverflow.com/questions/59393482/how-to-make-an-alias-for-a-function-in-batch
 ::......................................................................................................................
 
 ::..................................................................................
@@ -33,6 +34,8 @@ CALL %~dp0uninstall -q
 
 :: set environment variables
 CALL :setEnvVars
+
+ECHO Done!
 
 ENDLOCAL & GOTO :eof
 
@@ -66,7 +69,7 @@ ENDLOCAL & GOTO :eof
 
     :: remove last character (it is a Backslash)
     SET -slb=%-slb:~0,-1%
-    
+
     :: set environment variables
     SETX ScriptLib "%-slb%" >NUL
     SETX PATH "%-path%" >NUL
@@ -76,7 +79,6 @@ ENDLOCAL & GOTO :eof
     ECHO.
     ECHO %-path%
     ECHO.
-    ECHO Done!
 
     ENDLOCAL & GOTO :eof
 

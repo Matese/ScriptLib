@@ -1,7 +1,7 @@
 ::slb-wrappr.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   A wrapper used to call shell scripts from batch
+::   A wrapper used to call shell scripts from batch.
 ::
 :: History:
 ::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
@@ -68,7 +68,7 @@ ENDLOCAL & "%-bash%" --login "%-script%" %-args%
 ::......................................................................................................................
 :::HELP:::
 ::
-:: A wrapper used to call shell scripts from batch
+:: A wrapper used to call shell scripts from batch.
 ::
 :: slb-wrappr <-sh:> [arg:] [-v] [/?]
 ::   -sh:      The shell script path

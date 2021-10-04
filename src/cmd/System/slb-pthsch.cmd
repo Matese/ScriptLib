@@ -1,7 +1,7 @@
 ::slb-pthsch.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   A handy little batch file that will search everything in your PATH for the first occurance of a file.
+::   Search everything in PATH for the first occurance of a file.
 ::
 :: History:
 ::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
@@ -42,7 +42,7 @@ ENDLOCAL & GOTO :eof
 ::......................................................................................................................
 :::HELP:::
 ::
-:: Searches everything in your PATH for the first occurance of a file.
+:: Searches everything in PATH for the first occurance of a file.
 ::
 ::   slb-pthsch <FileName> [-v] [/?]
 ::   FileName   The name of the file to be searched

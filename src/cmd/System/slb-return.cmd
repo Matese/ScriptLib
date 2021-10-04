@@ -1,7 +1,7 @@
 ::slb-return.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   slb-return simulates the return concept of a function. In other words, it can safely return any value across 
+::   Simulates the return concept of a function. In other words, it can safely return any value across 
 ::   the ENDLOCAL barrier, regardless whether the parent context has delayed expansion enabled or disabled.
 ::
 :: History:

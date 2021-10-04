@@ -1,7 +1,7 @@
 ::slb-pthcur.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   Get windows environment variables (USER or SYSTEM)
+::   Get windows environment variables (USER or SYSTEM).
 ::
 :: History:
 ::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
@@ -51,7 +51,7 @@ ENDLOCAL & GOTO :eof
 ::......................................................................................................................
 :::HELP:::
 ::
-:: Get windows environment variables (USER or SYSTEM)
+:: Get windows environment variables (USER or SYSTEM).
 ::
 :: slb-pthcur <-opt:> [-v] [/?]
 ::   -opt:     USER or SYSTEM
