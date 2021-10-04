@@ -1,4 +1,4 @@
-::slb-win-pthsch.cmd Version 0.1
+::slb-pthsch.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   A handy little batch file that will search everything in your PATH for the first occurance of a file.
@@ -11,8 +11,8 @@
 ::   the drive letter and path only. The $PATH:i searches the path for the first occurance of %%i which
 ::   is the filename that is passed into the FOR loop.
 ::
-::   Inspired by https://stackoverflow.com/questions/638301/discover-from-a-batch-file-where-is-java-installed.
-::
+::   Inspired by
+::     -> https://stackoverflow.com/questions/638301/discover-from-a-batch-file-where-is-java-installed.
 ::......................................................................................................................
 
 ::..................................................................................
@@ -44,10 +44,10 @@ ENDLOCAL & GOTO :eof
 ::
 :: Searches everything in your PATH for the first occurance of a file.
 ::
-::   slb-win-pthsch <FileName> [-v] [/?]
+::   slb-pthsch <FileName> [-v] [/?]
 ::   FileName   The name of the file to be searched
 ::   -v         Shows the batch version
 ::   /?         Shows this help
 ::
 :: Sample:
-::   slb-win-pthsch java.exe
+::   slb-pthsch java.exe

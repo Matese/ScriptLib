@@ -12,55 +12,73 @@
 ::   Inspired by
 ::     -> https://stackoverflow.com/questions/3583565/how-to-skip-pause-in-batch-file
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL
 
+:: go to System directory
+SET -system=%~dp0%src\cmd\System
+CD %-system%
+
 :: default help
-CALL %~dp0src\cmd\System\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
+CALL %-system%\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
 ECHO Installing ScriptLib...
 
-:: ScriptLib dir
-SET -slb=%~dp0
-
-:: remove last character (it is a Backslash)
-SET -slb=%-slb:~0,-1%
-
-:: go to System directory
-CD %~dp0%\src\cmd\System
-
-:: uninstall
-ECHO | CALL %~dp0uninstall >NUL
-
-:: add ScriptLib environment variables to -path variable
-SET -cmd=%%ScriptLib%%\src\cmd\
-SET -path=%-path%%-cmd%Git;
-SET -path=%-path%%-cmd%NET;
-SET -path=%-path%%-cmd%System;
-SET -path=%-path%%-cmd%Windows;
-SET -ps1=%%ScriptLib%%\src\ps1\
-SET -path=%-path%%-ps1%Windows;
-SET -path=%-path%%-ps1%System;
-SET -sh=%%ScriptLib%%\src\sh\
-SET -path=%-path%%-sh%Git;
-SET -path=%-path%%-sh%Linux;
-SET -path=%-path%%-sh%NET;
-SET -path=%-path%%-sh%System;
+:: uninstall quietly
+CALL %~dp0uninstall -q
 
 :: set environment variables
-SETX ScriptLib "%-slb%" >NUL
-SETX PATH "%-path%" >NUL
-
-ECHO.
-ECHO User variables:
-ECHO.
-ECHO %-path%
-ECHO.
-ECHO Done!
-
-PAUSE
+CALL :setEnvVars
 
 ENDLOCAL & GOTO :eof
+
+::......................................................................................................................
+:: Set ScriptLib environment variables
+::
+:setEnvVars
+    SETLOCAL
+
+    :: cmd
+    SET -cmd=%%ScriptLib%%\src\cmd\
+    SET -path=%-path%%-cmd%Git;
+    SET -path=%-path%%-cmd%NET;
+    SET -path=%-path%%-cmd%System;
+    SET -path=%-path%%-cmd%Windows;
+
+    :: ps1
+    SET -ps1=%%ScriptLib%%\src\ps1\
+    SET -path=%-path%%-ps1%Windows;
+    SET -path=%-path%%-ps1%System;
+
+    :: sh
+    SET -sh=%%ScriptLib%%\src\sh\
+    SET -path=%-path%%-sh%Git;
+    SET -path=%-path%%-sh%Linux;
+    SET -path=%-path%%-sh%NET;
+    SET -path=%-path%%-sh%System;
+
+    :: ScriptLib dir
+    SET -slb=%~dp0
+
+    :: remove last character (it is a Backslash)
+    SET -slb=%-slb:~0,-1%
+    
+    :: set environment variables
+    SETX ScriptLib "%-slb%" >NUL
+    SETX PATH "%-path%" >NUL
+
+    ECHO.
+    ECHO User variables:
+    ECHO.
+    ECHO %-path%
+    ECHO.
+    ECHO Done!
+
+    ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
 :::HELP:::

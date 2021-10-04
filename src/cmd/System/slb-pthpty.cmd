@@ -1,4 +1,4 @@
-::slb-win-pthpty.cmd Version 0.1
+::slb-pthpty.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Pretty print windows environment variables (USER or SYSTEM)
@@ -82,10 +82,10 @@ ENDLOCAL & GOTO :eof
 ::
 :: Pretty print windows environment variables (USER or SYSTEM)
 ::
-:: slb-win-pthpty <-opt:> [-v] [/?]
+:: slb-pthpty <-opt:> [-v] [/?]
 ::   -opt:     USER or SYSTEM
 ::   -v        Shows the batch version
 ::   /?        Help
 ::
 :: Sample:
-::   slb-win-pthpty -opt:USER
+::   slb-pthpty -opt:USER

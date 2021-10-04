@@ -1,4 +1,4 @@
-::slb-win-pthrem.cmd Version 0.1
+::slb-pthrem.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Remove the entry from PATH that ends with input string.
@@ -71,15 +71,15 @@ SET "-path=%-path:""="%"
 SETLOCAL EnableDelayedExpansion
 SET "-path=!-path:"Q=!"
 SET "-entry="
-SET "--newPath="
+SET "-newPath="
 FOR %%a IN ("!-path:"S"S=";"!") DO (
     IF %%a neq "" (
       :: set -endsWith with last x characters from -entry
       SET -entry=%%~a
       SET -endsWith=!-entry:~-%-strlen%!
-      :: if not found, append -entry to --newPath
+      :: if not found, append -entry to -newPath
       IF /i NOT ["%-str%"]==["!-endsWith!"] (
-        SET --newPath=!--newPath!!-entry!;
+        SET -newPath=!-newPath!!-entry!;
       )
     )
 )
@@ -89,12 +89,12 @@ IF "%-opt%" EQU "USER" SET "-a="
 IF "%-opt%" EQU "SYSTEM" SET "-a=/m"
 
 :: set new environment variables
-SETX %-a% PATH "%--newPath%" >NUL
+SETX %-a% PATH "%-newPath%" >NUL
 
-ECHO %--newPath%
+ECHO %-newPath%
 
 :: return -path param
-CALL slb-return --newPath -path
+CALL slb-return -newPath -path
 ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
@@ -102,7 +102,7 @@ ENDLOCAL & GOTO :eof
 ::
 :: Remove the entry from PATH that ends with input string.
 ::
-:: slb-win-pthrem <-opt:> <-str:> [-r] [-v] [/?]
+:: slb-pthrem <-opt:> <-str:> [-r] [-v] [/?]
 ::   -opt:     USER or SYSTEM
 ::   -str:     The ends with string
 ::   -r        Should replace + by %
@@ -110,4 +110,4 @@ ENDLOCAL & GOTO :eof
 ::   /?        Help
 ::
 :: Sample:
-::   slb-win-pthrem -opt:USER -str:"Juca Pirama"
+::   slb-pthrem -opt:USER -str:"Juca Pirama"

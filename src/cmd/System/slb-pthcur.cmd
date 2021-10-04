@@ -1,4 +1,4 @@
-::slb-win-pthcur.cmd Version 0.1
+::slb-pthcur.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Get windows environment variables (USER or SYSTEM)
@@ -53,10 +53,10 @@ ENDLOCAL & GOTO :eof
 ::
 :: Get windows environment variables (USER or SYSTEM)
 ::
-:: slb-win-pthcur <-opt:> [-v] [/?]
+:: slb-pthcur <-opt:> [-v] [/?]
 ::   -opt:     USER or SYSTEM
 ::   -v        Shows the batch version
 ::   /?        Help
 ::
 :: Sample:
-::   slb-win-pthcur -opt:USER
+::   slb-pthcur -opt:USER

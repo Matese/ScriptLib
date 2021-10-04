@@ -9,45 +9,74 @@
 :: Remarks:
 ::   Modifies environment variables in the user environment
 ::......................................................................................................................
+
+::..................................................................................
+:: The main entry point for the script
+::
 @ECHO OFF
 SETLOCAL
 
-:: default help
-CALL %~dp0src\cmd\System\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
-
-ECHO Uninstalling ScriptLib...
-
 :: go to System directory
-CD %~dp0%\src\cmd\System
+SET -system=%~dp0%src\cmd\System
+CD %-system%
 
-:: remove environment variables
-REG delete HKCU\Environment /F /V ScriptLib >NUL 2>NUL
-SET -cmd=+ScriptLib+\src\cmd\
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Git -r >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%NET -r >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%System -r >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-cmd%Windows -r >NUL
-SET -ps1=+ScriptLib+\src\ps1\
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-ps1%Windows -r >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-ps1%System -r >NUL
-SET -sh=+ScriptLib+\src\sh\
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%Git -r >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%Linux -r >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%NET -r >NUL
-CALL %~dp0\src\cmd\Windows\slb-win-pthrem -opt:USER -str:%-sh%System -r >NUL
+:: default help
+CALL %-system%\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
-ECHO.
-ECHO User variables:
-ECHO.
-ECHO %-path%
-ECHO.
-ECHO Done!
+:: parse the arguments
+CALL %-system%\slb-argadd %*
 
-PAUSE
+:: if not quiet
+IF NOT DEFINED -q ECHO Uninstalling ScriptLib...
 
-:: return -path param
-CALL slb-return -path -path
+:: delete environment variables
+CALL :delEnvVars %-q%
+
+:: if not quiet
+IF NOT DEFINED -q PAUSE
+
+:: return -path variable
+CALL %-system%\slb-return -path -path
+
 ENDLOCAL & GOTO :eof
+
+::......................................................................................................................
+:: Delete ScriptLib environment variables
+::
+:delEnvVars
+    :: remove environment variables
+    REG delete HKCU\Environment /F /V ScriptLib >NUL 2>NUL
+
+    :: cmd
+    SET -cmd=+ScriptLib+\src\cmd\
+    CALL %-system%\slb-pthrem -opt:USER -str:%-cmd%Git -r >NUL
+    CALL %-system%\slb-pthrem -opt:USER -str:%-cmd%NET -r >NUL
+    CALL %-system%\slb-pthrem -opt:USER -str:%-cmd%System -r >NUL
+    CALL %-system%\slb-pthrem -opt:USER -str:%-cmd%Windows -r >NUL
+
+    :: ps1
+    SET -ps1=+ScriptLib+\src\ps1\
+    CALL %-system%\slb-pthrem -opt:USER -str:%-ps1%Windows -r >NUL
+    CALL %-system%\slb-pthrem -opt:USER -str:%-ps1%System -r >NUL
+
+    :: sh
+    SET -sh=+ScriptLib+\src\sh\
+    CALL %-system%\slb-pthrem -opt:USER -str:%-sh%Git -r >NUL
+    CALL %-system%\slb-pthrem -opt:USER -str:%-sh%Linux -r >NUL
+    CALL %-system%\slb-pthrem -opt:USER -str:%-sh%NET -r >NUL
+    CALL %-system%\slb-pthrem -opt:USER -str:%-sh%System -r >NUL
+
+    :: if not quiet
+    if "%1"=="" (
+        ECHO.
+        ECHO User variables:
+        ECHO.
+        ECHO %-path%
+        ECHO.
+        ECHO Done!
+    )
+
+    GOTO :eof
 
 ::......................................................................................................................
 :::HELP:::
@@ -55,5 +84,6 @@ ENDLOCAL & GOTO :eof
 :: Uninstall ScriptLib (Modifies environment variables in the user environment)
 ::
 ::   install [-v] [/?]
+::   -q         Quiet
 ::   -v         Shows the batch version
 ::   /?         Shows this help
