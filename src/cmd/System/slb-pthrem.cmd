@@ -32,6 +32,12 @@ IF NOT DEFINED -str ECHO -str is not defined & GOTO :eof
 IF "%-opt%" EQU "1" ECHO -opt is not defined & GOTO :eof
 IF "%-str%" EQU "1" ECHO -str is not defined & GOTO :eof
 
+:: check for valid argument (accepts USER or SYSTEM)
+IF NOT "%-opt%" EQU "USER" IF NOT "%-opt%" EQU "SYSTEM" ECHO. & ECHO invalid option, needs to be USER or SYSTEM & ENDLOCAL & GOTO :eof
+
+:: below >NUL statement will hide output of if command executes successfully
+CALL slb-strlen -str:"%-str%" >NUL
+
 :: replace + by %
 IF DEFINED -r (
   SETLOCAL EnableDelayedExpansion
@@ -40,12 +46,6 @@ IF DEFINED -r (
   set -str=!temp!
   SETLOCAL DisableDelayedExpansion
 )
-
-:: check for valid argument (accepts USER or SYSTEM)
-IF NOT "%-opt%" EQU "USER" IF NOT "%-opt%" EQU "SYSTEM" ECHO. & ECHO invalid option, needs to be USER or SYSTEM & ENDLOCAL & GOTO :eof
-
-:: below >NUL statement will hide output of if command executes successfully
-CALL slb-strlen -str:"%-str%" >NUL
 
 :: set the -query (will be USER or SYSTEM)
 IF "%-opt%" EQU "USER" SET -query="HKCU\Environment"

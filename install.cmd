@@ -12,6 +12,8 @@
 ::   Inspired by
 ::     -> https://www.tutorialspoint.com/batch_script/batch_script_aliases.htm
 ::     -> https://stackoverflow.com/questions/59393482/how-to-make-an-alias-for-a-function-in-batch
+::     -> https://stackoverflow.com/questions/35560540/batch-file-to-list-directories-recursively-in-windows-as-in-linux
+::     -> https://stackhowto.com/batch-file-to-read-text-file-line-by-line-into-a-variable/
 ::......................................................................................................................
 
 ::..................................................................................
@@ -27,18 +29,21 @@ CD %-system%
 :: default help
 CALL %-system%\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
-ECHO Installing ScriptLib...
+:: if not quiet
+IF NOT DEFINED -q ECHO Installing ScriptLib...
 
 :: uninstall quietly
 CALL %~dp0uninstall -q
 
 :: set environment variables
-CALL :setEnvVars
+CALL :setEnvVars %-q%
 
 :: set aliases
 CALL :setAliases
 
-ECHO Done!
+:: if not quiet
+IF NOT DEFINED -q ECHO Done!
+IF NOT DEFINED -q PAUSE
 
 ENDLOCAL & GOTO :eof
 
@@ -48,40 +53,28 @@ ENDLOCAL & GOTO :eof
 :setEnvVars
     SETLOCAL
 
-    :: cmd
-    SET -cmd=%%ScriptLib%%\src\cmd\
-    SET -path=%-path%%-cmd%Git;
-    SET -path=%-path%%-cmd%NET;
-    SET -path=%-path%%-cmd%System;
-    SET -path=%-path%%-cmd%Windows;
-
-    :: ps1
-    SET -ps1=%%ScriptLib%%\src\ps1\
-    SET -path=%-path%%-ps1%Windows;
-    SET -path=%-path%%-ps1%System;
-
-    :: sh
-    SET -sh=%%ScriptLib%%\src\sh\
-    SET -path=%-path%%-sh%Git;
-    SET -path=%-path%%-sh%Linux;
-    SET -path=%-path%%-sh%NET;
-    SET -path=%-path%%-sh%System;
-
     :: ScriptLib dir
-    SET -slb=%~dp0
+    SET -dir=%~dp0src
 
-    :: remove last character (it is a Backslash)
-    SET -slb=%-slb:~0,-1%
+    SETLOCAL EnableDelayedExpansion
+    FOR /F %%f in ('DIR /A:D /S /B /O:N "%-dir%"') DO set -slb=!-slb!%%f;
+    SETLOCAL DisableDelayedExpansion
+
+    :: path
+    SET -path=%-path%%%ScriptLib%%;
 
     :: set environment variables
     SETX ScriptLib "%-slb%" >NUL
     SETX PATH "%-path%" >NUL
 
-    ECHO.
-    ECHO User variables:
-    ECHO.
-    ECHO %-path%
-    ECHO.
+    :: if not quiet
+    if "%1"=="" (
+        ECHO.
+        ECHO User variables:
+        ECHO.
+        ECHO %-path%
+        ECHO.
+    )
 
     ENDLOCAL & GOTO :eof
 
@@ -126,6 +119,7 @@ ENDLOCAL & GOTO :eof
 ::
 :: Install ScriptLib (Modifies environment variables in the user environment)
 ::
-::   install [-v] [/?]
+::   install [-q] [-v] [/?]
+::   -q         Quiet
 ::   -v         Shows the batch version
 ::   /?         Shows this help
