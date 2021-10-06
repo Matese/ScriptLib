@@ -1,5 +1,5 @@
 #!/bin/sh
-#slb-net-shdlib.sh Version 0.1
+#slb-git-scf-net-smcore.sh Version 0.1
 #..................................................................................
 # Description:
 #   TODO.
@@ -770,6 +770,6 @@ main "$@"
 #/
 #/ TODO
 #/
-#/ slb-net-shdlib.sh [-v] [/?]
+#/ slb-git-scf-net-smcore.sh [-v] [/?]
 #/   -v         Shows the script version
 #/   /?         Shows this help

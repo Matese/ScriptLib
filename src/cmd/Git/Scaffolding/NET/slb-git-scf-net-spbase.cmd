@@ -1,17 +1,16 @@
-::slb-net-shdlib.cmd
+::slb-git-scf-net-spbase.cmd
 ::......................................................................................................................
 :: Description:
-::   Wrapper that invokes slb-net-shdlib.sh
+::   Wrapper that invokes slb-git-scf-net-spbase.sh
 ::......................................................................................................................
 @ECHO OFF
 SETLOCAL
-
-SET -script=-sh:"%ScriptLib%\src\sh\NET\%0.sh"
 
 :: boilerplate
 CALL slb-helper "%~f0" "%~1" >NUL
 IF DEFINED -help SET -args=-arg:%-help%
 IF NOT DEFINED -help SET -args=%*
+SET -script=-sh:"%~dp0%0.sh"
 CALL slb-wrappr %-script% %-args%
 
 ENDLOCAL & GOTO :eof
