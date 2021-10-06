@@ -35,6 +35,9 @@ CALL %~dp0uninstall -q
 :: set environment variables
 CALL :setEnvVars
 
+:: set aliases
+CALL :setAliases
+
 ECHO Done!
 
 ENDLOCAL & GOTO :eof
@@ -79,6 +82,42 @@ ENDLOCAL & GOTO :eof
     ECHO.
     ECHO %-path%
     ECHO.
+
+    ENDLOCAL & GOTO :eof
+
+::......................................................................................................................
+:: Set ScriptLib aliases
+::
+:setAliases
+    SETLOCAL
+
+    SET -f="%HOMEDRIVE%%HOMEPATH%\.bash_profile"
+
+    :: create file if not exist
+    IF NOT EXIST %-f% TYPE NUL>%-f%
+
+    :: get current encoding and then change it to UTF8
+    FOR /f "tokens=2 delims=:." %%x IN ('chcp') DO SET cp=%%x
+    CHCP 65001 >nul
+
+    SETLOCAL EnableDelayedExpansion
+
+:: newline hack
+(SET LF=^
+%=EMPTY=%
+)
+
+    :: create content variable
+    set -content=!-content!# ScriptLib!LF!>> !-f!
+    set -content=!-content!alias slb=\'slb.sh\'!LF!>> !-f!
+
+    :: write content variable to file
+    ECHO !-content!>> !-f!
+
+    SETLOCAL DisableDelayedExpansion
+
+    :: set old encoding
+    CHCP %cp% >nul
 
     ENDLOCAL & GOTO :eof
 

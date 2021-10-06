@@ -32,6 +32,9 @@ IF NOT DEFINED -q ECHO Uninstalling ScriptLib...
 :: delete environment variables
 CALL :delEnvVars %-q%
 
+:: delete aliases
+CALL :delAliases
+
 :: if not quiet
 IF NOT DEFINED -q PAUSE
 IF NOT DEFINED -q ECHO Done!
@@ -77,6 +80,20 @@ ENDLOCAL & GOTO :eof
     )
 
     GOTO :eof
+
+::......................................................................................................................
+:: Delete ScriptLib aliases
+::
+:delAliases
+    SETLOCAL
+
+    SET -f="%HOMEDRIVE%%HOMEPATH%\.bash_profile"
+
+    :: remove alias
+    CALL %-system%\slb-rplcer -f:%-f% -o:"# ScriptLib" -l >NUL
+    CALL %-system%\slb-rplcer -f:%-f% -o:"alias slb=\'slb.sh\'" -l >NUL
+
+    ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
 :::HELP:::

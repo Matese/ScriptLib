@@ -1,14 +1,14 @@
 ::slb-return.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
-::   Simulates the return concept of a function. In other words, it can safely return any value across 
+::   Simulates the return concept of a function. In other words, it can safely return any value across
 ::   the ENDLOCAL barrier, regardless whether the parent context has delayed expansion enabled or disabled.
 ::
 :: History:
 ::   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 ::
 :: Remarks:
-::   The code is designed to be a stand-alone utility that can be placed in a folder referenced by PATH so it can 
+::   The code is designed to be a stand-alone utility that can be placed in a folder referenced by PATH so it can
 ::   easily be called by any script.
 ::
 ::   Sample 1: Copy and paste the source code above in a script <NAME>.cmd and call it
@@ -65,8 +65,8 @@
 ::: slb-return "ValueVar1 ValueVar2 ..." "ReturnVar1 ReturnVar2 ..." [ErrorCode] [-v] [/?]
 :::   Same as before, except the first and second arugments are quoted and space delimited lists of variable names.
 :::
-::: Note that the total length of all assignments (variable names and values) must be less then 3.8k bytes. No checks 
-::: are performed to verify that all assignments fit within the limit. Variable names must not contain space, tab, 
+::: Note that the total length of all assignments (variable names and values) must be less then 3.8k bytes. No checks
+::: are performed to verify that all assignments fit within the limit. Variable names must not contain space, tab,
 ::: comma, semicolon, caret, asterisk, question mark, or exclamation point.
 :return  ValueVar  ReturnVar  [ErrorCode]
   :: Safely returns any value(s) across the ENDLOCAL barrier. Default ErrorCode is 0

@@ -2,18 +2,16 @@
 #slb.sh Version 0.1
 #..................................................................................
 # Description:
-#   TODO
+#   ScriptLib command invoker
 #
 # History:
 #   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 # Remarks:
-#   This script has the premise that the script passed as argument has the same
-#   documentation convention as this script. In other words, the script passed as
-#   argument should have "#/" before documentation lines.
-#
 #   Inspired by
-#     -> todo
+#     -> https://linuxize.com/post/how-to-create-bash-aliases/
+#     -> https://stackoverflow.com/questions/37104273/how-to-set-aliases-in-the-git-bash-for-windows
+#     -> https://www.baeldung.com/linux/delete-lines-containing-string-from-file
 #..................................................................................
 
 #..................................................................................
@@ -21,7 +19,25 @@
 #
 main()
 {
-    #https://linuxize.com/post/how-to-create-bash-aliases/
+    # default help
+    if [ "$1" == "-v" ] || [ "$1" == "--version" ] || [ "$1" == "--help" ] || [ "$1" == "/?" ]; then
+        . slb-helper.sh && return 0
+    fi
+
+    # get all arguments but first and invoke the script
+    if [ "$1" != "" ]; then slb-$1.sh ${@:2}; fi
+
+
+    # tmpfile=$(mktemp /tmp/.bash_profile)
+    # rm "$tmpfile"
+
+    profile=$HOME/.bash_profile
+    command=alias slb=\'slb.sh\'
+
+    grep -v "$command" $profile > tmpfile && mv tmpfile $profile
+
+    echo $command >> $profile
+
 }
 
 #..................................................................................
@@ -32,10 +48,23 @@ main "$@"
 #..................................................................................
 #..HELP...
 #/
-#/ TODO.
+#/ ScriptLib command invoker.
 #/
-#/ slb.sh <Script> [-v] [/?]
-#/   Script     Script
-#/   -v         Shows the script version
-#/   /?         Shows this help
+#/ slb [command] [-v] [/?]
+#/   argadd      Parse and define args.
+#/   helper      Performs file documentation analysis.
+#/   ostype      TODO
+#/   scfdng      TODO
+#/   symlnk      Create NTFS (Windows) links that is usable by Windows and Cygwin.
+#/   git-ckeckr  TODO
+#/   git-getter  TODO
+#/   git-guider  TODO
+#/   git-lister  TODO
+#/   git-puller  TODO
+#/   git-sender  TODO
+#/   git-stater  TODO
+#/   git-updter  TODO
+#/   net-shdlib  TODO
+#/   -v          Shows the batch version
+#/   /?          Help
 #/
