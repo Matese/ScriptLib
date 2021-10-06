@@ -2,7 +2,7 @@
 #slb-symlnk.sh Version 0.1
 #..................................................................................
 # Description:
-#   Create NTFS (Windows) links that is usable by Windows and Cygwin
+#   Create symlink
 #
 # History:
 #   - v0.1 2021-09-21 Initial versioned release with embedded documentation
@@ -23,15 +23,12 @@ main()
     # parse the arguments
     . slb-argadd.sh "$@"
 
-    # # optional arguments
+    # optional arguments
     if [ -z ${f+x} ] && [ -z ${d+x} ]; then echo "-d or -f is not defined" & return 1; fi
 
-    # # check for empty arguments
+    # check for empty arguments
     if [ -z ${l+x} ] || [ "${l}" == "" ] || [ "${n}" == "-l" ]; then echo "-l is not defined" & return 1; fi
     if [ -z ${t+x} ] || [ "${t}" == "" ] || [ "${t}" == "-t" ]; then echo "-t is not defined" & return 1; fi
-
-    # parse paths to Windows
-    parsePaths
 
     # file
     if [ ! -z ${f+x} ]; then symlinkFile; fi
@@ -43,10 +40,10 @@ main()
 #..................................................................................
 # Parse paths to Windows
 #
-parsePaths()
+parseWinPaths()
 {
-    link_path=$(cygpath --windows --absolute "$l")
-    target_path=$(cygpath --windows --absolute "$t")
+    l=$(cygpath --windows --absolute "$l")
+    t=$(cygpath --windows --absolute "$t")
 }
 
 #..................................................................................
@@ -54,7 +51,12 @@ parsePaths()
 #
 symlinkFile()
 {
-    cmd //c mklink "$link_path" "$target_path"
+    if [[ "$(slb-ostype.sh)" == "WINDOWS" ]]; then
+        parseWinPaths
+        CMD //c MKLINK "$l" "$t"
+    else
+        ln -s "$t" "$l"
+    fi
 }
 
 #..................................................................................
@@ -62,8 +64,12 @@ symlinkFile()
 #
 symlinkDirectory()
 {
-    echo "dir"
-    cmd //c mklink "/D" "$link_path" "$target_path"
+    if [[ "$(slb-ostype.sh)" == "WINDOWS" ]]; then
+        parseWinPaths
+        CMD //c MKLINK "/D" "$l" "$t"
+    else
+        ln -s "$t" "$l"
+    fi
 }
 
 #..................................................................................
@@ -74,7 +80,7 @@ main "$@"
 #..................................................................................
 #..HELP...
 #/
-#/ Create NTFS (Windows) links that is usable by Windows and Cygwin
+#/ Create symlink
 #/
 #/ slb-symlnk.sh [-d] [-f] <-l:> <-t:> [-v] [/?]
 #/   -d         Directory Symbolic Link
