@@ -68,9 +68,11 @@ scaffold()
         else
             if [ $subExists == true ]; then
                 addSubInSuper
+                echo "Added Submodule '$mn' in Superproject '$sn'"
             else
                 checkBare "$mu" "$mn"
                 genSubInSuper
+                echo "Created Submodule '$mn' in Superproject '$sn'"
             fi
         fi
     else
@@ -79,8 +81,10 @@ scaffold()
             checkBare "$cu" "$cn"
             if [ $coreExists == true ]; then
                 genSuperAddCore
+                echo "Created Superproject '$sn' adding existent Core Submodule '$sn'"
             else
                 genSuperGenCore
+                echo "Created Superproject '$sn' and Core Submodule '$cn'"
             fi
         else
             echo "Cannot create a Superproject without Core Submodule!"
@@ -115,7 +119,9 @@ checkBare()
 genSubInSuper()
 {
     # clone supermodule if needed
-    if [ ! -d "$sd/$sn" ]; then git clone $su$sn $sd/$sn; fi
+    if [ ! -d "$sd/$sn" ]; then
+        git clone $su$sn $sd/$sn > /dev/null 2>&1
+    fi
 
     # get core name from superproject
     cn=$(head -n 1 $sd/$sn/.root)
@@ -124,18 +130,21 @@ genSubInSuper()
     td=$(mktemp -d)
 
     # create submodule
-    git clone $mu$mn $td/$mn && cd $td/$mn
+    git clone $mu$mn $td/$mn > /dev/null 2>&1
+    cd $td/$mn
     slb-git-scf-net-smbase.sh -d:"$td" -n:"$mn"
-    slb-symlnk.sh -f -l:"$td/$mn/.gitignore" -t:"$sd/$sn/modules/$cn/src/Git/.gitignore"
-    slb-symlnk.sh -f -l:"$td/$mn/.gitattributes" -t:"$sd/$sn/modules/$cn/src/Git/.gitattributes"
-    git add . && git commit -m "submodule $mn created"
-    git push -u origin master
+    slb-symlnk.sh -f -l:"$td/$mn/.gitignore" -t:"$sd/$sn/modules/$cn/src/Git/.gitignore"  > /dev/null 2>&1
+    slb-symlnk.sh -f -l:"$td/$mn/.gitattributes" -t:"$sd/$sn/modules/$cn/src/Git/.gitattributes"  > /dev/null 2>&1
+    git add . > /dev/null 2>&1
+    git commit -m "submodule $mn created" > /dev/null 2>&1
+    git push -u origin master > /dev/null 2>&1
 
     # add submodule to superproject
     cd $sd/$sn
-    git submodule add $mu$mn modules/$mn
-    git add . && git commit -m "submodule $mn added to superproject $sn"
-    git push -u origin master
+    git submodule add $mu$mn modules/$mn > /dev/null 2>&1
+    git add . > /dev/null 2>&1
+    git commit -m "submodule $mn added to superproject $sn" > /dev/null 2>&1
+    git push -u origin master > /dev/null 2>&1
 
     # delete temp dir
     rm -rf $td
@@ -158,18 +167,23 @@ genSuperGenCore()
     td=$(mktemp -d)
 
     # create core submodule
-    git clone $cu$cn $td/$cn && cd $td/$cn
+    git clone $cu$cn $td/$cn > /dev/null 2>&1
+    cd $td/$cn
     slb-git-scf-net-smcore.sh -d:"$td" -n:"$cn"
-    git add . && git commit -m "submodule $cn created"
-    git push -u origin master
+    git add . > /dev/null 2>&1
+    git commit -m "submodule $cn created" > /dev/null 2>&1
+    git push -u origin master > /dev/null 2>&1
 
     # create superproject adding core submodule
-    git clone $su$sn $sd/$sn && cd $sd/$sn
+    git clone $su$sn $sd/$sn > /dev/null 2>&1
+    cd $sd/$sn
     slb-git-scf-net-spbase.sh -d:"$sd" -n:"$sn" -c:"$cn"
-    git add . && git commit -m "superproject $sn created"
-    git submodule add $cu$cn modules/$cn
-    git add . && git commit -m "submodule $cn added to superproject $sn"
-    git push -u origin master
+    git add . > /dev/null 2>&1
+    git commit -m "superproject $sn created" > /dev/null 2>&1
+    git submodule add $cu$cn modules/$cn > /dev/null 2>&1
+    git add . > /dev/null 2>&1
+    git commit -m "submodule $cn added to superproject $sn" > /dev/null 2>&1
+    git push -u origin master > /dev/null 2>&1
 
     # delete temp dir
     rm -rf $td
@@ -181,12 +195,15 @@ genSuperGenCore()
 genSuperAddCore()
 {
      # create superproject adding core submodule
-    git clone $su$sn $sd/$sn && cd $sd/$sn
+    git clone $su$sn $sd/$sn > /dev/null 2>&1
+    cd $sd/$sn
     slb-git-scf-net-spbase.sh -d:"$sd" -n:"$sn" -c:"$cn"
-    git add . && git commit -m "superproject $sn created"
-    git submodule add $cu$cn modules/$cn
-    git add . && git commit -m "submodule $cn added to superproject $sn"
-    git push -u origin master
+    git add . > /dev/null 2>&1
+    git commit -m "superproject $sn created" > /dev/null 2>&1
+    git submodule add $cu$cn modules/$cn > /dev/null 2>&1
+    git add . > /dev/null 2>&1
+    git commit -m "submodule $cn added to superproject $sn" > /dev/null 2>&1
+    git push -u origin master > /dev/null 2>&1
 }
 
 #..................................................................................
