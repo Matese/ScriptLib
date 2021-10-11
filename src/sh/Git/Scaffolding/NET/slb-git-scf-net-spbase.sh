@@ -36,6 +36,7 @@ scaffold()
     root=$1
     core=$2
     genSp $root $core
+    genSolution $root $n
     genReadme $root
     slb-git-scf-net-licnse.sh -d:"$root"
 }
@@ -52,6 +53,29 @@ genSp()
     slb-symlnk.sh -f -l:"$1/.gitignore" -t:"$1/modules/$2/src/Git/.gitignore"
     slb-symlnk.sh -f -l:"$1/.gitattributes" -t:"$1/modules/$2/src/Git/.gitattributes"
     slb-symlnk.sh -f -l:"$1/Directory.Build.props" -t:"$1/modules/$2/src/MSBuild/Directory.Build.props"
+}
+
+#..................................................................................
+# Generate 'Solution' file content
+#
+genSolution()
+{
+    uuid=$(slb-uuider.sh)
+    f="$1/$2.sln"
+    >$f
+    echo "" >> $f
+    echo "Microsoft Visual Studio Solution File, Format Version 12.00" >> $f
+    echo "# Visual Studio Version 16" >> $f
+    echo "VisualStudioVersion = 16.0.31727.386" >> $f
+    echo "MinimumVisualStudioVersion = 10.0.40219.1" >> $f
+    echo "Global" >> $f
+    echo "	GlobalSection(SolutionProperties) = preSolution" >> $f
+    echo "		HideSolutionNode = FALSE" >> $f
+    echo "	EndGlobalSection" >> $f
+    echo "	GlobalSection(ExtensibilityGlobals) = postSolution" >> $f
+    echo "		SolutionGuid = {$uuid}" >> $f
+    echo "	EndGlobalSection" >> $f
+    echo "EndGlobal" >> $f
 }
 
 #..................................................................................

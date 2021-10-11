@@ -565,9 +565,9 @@ genMsbuild_runsettings()
 genMsbuild_common_props()
 {
     echo "<Project>" >> $1
-    echo "  <Import Project=\"\$(CommonDir)\\AssemblyInfo.props\" />" >> $1
-    echo "  <Import Project=\"\$(CommonDir)\\Targets.props\" />" >> $1
-    echo "  <Import Project=\"\$(CommonDir)\\Packages.Ninject.props\" />" >> $1
+    echo "  <Import Project=\"\$(MSBuildDir)\\AssemblyInfo.props\" />" >> $1
+    echo "  <Import Project=\"\$(MSBuildDir)\\Targets.props\" />" >> $1
+    echo "  <Import Project=\"\$(MSBuildDir)\\Packages.Ninject.props\" />" >> $1
     echo "  <ItemGroup Condition=\"\$(DefineConstants.Contains(NETFRAMEWORK))\">" >> $1
     echo "    <Reference Include=\"System\" />" >> $1
     echo "    <Reference Include=\"System.Core\" />" >> $1
@@ -618,8 +618,8 @@ genMsbuild_directory_build_props()
     echo "    <SolutionDir>\$([MSBuild]::GetDirectoryNameOfFileAbove(\$(MSBuildThisFileDirectory), .root))</SolutionDir>" >> $1
     echo "    <ProgramFilesDir>\$([System.Environment]::ExpandEnvironmentVariables(\"%ProgramFiles%\"))</ProgramFilesDir>" >> $1
     echo "    <ReferenceAssembliesDir>\$(ProgramFilesDir)\Reference Assemblies\Microsoft\Framework\.NETFramework</ReferenceAssembliesDir>" >> $1
-    echo "    <CommonDir>\$(SolutionDir)\modules\core\source\Common</CommonDir>" >> $1
-    echo "    <ToolsDir>\$(SolutionDir)\modules\core\tools</ToolsDir>" >> $1
+    echo "    <MSBuildDir>\$(SolutionDir)\modules\\$n\src\MSBuild</MSBuildDir>" >> $1
+    echo "    <ToolsDir>\$(SolutionDir)\modules\\$n\tools</ToolsDir>" >> $1
     echo "  </PropertyGroup>" >> $1
     echo "" >> $1
     echo "  <!-- Tools -->" >> $1
@@ -630,8 +630,8 @@ genMsbuild_directory_build_props()
     echo "  <!-- Build -->" >> $1
     echo "  <PropertyGroup>" >> $1
     echo "    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>" >> $1
-    echo "    <OutputPath>\$(SolutionDir)outputs\bin\\\$(Configuration)</OutputPath>" >> $1
-    echo "    <BaseIntermediateOutputPath>\$(SolutionDir)outputs\obj\\\$(MSBuildProjectName)</BaseIntermediateOutputPath>" >> $1
+    echo "    <OutputPath>\$(SolutionDir)artifacts\bin\\\$(Configuration)</OutputPath>" >> $1
+    echo "    <BaseIntermediateOutputPath>\$(SolutionDir)artifacts\obj\\\$(MSBuildProjectName)</BaseIntermediateOutputPath>" >> $1
     echo "  </PropertyGroup>" >> $1
     echo "" >> $1
     echo "  <!-- Constants -->" >> $1
@@ -646,7 +646,7 @@ genMsbuild_directory_build_props()
     echo "  </PropertyGroup>" >> $1
     echo "" >> $1
     echo "  <!-- Platforms -->" >> $1
-    echo "  <Import Project=\"\$(CommonDir)\Configurations.Platforms.props\" />" >> $1
+    echo "  <Import Project=\"\$(MSBuildDir)\Configurations.Platforms.props\" />" >> $1
     echo "" >> $1
     echo "</Project>" >> $1
 }
