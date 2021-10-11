@@ -48,6 +48,7 @@ genSp()
 {
     mkdir -p "$1"
     mkdir -p "$1/artifacts" && >"$1/artifacts/.gitkeep"
+    mkdir -p "$1/packages" && >"$1/packages/.gitkeep"
     >"$1/.root" && echo $2 >> "$1/.root"
     slb-symlnk.sh -f -l:"$1/.runsettings" -t:"$1/modules/$2/src/MSBuild/.runsettings"
     slb-symlnk.sh -f -l:"$1/.gitignore" -t:"$1/modules/$2/src/Git/.gitignore"
@@ -89,6 +90,7 @@ genReadme()
     echo "" >> $f
     echo "/" >> $f
     echo "  artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)" >> $f
+    echo "  packages/             - Packages (nuget, etc)" >> $1 
     echo "  modules/              - Git submodules" >> $f
     echo "  .gitattributes        - https://git-scm.com/docs/gitattributes" >> $f
     echo "  .gitignore            - https://git-scm.com/docs/gitignore" >> $f

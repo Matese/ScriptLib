@@ -766,17 +766,10 @@ genReadme()
 {
     f="$1/README.md"
     >$f
-    echo "Superproject structure for .NET" >> $f
+    echo "Submodule core structure for .NET" >> $f
     echo "" >> $f
     echo "/" >> $f
-    echo "  artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)" >> $f
-    echo "  modules/              - Git submodules" >> $f
-    echo "  .gitattributes        - https://git-scm.com/docs/gitattributes" >> $f
-    echo "  .gitignore            - https://git-scm.com/docs/gitignore" >> $f
-    echo "  .gitmodules           - https://git-scm.com/docs/gitmodules" >> $f
-    echo "  .root                 - Trick to find root directory" >> $f
-    echo "  .runsettings          - Unit tests configurations" >> $f
-    echo "  Directory.Build.props - Build customizations" >> $f
+    echo "  src/                  - Source code" >> $f
     echo "  LICENSE               - License" >> $f
     echo "  README.md             - Readme" >> $f
     echo "" >> $f

@@ -46,8 +46,6 @@ main()
 
     # generate structure
     scaffold
-
-    ############tempDir=$(dirname -- "$cd$cn")
 }
 
 #..................................................................................
@@ -116,7 +114,31 @@ checkBare()
 #
 genSubInSuper()
 {
-    echo "genSubInSuper"
+    # clone supermodule if needed
+    if [ ! -d "$sd/$sn" ]; then git clone $su$sn $sd/$sn; fi
+
+    # get core name from superproject
+    cn=$(head -n 1 $sd/$sn/.root)
+
+    # create temp dir
+    td=$(mktemp -d)
+
+    # create submodule
+    git clone $mu$mn $td/$mn && cd $td/$mn
+    slb-git-scf-net-smbase.sh -d:"$td" -n:"$mn"
+    slb-symlnk.sh -f -l:"$td/$mn/.gitignore" -t:"$sd/$sn/modules/$cn/src/Git/.gitignore"
+    slb-symlnk.sh -f -l:"$td/$mn/.gitattributes" -t:"$sd/$sn/modules/$cn/src/Git/.gitattributes"
+    git add . && git commit -m "submodule $mn created"
+    git push -u origin master
+
+    # add submodule to superproject
+    cd $sd/$sn
+    git submodule add $mu$mn modules/$mn
+    git add . && git commit -m "submodule $mn added to superproject $sn"
+    git push -u origin master
+
+    # delete temp dir
+    rm -rf $td
 }
 
 #..................................................................................
@@ -158,7 +180,13 @@ genSuperGenCore()
 #
 genSuperAddCore()
 {
-    echo "genSuperAddCore"
+     # create superproject adding core submodule
+    git clone $su$sn $sd/$sn && cd $sd/$sn
+    slb-git-scf-net-spbase.sh -d:"$sd" -n:"$sn" -c:"$cn"
+    git add . && git commit -m "superproject $sn created"
+    git submodule add $cu$cn modules/$cn
+    git add . && git commit -m "submodule $cn added to superproject $sn"
+    git push -u origin master
 }
 
 #..................................................................................
