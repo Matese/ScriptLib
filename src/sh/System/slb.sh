@@ -26,18 +26,6 @@ main()
 
     # get all arguments but first and invoke the script
     if [ "$1" != "" ]; then slb-$1.sh ${@:2}; fi
-
-
-    # tmpfile=$(mktemp /tmp/.bash_profile)
-    # rm "$tmpfile"
-
-    profile=$HOME/.bash_profile
-    command=alias slb=\'slb.sh\'
-
-    grep -v "$command" $profile > tmpfile && mv tmpfile $profile
-
-    echo $command >> $profile
-
 }
 
 #..................................................................................
@@ -52,10 +40,11 @@ main "$@"
 #/
 #/ slb [command] [-v] [/?]
 #/   argadd      Parse and define args.
+#/   config      Configurations for ScriptLib.
 #/   helper      Performs file documentation analysis.
-#/   ostype      TODO
-#/   scfdng      TODO
+#/   ostype      Detect Operational System type.
 #/   symlnk      Create NTFS (Windows) links that is usable by Windows and Cygwin.
+#/   git-scfdng  Scaffolding.
 #/   git-ckeckr  TODO
 #/   git-getter  TODO
 #/   git-guider  TODO

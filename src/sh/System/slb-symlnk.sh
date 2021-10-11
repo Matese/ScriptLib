@@ -27,7 +27,7 @@ main()
     if [ -z ${f+x} ] && [ -z ${d+x} ]; then echo "-d or -f is not defined" & return 1; fi
 
     # check for empty arguments
-    if [ -z ${l+x} ] || [ "${l}" == "" ] || [ "${n}" == "-l" ]; then echo "-l is not defined" & return 1; fi
+    if [ -z ${l+x} ] || [ "${l}" == "" ] || [ "${l}" == "-l" ]; then echo "-l is not defined" & return 1; fi
     if [ -z ${t+x} ] || [ "${t}" == "" ] || [ "${t}" == "-t" ]; then echo "-t is not defined" & return 1; fi
 
     # file

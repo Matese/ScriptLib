@@ -33,8 +33,9 @@ IF "%-sh%" EQU "1" ECHO -sh is not defined & GOTO :eof
 
 :: replace 'cmd' path to 'sh' path
 SETLOCAL EnableDelayedExpansion
-set -from=%ScriptLib%\src\cmd
-set -to=%ScriptLib%\src\sh
+FOR /F "delims=" %%A in ("%~dp0..\..\..\") do set "basedir=%%~fA"
+set -from=%basedir%src\cmd
+set -to=%basedir%src\sh
 CALL SET "-sh=%%-sh:!-from!=!-to!%%"
 SETLOCAL DisableDelayedExpansion
 

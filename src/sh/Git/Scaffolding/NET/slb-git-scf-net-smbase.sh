@@ -2,14 +2,10 @@
 #slb-git-scf-net-smbase.sh Version 0.1
 #..................................................................................
 # Description:
-#   TODO.
+#   Create submodule structure for .NET
 #
 # History:
 #   - v0.1 2021-09-21 Initial versioned release with embedded documentation
-#
-# Remarks:
-#   Inspired by
-#     -> todo
 #..................................................................................
 
 #..................................................................................
@@ -23,11 +19,13 @@ main()
     # parse the arguments
     . slb-argadd.sh "$@"
 
-    # default arguments
+    # check for empty arguments
     if [ -z ${d+x} ] || [ "${d}" == "" ] || [ "${d}" == "-d" ]; then d=$PWD; fi
+    if [ -z ${n+x} ] || [ "${n}" == "" ] || [ "${n}" == "-n" ]; then echo "-n is not defined" & return 1; fi
+    if [ -z ${c+x} ] || [ "${c}" == "" ] || [ "${c}" == "-c" ]; then echo "-c is not defined" & return 1; fi
 
     # generate structure
-    scaffold $d
+    scaffold "$d/$n" "$c"
 }
 
 #..................................................................................
@@ -35,33 +33,29 @@ main()
 #
 scaffold()
 {
-    mkdir -p "$1"
-    mkdir -p "$1/src"
-
-    genGit $1
-    genMsbuild $1
+    root=$1
+    core=$2
+    genSm $root $core
+    genReadme $root
+    slb-git-scf-net-licnse.sh -d:"$root"
 }
 
 #..................................................................................
-# Create  structure for .NET
+# Create submodule structure for .NET
 #
-dotnetsm()
+genSm()
 {
-    root=$d/$n
-    common=${root%/*/*}/core/src/Common
+    mkdir -p "$1"
+    mkdir -p "$1/artifacts" && >"$1/artifacts/.gitkeep"
+    mkdir -p "$1/docs" && >"$1/docs/.gitkeep"
+    mkdir -p "$1/lib" && >"$1/lib/.gitkeep"
+    mkdir -p "$1/packages" && >"$1/packages/.gitkeep"
+    mkdir -p "$1/src" && >"$1/src/.gitkeep"
+    mkdir -p "$1/tests" && >"$1/tests/.gitkeep"
 
-    mkdir -p "$root"
-    mkdir -p "$root/artifacts" && >"$root/artifacts/.gitkeep"
-    mkdir -p "$root/docs" && >"$root/docs/.gitkeep"
-    mkdir -p "$root/lib" && >"$root/lib/.gitkeep"
-    mkdir -p "$root/packages" && >"$root/packages/.gitkeep"
-    mkdir -p "$root/src" && >"$root/src/.gitkeep"
-    mkdir -p "$root/tests" && >"$root/tests/.gitkeep"
-    slb-net-scfdng-licnse.sh -d:"$root"
-    mkdir -p "$root" && >"$root/README.md" && genReadme "$root/README.md"
-
-    slb-symlnk.sh -f -l:"$root/.gitignore" -t:"$common/.gitignore"
-    slb-symlnk.sh -f -l:"$root/.gitattributes" -t:"$common/.gitattributes"
+    git=${1%/*/*}/$2/src/Git
+    slb-symlnk.sh -f -l:"$1/.gitignore" -t:"$git/.gitignore"
+    slb-symlnk.sh -f -l:"$1/.gitattributes" -t:"$git/.gitattributes"
 }
 
 #..................................................................................
@@ -91,8 +85,11 @@ main "$@"
 #..................................................................................
 #..HELP...
 #/
-#/ TODO
+#/ Create superproject structure for .NET
 #/
-#/ slb-git-scf-net-smbase.sh [-v] [/?]
+#/ slb-git-scf-net-smbase.sh <-d:> <-n:> <-c:> [-v] [/?]
+#/   -d         Directory
+#/   -n         Name
+#/   -c         Core name
 #/   -v         Shows the script version
 #/   /?         Shows this help

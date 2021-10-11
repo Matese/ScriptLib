@@ -6,10 +6,6 @@
 #
 # History:
 #   - v0.1 2021-09-21 Initial versioned release with embedded documentation
-#
-# Remarks:
-#   Inspired by
-#     -> todo
 #..................................................................................
 
 #..................................................................................
@@ -25,9 +21,10 @@ main()
 
     # default arguments
     if [ -z ${d+x} ] || [ "${d}" == "" ] || [ "${d}" == "-d" ]; then d=$PWD; fi
+    if [ -z ${n+x} ] || [ "${n}" == "" ] || [ "${n}" == "-n" ]; then echo "-n is not defined" & return 1; fi
 
     # generate structure
-    scaffold $d
+    scaffold "$d/$n"
 }
 
 #..................................................................................
@@ -35,11 +32,11 @@ main()
 #
 scaffold()
 {
-    mkdir -p "$1"
-    mkdir -p "$1/src"
-
-    genGit $1
-    genMsbuild $1
+    root=$1
+    genGit $root
+    genMsbuild $root
+    genReadme $root
+    slb-git-scf-net-licnse.sh -d:"$root"
 }
 
 #..................................................................................
@@ -47,6 +44,8 @@ scaffold()
 #
 genGit()
 {
+    mkdir -p             "$1"
+    mkdir -p             "$1/src"
     mkdir -p             "$1/src/Git"
                         >"$1/src/Git/.gitattributes"
     genGit_gitattributes "$1/src/Git/.gitattributes"
@@ -761,6 +760,29 @@ genMsbuild_targets_props()
 }
 
 #..................................................................................
+# Generate 'README' file content
+#
+genReadme()
+{
+    f="$1/README.md"
+    >$f
+    echo "Superproject structure for .NET" >> $f
+    echo "" >> $f
+    echo "/" >> $f
+    echo "  artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)" >> $f
+    echo "  modules/              - Git submodules" >> $f
+    echo "  .gitattributes        - https://git-scm.com/docs/gitattributes" >> $f
+    echo "  .gitignore            - https://git-scm.com/docs/gitignore" >> $f
+    echo "  .gitmodules           - https://git-scm.com/docs/gitmodules" >> $f
+    echo "  .root                 - Trick to find root directory" >> $f
+    echo "  .runsettings          - Unit tests configurations" >> $f
+    echo "  Directory.Build.props - Build customizations" >> $f
+    echo "  LICENSE               - License" >> $f
+    echo "  README.md             - Readme" >> $f
+    echo "" >> $f
+}
+
+#..................................................................................
 # Calls the main script
 #
 main "$@"
@@ -768,8 +790,10 @@ main "$@"
 #..................................................................................
 #..HELP...
 #/
-#/ TODO
+#/  Create submodule core structure for .NET
 #/
-#/ slb-git-scf-net-smcore.sh [-v] [/?]
+#/ slb-git-scf-net-smcore.sh <-d:> <-n:> [-v] [/?]
+#/   -d         Directory
+#/   -n         Name
 #/   -v         Shows the script version
 #/   /?         Shows this help

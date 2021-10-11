@@ -31,8 +31,7 @@ main()
 #
 scaffold()
 {
-    mkdir -p "$1"
-    mkdir -p "$1" && >"$1/LICENSE" && genLicence "$1/LICENSE"
+    genLicence $1
 }
 
 #..................................................................................
@@ -40,28 +39,30 @@ scaffold()
 #
 genLicence()
 {
-    echo "MIT License" >> $1
-    echo "" >> $1
-    echo "Copyright (c) 2021" >> $1
-    echo "" >> $1
-    echo "Permission is hereby granted, free of charge, to any person obtaining a copy" >> $1
-    echo "of this software and associated documentation files (the \"Software\"), to deal" >> $1
-    echo "in the Software without restriction, including without limitation the rights" >> $1
-    echo "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell" >> $1
-    echo "copies of the Software, and to permit persons to whom the Software is" >> $1
-    echo "furnished to do so, subject to the following conditions:" >> $1
-    echo "" >> $1
-    echo "The above copyright notice and this permission notice shall be included in all" >> $1
-    echo "copies or substantial portions of the Software." >> $1
-    echo "" >> $1
-    echo "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR" >> $1
-    echo "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY," >> $1
-    echo "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE" >> $1
-    echo "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER" >> $1
-    echo "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM," >> $1
-    echo "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE" >> $1
-    echo "SOFTWARE." >> $1
-    echo "" >> $1
+    f="$1/LICENSE"
+    >$f
+    echo "MIT License" >> $f
+    echo "" >> $f
+    echo "Copyright (c) 2021" >> $f
+    echo "" >> $f
+    echo "Permission is hereby granted, free of charge, to any person obtaining a copy" >> $f
+    echo "of this software and associated documentation files (the \"Software\"), to deal" >> $f
+    echo "in the Software without restriction, including without limitation the rights" >> $f
+    echo "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell" >> $f
+    echo "copies of the Software, and to permit persons to whom the Software is" >> $f
+    echo "furnished to do so, subject to the following conditions:" >> $f
+    echo "" >> $f
+    echo "The above copyright notice and this permission notice shall be included in all" >> $f
+    echo "copies or substantial portions of the Software." >> $f
+    echo "" >> $f
+    echo "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR" >> $f
+    echo "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY," >> $f
+    echo "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE" >> $f
+    echo "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER" >> $f
+    echo "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM," >> $f
+    echo "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE" >> $f
+    echo "SOFTWARE." >> $f
+    echo "" >> $f
 }
 
 #..................................................................................

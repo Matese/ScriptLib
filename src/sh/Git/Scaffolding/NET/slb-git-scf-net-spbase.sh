@@ -2,14 +2,10 @@
 #slb-git-scf-net-spbase.sh Version 0.1
 #..................................................................................
 # Description:
-#   TODO.
+#   Create superproject structure for .NET
 #
 # History:
 #   - v0.1 2021-09-21 Initial versioned release with embedded documentation
-#
-# Remarks:
-#   Inspired by
-#     -> https://askubuntu.com/questions/474556/hiding-output-of-a-command
 #..................................................................................
 
 #..................................................................................
@@ -23,14 +19,13 @@ main()
     # parse the arguments
     . slb-argadd.sh "$@"
 
-    # default arguments
-    if [ -z ${d+x} ] || [ "${d}" == "" ] || [ "${d}" == "-d" ]; then d=$PWD; fi
-
     # check for empty arguments
+    if [ -z ${d+x} ] || [ "${d}" == "" ] || [ "${d}" == "-d" ]; then d=$PWD; fi
     if [ -z ${n+x} ] || [ "${n}" == "" ] || [ "${n}" == "-n" ]; then echo "-n is not defined" & return 1; fi
+    if [ -z ${c+x} ] || [ "${c}" == "" ] || [ "${c}" == "-c" ]; then echo "-c is not defined" & return 1; fi
 
     # generate structure
-    scaffold "$d/$n"
+    scaffold "$d/$n" "${c}"
 }
 
 #..................................................................................
@@ -38,9 +33,11 @@ main()
 #
 scaffold()
 {
-    mkdir -p "$1"
-    cd "$1"
-    genSp "$PWD"
+    root=$1
+    core=$2
+    genSp $root $core
+    genReadme $root
+    slb-git-scf-net-licnse.sh -d:"$root"
 }
 
 #..................................................................................
@@ -48,23 +45,13 @@ scaffold()
 #
 genSp()
 {
+    mkdir -p "$1"
     mkdir -p "$1/artifacts" && >"$1/artifacts/.gitkeep"
-    mkdir -p "$1" && >"$1/.root"
-    slb-net-scfdng-licnse.sh -d:"$1"
-    mkdir -p "$1" && >"$1/README.md" && genReadme "$1/README.md"
-    slb-symlnk.sh -f -l:"$1/.runsettings" -t:"$1/modules/core/src/MSBuild/.runsettings"
-    slb-symlnk.sh -f -l:"$1/.gitignore" -t:"$1/modules/core/src/Git/.gitignore"
-    slb-symlnk.sh -f -l:"$1/.gitattributes" -t:"$1/modules/core/src/Git/.gitattributes"
-    slb-symlnk.sh -f -l:"$1/Directory.Build.props" -t:"$1/modules/core/src/MSBuild/Directory.Build.props"
-
-    git init
-    git add .
-    git commit -m "superproject created"
-
-    # git submodule add http://tfs.larnet:8080/tfs/DESENVOLVIMENTO/LARGIT/_git/core modules/core
-    # git submodule add http://tfs.larnet:8080/tfs/DESENVOLVIMENTO/LARGIT/_git/<submodulo> modules/<submodulo>
-
-    # Efeturar o **_commit_** e o **_push_** das alterações em cada repositório.
+    >"$1/.root" && echo $2 >> "$1/.root"
+    slb-symlnk.sh -f -l:"$1/.runsettings" -t:"$1/modules/$2/src/MSBuild/.runsettings"
+    slb-symlnk.sh -f -l:"$1/.gitignore" -t:"$1/modules/$2/src/Git/.gitignore"
+    slb-symlnk.sh -f -l:"$1/.gitattributes" -t:"$1/modules/$2/src/Git/.gitattributes"
+    slb-symlnk.sh -f -l:"$1/Directory.Build.props" -t:"$1/modules/$2/src/MSBuild/Directory.Build.props"
 }
 
 #..................................................................................
@@ -72,20 +59,22 @@ genSp()
 #
 genReadme()
 {
-    echo "Superproject structure for .NET" >> $1
-    echo "" >> $1
-    echo "/" >> $1
-    echo "  artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)" >> $1
-    echo "  modules/              - Git submodules" >> $1
-    echo "  .gitattributes        - https://git-scm.com/docs/gitattributes" >> $1
-    echo "  .gitignore            - https://git-scm.com/docs/gitignore" >> $1
-    echo "  .gitmodules           - https://git-scm.com/docs/gitmodules" >> $1
-    echo "  .root                 - Trick to find root directory" >> $1
-    echo "  .runsettings          - Unit tests configurations" >> $1
-    echo "  Directory.Build.props - Build customizations" >> $1
-    echo "  LICENSE               - License" >> $1
-    echo "  README.md             - Readme" >> $1
-    echo "" >> $1
+    f="$1/README.md"
+    >$f
+    echo "Superproject structure for .NET" >> $f
+    echo "" >> $f
+    echo "/" >> $f
+    echo "  artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)" >> $f
+    echo "  modules/              - Git submodules" >> $f
+    echo "  .gitattributes        - https://git-scm.com/docs/gitattributes" >> $f
+    echo "  .gitignore            - https://git-scm.com/docs/gitignore" >> $f
+    echo "  .gitmodules           - https://git-scm.com/docs/gitmodules" >> $f
+    echo "  .root                 - Trick to find root directory" >> $f
+    echo "  .runsettings          - Unit tests configurations" >> $f
+    echo "  Directory.Build.props - Build customizations" >> $f
+    echo "  LICENSE               - License" >> $f
+    echo "  README.md             - Readme" >> $f
+    echo "" >> $f
 }
 
 #..................................................................................
@@ -96,8 +85,11 @@ main "$@"
 #..................................................................................
 #..HELP...
 #/
-#/ TODO
+#/ Create superproject structure for .NET
 #/
-#/ slb-git-scf-net-spbase.sh [-v] [/?]
+#/ slb-git-scf-net-spbase.sh <-d:> <-n:> <-c:> [-v] [/?]
+#/   -d         Directory
+#/   -n         Name
+#/   -c         Core name
 #/   -v         Shows the script version
 #/   /?         Shows this help
