@@ -10,7 +10,7 @@ git clone https://github.com/Matese/ScriptLib.git
 ```
 
 ```batch
-:: Windows
+:: On Windows
 
 :: Go to the repository directory
 CD [path\to\the\directory]
