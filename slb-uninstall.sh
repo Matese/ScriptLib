@@ -42,6 +42,13 @@ main()
 #
 cleanBashProfile()
 {
+    # create file if not exits
+    if [ ! -e "$HOME/.bash_profile" ] ; then touch "$HOME/.bash_profile"; fi
+
+    # if file is empty, add a line to enable sed to work
+    [ -s $HOME/.bash_profile ] || echo "" >> "$HOME/.bash_profile"
+
+    # variables
     line2="# ScriptLib"
     line16="#.................................................................................."
     sline2=$(sed -n '2p' $HOME/.bash_profile)
