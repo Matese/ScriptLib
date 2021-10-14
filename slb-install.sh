@@ -40,6 +40,9 @@ main()
     # create .bash_profile
     createBashProfile $q
 
+    # give script permissions
+    chmod -R u+x $PWD/src/sh
+
     # if not quiet
     if [ -z ${q+x} ]; then echo "Done!"; fi
 }
