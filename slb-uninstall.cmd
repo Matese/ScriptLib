@@ -1,4 +1,4 @@
-::uninstall.cmd Version 0.1
+::slb-uninstall.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Uninstall ScriptLib
@@ -82,7 +82,7 @@ ENDLOCAL & GOTO :eof
 ::
 :: Uninstall ScriptLib (Modifies environment variables in the user environment)
 ::
-::   uninstall [-q] [-v] [/?]
+::   slb-uninstall [-q] [-v] [/?]
 ::   -q         Quiet
 ::   -v         Shows the batch version
 ::   /?         Shows this help

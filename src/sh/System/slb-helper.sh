@@ -19,6 +19,8 @@
 #     -> https://stackoverflow.com/questions/49857332/bash-exit-from-source-d-script
 #     -> https://datacadamia.com/os/process/exit_code
 #     -> https://unix.stackexchange.com/questions/79343/how-to-loop-through-arguments-in-a-bash-script
+#     -> https://linuxize.com/post/bash-check-if-file-exists/
+#     -> https://stackoverflow.com/questions/13788166/how-can-i-remove-the-first-part-of-a-string-in-bash
 #..................................................................................
 
 #..................................................................................
@@ -65,7 +67,14 @@ checkSource()
 #
 showHelp()
 {
-    grep '^#/' "$0" | cut -c4-;
+    r=${0}
+
+    # if file not found, move 3 levels up (root dir) and append file name
+    if ! test -f "${0}"; then
+        r=$(dirname ${PWD}); r=$(dirname ${r}); r=$(dirname ${r}); r=${r}/${0#*./};
+    fi
+
+    grep '^#/' "$r" | cut -c4-;
 }
 
 #..................................................................................
@@ -73,7 +82,14 @@ showHelp()
 #
 showVersion()
 {
-    echo & cat ${0} | head -2 | tail -1 | sed 's/#//'
+    r=${0}
+
+    # if file not found, move 3 levels up (root dir) and append file name
+    if ! test -f "${0}"; then
+        r=$(dirname ${PWD}); r=$(dirname ${r}); r=$(dirname ${r}); r=${r}/${0#*./};
+    fi
+
+    echo & cat ${r} | head -2 | tail -1 | sed 's/#//'
 }
 
 #..................................................................................

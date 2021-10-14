@@ -1,4 +1,4 @@
-::install.cmd Version 0.1
+::slb-install.cmd Version 0.1
 ::......................................................................................................................
 :: Description:
 ::   Install ScriptLib
@@ -29,11 +29,14 @@ CD %-system%
 :: default help
 CALL %-system%\slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
+:: parse the arguments
+CALL %-system%\slb-argadd %*
+
 :: if not quiet
 IF NOT DEFINED -q ECHO Installing ScriptLib...
 
 :: uninstall quietly
-CALL %~dp0uninstall -q
+CALL %~dp0slb-uninstall -q
 
 :: set environment variables
 CALL :setEnvVars %-q%
@@ -119,7 +122,7 @@ ENDLOCAL & GOTO :eof
 ::
 :: Install ScriptLib (Modifies environment variables in the user environment)
 ::
-::   install [-q] [-v] [/?]
+::   slb-install [-q] [-v] [/?]
 ::   -q         Quiet
 ::   -v         Shows the batch version
 ::   /?         Shows this help
