@@ -8,6 +8,9 @@
 ::
 :: Remarks:
 ::   Modifies environment variables in the user environment
+::
+::   Inspired by
+::     -> https://stackoverflow.com/questions/32149279/how-to-read-a-specified-line-in-a-txt-file-batch
 ::......................................................................................................................
 
 ::..................................................................................
@@ -71,9 +74,32 @@ ENDLOCAL & GOTO :eof
 
     SET -f="%HOMEDRIVE%%HOMEPATH%\.bash_profile"
 
-    :: remove alias
-    CALL %-system%\slb-rplcer -f:%-f% -o:"# ScriptLib" -l >NUL
-    CALL %-system%\slb-rplcer -f:%-f% -o:"alias slb=\'slb.sh\'" -l >NUL
+    :: create file if not exist
+    IF NOT EXIST %-f% TYPE NUL>%-f%
+
+    :: get the value from line 2 and line 7
+    FOR /F "tokens=1,* delims=:" %%a in ('FINDSTR /n "^" %-f% ^|FINDSTR "^2:"') do (set line2=%%b)
+    FOR /F "tokens=1,* delims=:" %%a in ('FINDSTR /n "^" %-f% ^|FINDSTR "^7:"') do (set line7=%%b)
+    SET sline2="# ScriptLib"
+    SET sline7="#.................................................................................."
+
+    :: create new temp file
+    SET -t="%TEMP%\temp_file.tmp"
+    DEL %-t% 2>nul
+    TYPE NUL>%-t%
+
+    :: compare the values
+    IF "%line2%" EQU %sline2% IF "%line7%" EQU %sline7% (
+
+        :: remove alias - the first 8 lines
+        FOR /F "skip=8 delims=*" %%a IN (%-f:"=%) DO (ECHO %%a>>%-t%)
+
+        :: copy contents of temp to the file
+        COPY %-t% %-f% 1>nul
+    )
+
+    :: remove tempfile
+    DEL %-t%
 
     ENDLOCAL & GOTO :eof
 

@@ -14,6 +14,7 @@
 ::     -> https://stackoverflow.com/questions/59393482/how-to-make-an-alias-for-a-function-in-batch
 ::     -> https://stackoverflow.com/questions/35560540/batch-file-to-list-directories-recursively-in-windows-as-in-linux
 ::     -> https://stackhowto.com/batch-file-to-read-text-file-line-by-line-into-a-variable/
+::     -> https://stackoverflow.com/questions/14588785/how-do-i-add-to-beginning-using-text-file-using-a-bat-instead-of-append-to-end
 ::......................................................................................................................
 
 ::..................................................................................
@@ -92,6 +93,18 @@ ENDLOCAL & GOTO :eof
     :: create file if not exist
     IF NOT EXIST %-f% TYPE NUL>%-f%
 
+    :: create new temp file
+    SET -t="%TEMP%\temp_file.tmp"
+    DEL %-t% 2>nul
+    TYPE NUL>%-t%
+
+    :: copy existing file to a temporary file
+    COPY %-f% %-t% 1>nul
+
+    :: create new file
+    DEL %-f% 2>nul
+    TYPE NUL>%-f%
+
     :: get current encoding and then change it to UTF8
     FOR /f "tokens=2 delims=:." %%x IN ('chcp') DO SET cp=%%x
     CHCP 65001 >nul
@@ -104,8 +117,13 @@ ENDLOCAL & GOTO :eof
 )
 
     :: create content variable
+    set -content=!-content!#..................................................................................!LF!>> !-f!
     set -content=!-content!# ScriptLib!LF!>> !-f!
+    set -content=!-content!!LF!>> !-f!
+    set -content=!-content!# Aliases!LF!>> !-f!
     set -content=!-content!alias slb=\'slb.sh\'!LF!>> !-f!
+    set -content=!-content!!LF!>> !-f!
+    set -content=!-content!#..................................................................................!LF!>> !-f!
 
     :: write content variable to file
     ECHO !-content!>> !-f!
@@ -114,6 +132,12 @@ ENDLOCAL & GOTO :eof
 
     :: set old encoding
     CHCP %cp% >nul
+
+    :: append content of temp file
+    FOR /F %%i IN (%-t:"=%) DO ECHO %%i >> %-f%
+
+    :: remove tempfile
+    DEL %-t%
 
     ENDLOCAL & GOTO :eof
 
