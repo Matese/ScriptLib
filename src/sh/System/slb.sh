@@ -19,13 +19,26 @@
 #
 main()
 {
+    # parse command
+    cmd=$1
+    if [ "$cmd" == "config" ]; then cmd=slb-git-config; fi
+    if [ "$cmd" == "getter" ]; then cmd=slb-git-getter; fi
+    if [ "$cmd" == "lister" ]; then cmd=slb-git-lister; fi
+    if [ "$cmd" == "puller" ]; then cmd=slb-git-puller; fi
+    if [ "$cmd" == "scfdng" ]; then cmd=slb-git-scfdng; fi
+    if [ "$cmd" == "sender" ]; then cmd=slb-git-sender; fi
+    if [ "$cmd" == "stater" ]; then cmd=slb-git-stater; fi
+    if [ "$cmd" == "ostype" ]; then cmd=slb-ostype; fi
+    if [ "$cmd" == "symlnk" ]; then cmd=slb-symlnk; fi
+    if [ "$cmd" == "uuider" ]; then cmd=slb-uuider; fi
+
     # default help
-    if [ "$1" == "-v" ] || [ "$1" == "--version" ] || [ "$1" == "--help" ] || [ "$1" == "/?" ]; then
+    if [ "$cmd" == "-v" ] || [ "$cmd" == "--version" ] || [ "$cmd" == "--help" ] || [ "$cmd" == "/?" ]; then
         . slb-helper.sh && return 0
     fi
 
     # get all arguments but first and invoke the script
-    if [ "$1" != "" ]; then slb-$1.sh ${@:2}; fi
+    if [ "$cmd" != "" ]; then $cmd.sh ${@:2}; fi
 }
 
 #..................................................................................
@@ -39,21 +52,21 @@ main "$@"
 #/ ScriptLib command invoker.
 #/
 #/ slb [command] [-v] [/?]
-#/   argadd      Parse and define args.
-#/   config      Configurations for ScriptLib.
-#/   helper      Performs file documentation analysis.
+#/
+#/  (Git)
+#/   config      Create git configurations
+#/   getter      Clone projects and modules
+#/   lister      List projects and modules
+#/   puller      Pull projects and modules
+#/   scfdng      Scaffold projects and modules
+#/   sender      Save projects and modules
+#/   stater      Check for status changes
+#/   updter      Update projects and modules
+#/
+#/  (System)
 #/   ostype      Detect Operational System type.
-#/   symlnk      Create NTFS (Windows) links that is usable by Windows and Cygwin.
-#/   git-scfdng  Scaffolding.
-#/   git-ckeckr  TODO
-#/   git-getter  TODO
-#/   git-guider  TODO
-#/   git-lister  TODO
-#/   git-puller  TODO
-#/   git-sender  TODO
-#/   git-stater  TODO
-#/   git-updter  TODO
-#/   net-shdlib  TODO
+#/   symlnk      Create symlink
+#/   uuider      Generate a pseudo UUID.
 #/   -v          Shows the batch version
 #/   /?          Help
 #/
