@@ -48,7 +48,7 @@ SETLOCAL DisableDelayedExpansion
 
 :: parse tail arguments and call script
 SET _tail=%*
-IF NOT "%_cmd%"=="" CALL SET _tail=%%_tail:*%_cmd%=%%
+IF NOT "%~1"=="" CALL SET _tail=%%_tail:*%~1=%%
 IF NOT "%_cmd%"=="" CALL %_cmd%%_tail%
 
 ENDLOCAL & GOTO :eof
