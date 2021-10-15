@@ -20,9 +20,15 @@ SETLOCAL
 :: default help
 CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
-:: if passing /? as first argument, use double quotes
+SETLOCAL EnableDelayedExpansion
+SET tempvar=%2
+
+:: if passing /? or --help as first argument, use double quotes
 :: to bypass CALL help and invoke the script
-IF "%2"=="/?" CALL slb-%~1 "/?" & GOTO :eof
+IF "!tempvar!"=="/?" CALL slb-%~1 "/?" & GOTO :eof
+IF "!tempvar!"=="--help" CALL slb-%~1 "/?" & GOTO :eof
+
+SETLOCAL DisableDelayedExpansion
 
 :: get all arguments but first and invoke the script
 SET _tail=%*

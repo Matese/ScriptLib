@@ -8,13 +8,18 @@
 ::
 :: Remarks:
 ::   Inspired by
+::     -> https://stackoverflow.com/questions/11962172/echo-utf-8-characters-in-windows-batch
+::     -> https://stackoverflow.com/questions/1427796/batch-file-encoding
+::     -> https://stackoverflow.com/questions/1552749/difference-between-cr-lf-lf-and-cr-line-break-types
 ::     -> https://stackoverflow.com/questions/4527877/batch-script-read-line-by-line
+::     -> https://stackoverflow.com/questions/6379619/explain-how-windows-batch-newline-variable-hack-works
+::     -> https://stackoverflow.com/questions/6828751/batch-character-escaping
 ::     -> https://stackoverflow.com/questions/7522740/counting-in-a-for-loop-using-windows-batch-script
-::     -> https://www.robvanderwoude.com/ntset.php
+::     -> https://stackoverflow.com/questions/9876370/echo-line-to-a-file-on-windows-with-a-unix-linebreak
 ::     -> https://www.psteiner.com/2012/05/windows-batch-echo-without-new-line.html
+::     -> https://www.robvanderwoude.com/ntset.php
 ::     -> https://www.tutorialspoint.com/batch_script/batch_script_deleting_files.htm
 ::     -> https://www.tutorialspoint.com/batch_script/batch_script_moving_files.htm
-::     -> https://stackoverflow.com/questions/1552749/difference-between-cr-lf-lf-and-cr-line-break-types
 ::......................................................................................................................
 
 ::..................................................................................
