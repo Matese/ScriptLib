@@ -50,17 +50,13 @@ main()
         return 0;
     fi
 
-    # check if will set user
-    if [ ! -z ${n+x} ] && [ ! -z ${e+x} ]; then
-        u="true"
-        if [ -z ${n+x} ] || [ "${n}" == "" ] || [ "${n}" == "-n" ]; then u="false"; fi
-        if [ -z ${e+x} ] || [ "${e}" == "" ] || [ "${e}" == "-e" ]; then u="false"; fi
-        gitConfig
-        echo "Configuration created!"
-        return 0;
-    fi
+    # check for empty arguments
+    if [ -z ${n+x} ] || [ "${n}" == "" ] || [ "${n}" == "-n" ]; then echo "-n is not defined" & return 1; fi
+    if [ -z ${e+x} ] || [ "${e}" == "" ] || [ "${e}" == "-e" ]; then echo "-e is not defined" & return 1; fi
 
-    echo "Nothing to do!"
+    # git config
+    gitConfig
+    echo "Configuration created!"
 }
 
 #..................................................................................
@@ -84,9 +80,9 @@ gitConfig()
     {
         echo "[core]"
         echo "	symlinks = true"
-        if [ "$u" == "true" ]; then echo "[user]"; fi
-        if [ "$u" == "true" ]; then echo "	name = $n"; fi
-        if [ "$u" == "true" ]; then echo "	email = $e"; fi
+        echo "[user]"
+        echo "	name = $n"
+        echo "	email = $e"
         echo "[alias]"
         echo "	puller = !bash $scriptdir/slb-git-puller.sh"
         echo "	getter = !bash $scriptdir/slb-git-getter.sh"
