@@ -7,13 +7,13 @@
 #   - v0.1 2021-09-21 Initial versioned release with embedded documentation
 #
 #   Inspired by
-#     -> https://dbondarchuk.com/2016/09/23/adding-permission-for-creating-symlink-using-powershell/
-#     -> https://megamorf.gitlab.io/2020/05/26/check-if-powershell-is-running-as-administrator/
 #     -> https://community.spiceworks.com/how_to/2776-powershell-sid-to-user-and-user-to-sid
-#     -> https://www.red-gate.com/simple-talk/sysadmin/powershell/how-to-add-help-to-powershell-scripts/
-#     -> https://www.jonathanmedd.net/2015/01/how-to-make-use-of-functions-in-powershell.html
+#     -> https://dbondarchuk.com/2016/09/23/adding-permission-for-creating-symlink-using-powershell/
 #     -> https://devblogs.microsoft.com/powershell/suppressing-return-values-in-powershell-functions/
 #     -> https://dotnet-helpers.com/powershell/how-to-use-multidimensional-arrays-in-powershell/
+#     -> https://megamorf.gitlab.io/2020/05/26/check-if-powershell-is-running-as-administrator/
+#     -> https://www.jonathanmedd.net/2015/01/how-to-make-use-of-functions-in-powershell.html
+#     -> https://www.red-gate.com/simple-talk/sysadmin/powershell/how-to-add-help-to-powershell-scripts/
 #..................................................................................
 
 #..................................................................................

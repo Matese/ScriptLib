@@ -8,11 +8,11 @@
 #
 # Remarks:
 #   Inspired by
-#     -> https://stackoverflow.com/questions/13015303/dynamically-create-variables-in-powershell
 #     -> https://devblogs.microsoft.com/powershell/powershell-tip-how-to-shift-arrays/
+#     -> https://stackoverflow.com/questions/13015303/dynamically-create-variables-in-powershell
+#     -> https://stackoverflow.com/questions/1303921/passing-around-command-line-args-in-powershell-from-function-to-function
 #     -> https://stackoverflow.com/questions/18877580/powershell-and-the-contains-operator
 #     -> https://techcommunity.microsoft.com/t5/itops-talk-blog/powershell-basics-detecting-if-a-string-ends-with-a-certain/ba-p/307848
-#     -> https://stackoverflow.com/questions/1303921/passing-around-command-line-args-in-powershell-from-function-to-function
 #..................................................................................
 
 #..................................................................................
@@ -46,9 +46,22 @@ while ($arguments.Length -gt 0) {
     $arg, $arguments = $arguments
 
     if ( $arg -match "-" ) {
-        $keytempvar = $arg.Substring(0, $arg.lastIndexOf(':')) # Remove all after first ":"
-        $keytempvar = $keytempvar.TrimStart("-")               # Remove starting dash
-        $valuetempvar = $arg.split(":")[1]                     # Remove everything up to :
+
+        try {
+            # Remove all after first ":"
+            $keytempvar = $arg.Substring(0, $arg.lastIndexOf(':'))
+        }
+        catch {
+            # Do not have a ":" at the end
+            $keytempvar = $arg
+        }
+
+        $keytempvar = $keytempvar.TrimStart("-")     # Remove starting dash
+        $keytempvar = "_" + $keytempvar              # Add a underscore at the begining
+        $valuetempvar = $arg.split(":")[1]           # Remove everything up to :
+        if ($null -eq $valuetempvar) {
+            $valuetempvar = $keytempvar
+        }
         $vargs += , (@($keytempvar, $valuetempvar))
     }
 }

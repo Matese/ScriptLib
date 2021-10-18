@@ -26,6 +26,8 @@ IF "%_cmd%"=="puller" SET _cmd=slb-git-puller
 IF "%_cmd%"=="scfdng" SET _cmd=slb-git-scfdng
 IF "%_cmd%"=="sender" SET _cmd=slb-git-sender
 IF "%_cmd%"=="stater" SET _cmd=slb-git-stater
+IF "%_cmd%"=="ichoco" SET _cmd=slb-win-ichoco
+IF "%_cmd%"=="slperm" SET _cmd=slb-win-slperm
 IF "%_cmd%"=="svcmgr" SET _cmd=slb-win-svcmgr
 IF "%_cmd%"=="pthpty" SET _cmd=slb-pthpty
 IF "%_cmd%"=="pthrem" SET _cmd=slb-pthrem
@@ -71,6 +73,8 @@ ENDLOCAL & GOTO :eof
 ::   updter      Update projects and modules
 ::
 ::  (Windows)
+::   ichoco      Chocolatey package manager installer
+::   slperm      Add Symlink permissions to Local Security Policy
 ::   svcmgr      Communicates with Service Control Manager interacting with services
 ::
 ::  (System)

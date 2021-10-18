@@ -12,12 +12,12 @@
 #   argument should have "#/" before documentation lines.
 #
 #   Inspired by
-#     -> https://stackoverflow.com/questions/40475853/how-to-find-location-path-of-current-script-in-powershell
+#     -> https://copdips.com/2018/09/terminate-powershell-script-or-session.html
 #     -> https://powershell-guru.com/powershell-tip-145-select-string-cmdlet-with-case-sensitive-search/
 #     -> https://ss64.com/ps/substring.html
-#     -> https://superuser.com/questions/71446/equivalent-of-bashs-source-command-in-powershell
+#     -> https://stackoverflow.com/questions/40475853/how-to-find-location-path-of-current-script-in-powershell
 #     -> https://stackoverflow.com/questions/4875912/determine-if-powershell-script-has-been-dot-sourced
-#     -> https://copdips.com/2018/09/terminate-powershell-script-or-session.html
+#     -> https://superuser.com/questions/71446/equivalent-of-bashs-source-command-in-powershell
 #..................................................................................
 
 #..................................................................................
