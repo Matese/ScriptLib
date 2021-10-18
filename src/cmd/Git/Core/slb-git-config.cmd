@@ -57,8 +57,6 @@ SET "-path=%~p0"
 SET "-drive=%~d0"
 SET "-scriptdir=/%-drive:~0,1%%-path:\=/%"
 SET -scriptdir=%-scriptdir:/ScriptLib/src/cmd/=/ScriptLib/src/sh/%
-
-goto :eof
 CALL :gitConfig %-scriptdir%
 
 ENDLOCAL & GOTO :eof
@@ -83,7 +81,14 @@ ENDLOCAL & GOTO :eof
 ::
 :setConfig
     SETLOCAL
-    echo "foo"
+
+    :: boilerplate
+    CALL slb-helper "%1" "%2" >NUL
+    IF DEFINED -help SET -args=-arg:%-help%
+    IF NOT DEFINED -help SET -args='%4'
+    SET -script=-sh:"%3"
+    CALL slb-wrappr %-script% %-args%
+
     ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
@@ -91,7 +96,14 @@ ENDLOCAL & GOTO :eof
 ::
 :delConfig
     SETLOCAL
-    echo "foo"
+
+    :: boilerplate
+    CALL slb-helper "%1" "%2" >NUL
+    IF DEFINED -help SET -args=-arg:%-help%
+    IF NOT DEFINED -help SET -args='%4'
+    SET -script=-sh:"%3"
+    CALL slb-wrappr %-script% %-args%
+
     ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
