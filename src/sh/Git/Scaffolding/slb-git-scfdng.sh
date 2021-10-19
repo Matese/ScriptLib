@@ -67,7 +67,7 @@ readDs()
 
     if [ "$length" == "1" ]; then
         dsdir=$PWD
-        dsups="$(slb.sh config -g:"gsups")"
+        dsups="$(slb.sh config -g:"upsurl")"
         dsnam=${ADDR[0]} && if [[ $dsnam = [* ]]; then dsnam=${ADDR[0]:1}; fi
     elif [ "$length" == "2" ]; then
         dsdir=$PWD
@@ -90,7 +90,7 @@ readDm()
 
     if [ "$length" == "1" ]; then
         dmdir=$PWD
-        dmups="$(slb.sh config -g:"gsups")"
+        dmups="$(slb.sh config -g:"upsurl")"
         dmnam=${ADDR[0]} && if [[ $dmnam = [* ]]; then dmnam=${ADDR[0]:1}; fi
     elif [ "$length" == "2" ]; then
         dmdir=$PWD
@@ -113,7 +113,7 @@ readDc()
 
     if [ "$length" == "1" ]; then
         dcdir=$PWD
-        dcups="$(slb.sh config -g:"gsups")"
+        dcups="$(slb.sh config -g:"upsurl")"
         dcnam=${ADDR[0]} &&  if [[ $dcnam = [* ]]; then dcnam=${ADDR[0]:1}; fi
     elif [ "$length" == "2" ]; then
         dcdir=$PWD
@@ -139,13 +139,13 @@ main "$@"
 #/ slb-git-scfdng.sh <-ds:> [-dm:] [-dc] [-v] [/?]
 #/   -ds:[dir][upstream]<name>   Superproject structure for .NET
 #/                               - If [dir] is ommited, current will be used
-#/                               - If [upstream] is ommited, gsups variable will be used
+#/                               - If [upstream] is ommited, upsurl variable will be used
 #/   -dm:[dir][upstream]<name>   Submodule structure for .NET
 #/                               - If [dir] is ommited, current will be used
-#/                               - If [upstream] is ommited, gsups variable will be used
+#/                               - If [upstream] is ommited, upsurl variable will be used
 #/   -dc:[dir][upstream]<name>   Submodule core structure for .NET
 #/                               - If [dir] is ommited, current will be used
-#/                               - If [upstream] is ommited, gsups variable will be used
+#/                               - If [upstream] is ommited, upsurl variable will be used
 #/   -v                          Shows the script version
 #/   /?                          Shows this help
 #/

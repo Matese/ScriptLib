@@ -141,8 +141,10 @@ main "$@"
 #/   /?        Shows this help
 #/
 #/ Possible configurations are:
-#/   gsups      Git Scaffolding Upstream
+#/   upsurl     Upstream URL
+#/   upsgid     Upstream Group ID
+#/   upsapi     Upstream API Authorization Token
 #/
 #/ Sample:
 #/    slb-git-config -n:"Juca Pirama" -e:jucapirama@bixao.com.br
-#/    slb-git-config -sk:gsups -sv:"C:/Users/Bixao/Repos"
+#/    slb-git-config -sk:upsurl -sv:"C:/Users/Bixao/Repos"

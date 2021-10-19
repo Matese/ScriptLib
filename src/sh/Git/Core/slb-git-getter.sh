@@ -18,19 +18,42 @@
 #
 main()
 {
-    if [ -z "$1" ]; then
-        echo "fatal: (null) is not a git repository"
-    else
-        if [ -z "$2" ]; then
-            echo "fatal: unexpected branch"
-        else
-            git clone "http://tfs.larnet:8080/tfs/DESENVOLVIMENTO/LARGIT/_git/${1}_super"
-            cd "${1}_super"
-            git submodule update --init
-            git submodule foreach git checkout ${2}
-            git checkout ${2}
-        fi;
-    fi;
+    # shellcheck source=/dev/null
+    # default help
+    . slb-helper.sh && return 0
+
+    # shellcheck source=/dev/null
+    # parse the arguments
+    . slb-argadd.sh "$@"
+
+    # check for empty arguments
+    if [ -z ${r+x} ] || [ "${r}" == "" ] || [ "${r}" == "-r" ]; then echo "-r is not defined" & return 1; fi
+    if [ -z ${b+x} ] || [ "${b}" == "" ] || [ "${b}" == "-b" ]; then echo "-b is not defined" & return 1; fi
+
+    # cache file
+    f=$HOME/.scriptlib.lister
+
+    # if cache file does not exist, call lister to create it
+    if [[ ! -f $f ]]; then .slb.sh lister; fi
+
+    # read cache file
+    readarray arr < $f
+
+    # loop cache file
+    for ((i=1;i<=${#arr[@]};i++)); do
+        line=$(echo ${arr[i]}|xargs)
+        if [ "${line:0:5}" = "Repo:" ]; then
+            if [ "${line:6}" == "$1" ]; then
+                url=$(echo ${arr[i+2]}|xargs) && url=${url:6}
+                git clone "$url"
+                cd "${1}"
+                git submodule update --init
+                git submodule foreach git checkout ${2}
+                git checkout ${2}
+                break
+            fi
+        fi
+    done
 }
 
 #..................................................................................
@@ -43,7 +66,8 @@ main "$@"
 #/
 #/ Wish git-gui if status has changes.
 #/
-#/ slb-git-getter.sh [-dir:] [-v] [/?]
-#/   -dir       Directory of the repository
+#/ slb-git-getter.sh <-r:> <-b:> [-v] [/?]
+#/   -r         Repo
+#/   -b         Branch
 #/   -v         Shows the script version
 #/   /?         Shows this help
