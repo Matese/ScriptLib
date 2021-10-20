@@ -22,55 +22,55 @@
 #..................................................................................
 # The main entry point for the script
 #
-string="$@"
-results=()
-result=''
-inside=''
-for (( i=0 ; i<${#string} ; i++ )) ; do
-    char=${string:i:1}
-    if [[ $inside ]] ; then
-        if [[ $char == \\ ]] ; then
-            if [[ $inside=='"' && ${string:i+1:1} == '"' ]] ; then
+_s="$@" # string
+_rs=()  # results
+_v=''   # value
+_in=''  # inside
+
+for (( _i=0 ; _i<${#_s} ; _i++ )) ; do
+    _c=${_s:_i:1}
+    if [[ $_in ]] ; then
+        if [[ $_c == \\ ]] ; then
+            if [[ $_in=='"' && ${_s:_i+1:1} == '"' ]] ; then
                 let i++
-                char=$inside
+                _c=$_in
             fi
-        elif [[ $char == $inside ]] ; then
-            inside=''
+        elif [[ $_c == $_in ]] ; then
+            _in=''
         fi
     else
-        if [[ $char == ["'"'"'] ]] ; then
-            inside=$char
-        elif [[ $char == ' ' ]] ; then
-            char=''
-            results+=("$result")
-            result=''
+        if [[ $_c == ["'"'"'] ]] ; then
+            _in=$_c
+        elif [[ $_c == ' ' ]] ; then
+            _c=''
+            _rs+=("$_v")
+            _v=''
         fi
     fi
-    result+=$char
+    _v+=$_c
 done
 
-results+=("$result")
+_rs+=("$_v")
 
-if [[ $inside ]] ; then
-    echo Error parsing "$result"
+if [[ $_in ]] ; then
+    echo Error parsing "$_v"
     exit 1
 fi
 
-for r in "${results[@]}" ; do
-    if [[ $r == *"-"* ]]; then
-        keytempvar=${r%%:*}           # Remove all after first ":"
-        keytempvar="${keytempvar/-/}" # Remove starting dash
-        valuetempvar=${r#*:}          # Remove everything up to :
+for _r in "${_rs[@]}" ; do
+    if [[ $_r == *"-"* ]]; then
+        _k=${_r%%:*}  # Remove all after first ":"
+        _k="${_k/-/}" # Remove starting dash
+        _v=${_r#*:}   # Remove everything up to :
 
         # Remove double quotes
-        if [[ $valuetempvar == \"*\" ]]; then
-            valuetempvar="${valuetempvar:1:-1}";
+        if [[ $_v == \"*\" ]]; then
+            _v="${_v:1:-1}";
         fi
 
-        declare $keytempvar="${valuetempvar}"
+        declare $_k="${_v}"
     fi
 done
-
 
 #..................................................................................
 #..HELP...
