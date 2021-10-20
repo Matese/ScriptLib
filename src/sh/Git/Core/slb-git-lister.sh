@@ -14,6 +14,7 @@
 #     -> https://stackoverflow.com/questions/25320928/how-to-capture-the-output-of-curl-to-variable-in-bash
 #     -> https://stackoverflow.com/questions/47660015/run-a-command-for-each-item-in-jq-array
 #     -> https://unix.stackexchange.com/questions/551193/how-to-find-value-of-key-value-in-json-in-bash-script
+#     -> https://stackoverflow.com/questions/2524367/inline-comments-for-bash
 #..................................................................................
 
 #..................................................................................
@@ -22,58 +23,118 @@
 main()
 {
     # shellcheck source=/dev/null
-    # default help
     . slb-helper.sh && return 0
 
     # shellcheck source=/dev/null
-    # parse the arguments
     . slb-argadd.sh "$@"
 
-    # Cache file
-    f=$HOME/.scriptlib.lister
+    # cache file
+    f="$HOME/.scriptlib.lister"
 
-    # Should rebuild cache
-    if [ ! -z ${c+x} ]; then rm $f; fi
+    # shellcheck disable=SC2154,SC2086
+    if defined $c; then `# delete file to force cache rebuild` rm "$f"; fi
 
-    # If file do not exist
-    if [[ ! -f $f ]]; then
+    # rebuild cache if file inexists
+    if inexists "$f"; then
+
         echo "Please wait..."
-        getSubroups "$(slb.sh config -g:"upsgid")"
 
-        echo $newtext >> $f
+        # foreach group
+        getGroups && for g in "${groups[@]}"; do
 
-        for g in "${groups[@]}"; do
-            echo "Group: $(echo $g | jq -r '.name')" >> $f
-            echo "" >> $f
-            getProjects "$(echo $g | jq -r '.id')"
-            for p in "${projects[@]}"; do
-                getIsSuper "$(echo $p | jq -r '.id')"
-                if [ $isSuper = true ]; then
-                    echo "   Repo: $(echo $p | jq -r '.name') (Superproject)" >> $f
-                else
-                    echo "   Repo: $(echo $p | jq -r '.name')" >> $f
-                fi
-                echo "   				 			 SSH: $(echo $p | jq -r '.surl')" >> $f
-                echo "   				 			HTTP: $(echo $p | jq -r '.hurl')" >> $f
+            addGroup "$g" "$f"
+
+            # foreach project
+            getProjects "$(readKey "$g" id)" && for p in "${projects[@]}"; do
+
+                addRepo "$p" "$f"
+
             done
+
         done
     fi
 
-    # Read file
-    while IFS= read -r line; do
-        printf '%s\n' "$line"
-    done < $f
+    # read cache file
+    readCache "$f"
 }
 
 #..................................................................................
-# Get subgroups list
+# Check if variable is defined
 #
-getSubroups()
+defined()
 {
-    mapfile -t groups < <( curl -s --location \
-    --request GET "https://gitlab.com/api/v4/groups/$1/subgroups" \
-    --header "Authorization: Bearer $(slb.sh config -g:"upsapi")" \
-    | jq -c '.[]|{id:.id,name:.name}' )
+    # if variable is unset or set to the empty string
+    if [ -z ${1+x} ]; then
+        return 1 # false
+    fi
+
+    return 0 # true
+}
+
+#..................................................................................
+# Check if file inexists
+#
+inexists()
+{
+    # if file do not exist
+    if [[ ! -f $1 ]]; then
+        return 0 # true
+    fi
+
+    return 1 # false
+}
+
+#..................................................................................
+# Get the value of the key
+#
+readKey()
+{
+    echo "$1" | jq -r ".$2"
+}
+
+#..................................................................................
+# Read cache file
+#
+readCache()
+{
+    while IFS= read -r line; do
+        printf '%s\n' "$line"
+    done <"$1"
+}
+
+#..................................................................................
+# Add group to file
+#
+addGroup()
+{
+    echo "Group: $(readKey "$1" name)" >>"$2"
+    echo "" >>"$2"
+}
+
+#..................................................................................
+# Add repo to file
+#
+addRepo()
+{
+    {
+        if super "$(readKey "$1" id)"; then echo "   (Superproject)"; fi
+        echo "   Repo: $(readKey "$1" name)"
+        echo "   				 			 SSH: $(readKey "$1" surl)"
+        echo "   				 			HTTP: $(readKey "$1" hurl)"
+    } >>"$2"
+}
+
+#..................................................................................
+# Get groups list
+#
+getGroups()
+{
+    mapfile -t groups < <( \
+        curl -s --location \
+            --request GET "https://gitlab.com/api/v4/groups/$(slb.sh config -g:"upsgid")/subgroups" \
+            --header "Authorization: Bearer $(slb.sh config -g:"upsapi")" | \
+        jq -c '.[]|{id:.id,name:.name}' \
+    )
 }
 
 #..................................................................................
@@ -81,26 +142,31 @@ getSubroups()
 #
 getProjects()
 {
-    mapfile -t projects < <( curl -s --location \
-    --request GET "https://gitlab.com/api/v4/groups/$1" \
-    --header "Authorization: Bearer $(slb.sh config -g:"upsapi")" \
-    | jq -c '.projects[]|{id:.id,name:.name,surl:.ssh_url_to_repo,hurl:.http_url_to_repo}' )
+    mapfile -t projects < <( \
+        curl -s --location \
+            --request GET "https://gitlab.com/api/v4/groups/$1" \
+            --header "Authorization: Bearer $(slb.sh config -g:"upsapi")" | \
+        jq -c '.projects[]|{id:.id,name:.name,surl:.ssh_url_to_repo,hurl:.http_url_to_repo}' \
+    )
 }
 
 #..................................................................................
 # Check if repository is a Superproject
 #
-getIsSuper()
+super()
 {
-    value=$( curl -s --location \
-    --request GET "https://gitlab.com/api/v4/projects/$1/repository/tree" \
-    --header "Authorization: Bearer $(slb.sh config -g:"upsapi")" \
-    | jq -c '.[]|select(.name == ".Docker" ).name' )
+    value=$( \
+        curl -s --location \
+            --request GET "https://gitlab.com/api/v4/projects/$1/repository/tree" \
+            --header "Authorization: Bearer $(slb.sh config -g:"upsapi")" | \
+        jq -c '.[]|select(.name == ".root" ).name' \
+    )
 
-    isSuper=true
     if [ "" == "$value" ]; then
-        isSuper=false
+        return 1 # false
     fi
+
+    return 0 # true
 }
 
 #..................................................................................
