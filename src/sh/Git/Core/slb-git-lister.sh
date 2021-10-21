@@ -32,7 +32,7 @@ main()
     f="$HOME/.scriptlib.lister"
 
     # shellcheck disable=SC2154,SC2086
-    if defined $c; then `# delete file to force cache rebuild` rm "$f"; fi
+    if defined $cr; then `# delete file to force cache rebuild` rm "$f"; fi
 
     # rebuild cache if file inexists
     if inexists "$f"; then
@@ -180,6 +180,6 @@ main "$@"
 #/ List repositories
 #/
 #/ slb-git-lister.sh [-s] [-r] [-v] [/?]
-#/   -c         Cache rebuild
+#/   -cr        Cache rebuild
 #/   -v         Shows the script version
 #/   /?         Shows this help

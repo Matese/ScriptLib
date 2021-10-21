@@ -64,8 +64,7 @@ FOR /f "delims=" %%A IN ('CALL "%-cygpath%" "%-sh%"') DO SET -script=%%A
 SET -args=%* & CALL SET -args=%%-args:-sh:"%-sh%" =%% & CALL SET -args=%%-args:-arg:=%%
 
 :: Invoke the script passing parsed arguments
-::ENDLOCAL & "%-bash%" --login "%-script%" %-args%
-ENDLOCAL & "C:\Program Files\Git\usr\bin\bash.exe" --login "%-script%" %-args%
+ENDLOCAL & "%-bash%" --login "%-script%" %-args%
 
 ::......................................................................................................................
 :::HELP:::
