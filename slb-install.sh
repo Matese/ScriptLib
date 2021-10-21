@@ -26,22 +26,24 @@ main()
     system=$PWD"/src/sh/System"
 
     # default help
-    . $system/slb-helper.sh && return 0
+    # shellcheck source=/dev/null
+    . "$system/slb-helper.sh" && return 0
 
     # parse the arguments
-    . $system/slb-argadd.sh "$@"
+    # shellcheck source=/dev/null
+    . "$system/slb-argadd.sh" "$@"
 
     # if not quiet
     if [ -z ${q+x} ]; then echo "Installing ScriptLib..."; fi
 
     # uninstall quietly
-    $PWD"/slb-uninstall.sh" -q
+    "$PWD/slb-uninstall.sh" -q
 
     # create .bash_profile
-    createBashProfile $q
+    createBashProfile "$q"
 
     # give script permissions
-    chmod -R u+x $PWD/src/sh
+    chmod -R u+x "$PWD/src/sh"
 
     # if not quiet
     if [ -z ${q+x} ]; then echo "Done!"; fi
@@ -68,7 +70,7 @@ createBashProfile()
     if [ ! -e "$HOME/.bash_profile" ] ; then touch "$HOME/.bash_profile"; fi
 
     # if file is empty, add a line to enable sed to work
-    [ -s $HOME/.bash_profile ] || echo "" >> "$HOME/.bash_profile"
+    [ -s "$HOME/.bash_profile" ] || echo "" >> "$HOME/.bash_profile"
 
     # declare the array
     declare -a arr=()
@@ -81,7 +83,7 @@ createBashProfile()
     arr+=("# Aliases")
 
     # ScriptLib dir
-    listDirs $PWD/src
+    listDirs "$PWD/src"
     slb=$dirs
     slb=${slb%?} # removes the last character
 
@@ -103,6 +105,7 @@ createBashProfile()
     for i in "${arr[@]}"; do sed -i "1s/^/$i\n/" "$HOME/.bash_profile"; done
 
     # reload
+    # shellcheck source=/dev/null
     source "$HOME/.bash_profile"
 
     # if not quiet
@@ -110,7 +113,7 @@ createBashProfile()
         echo
         echo User variables:
         echo
-        echo $PATH
+        echo "$PATH"
         echo
     fi
 }

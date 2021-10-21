@@ -17,13 +17,19 @@
 #
 main()
 {
+    # shellcheck source=/dev/null
+    {
+    . slb-helper.sh && return 0
+    . slb-argadd.sh "$@"
+    }
+
     # check if is a git repository directory
     if [ -d .git ]; then
         if [ -z "$1" ]; then
             echo "fatal: (null) is not a valid branch"
         else
-            git submodule foreach git pull origin ${1}
-            git pull origin ${1}
+            git submodule foreach git pull origin "${1}"
+            git pull origin "${1}"
         fi;
     else
         echo "fatal: not a git repository (or any of the parent directories)"

@@ -17,11 +17,11 @@
 #
 main()
 {
-    # default help
+    # shellcheck source=/dev/null
+    {
     . slb-helper.sh && return 0
-
-    # parse the arguments
     . slb-argadd.sh "$@"
+    }
 
     # check for empty arguments
     if [ -z ${url+x} ] || [ "${url}" == "" ] || [ "${url}" == "-url" ]; then echo "-url is not defined" & return 1; fi

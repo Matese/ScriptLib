@@ -9,8 +9,8 @@
 #
 # Remarks:
 #   Inspired by
-#     -> https://stackoverflow.com/questions/394230/how-to-detect-the-os-from-a-bash-script
 #     -> https://stackoverflow.com/questions/16905183/dash-double-semicolon-syntax
+#     -> https://stackoverflow.com/questions/394230/how-to-detect-the-os-from-a-bash-script
 #..................................................................................
 
 #..................................................................................
@@ -18,7 +18,7 @@
 #
 main()
 {
-    # default help
+    # shellcheck disable=1091
     . slb-helper.sh && return 0
 
     # detect Operational System type

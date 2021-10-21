@@ -39,6 +39,7 @@ for (( _i=0 ; _i<${#_s} ; _i++ )) ; do
             _in=''
         fi
     else
+        # shellcheck disable=SC1009,SC1073,SC1020,SC1072
         if [[ $_c == ["'"'"'] ]] ; then
             _in=$_c
         elif [[ $_c == ' ' ]] ; then

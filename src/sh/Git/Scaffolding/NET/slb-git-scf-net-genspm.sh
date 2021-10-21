@@ -20,25 +20,34 @@
 #
 main()
 {
-    # default help
+    # shellcheck source=/dev/null
+    {
     . slb-helper.sh && return 0
-
-    # parse the arguments
     . slb-argadd.sh "$@"
+    }
 
-    # check all the arguments and the existence of the repositories
-    if [ -z ${sd+x} ] || [ "${sd}" == "" ] || [ "${sd}" == "-sd" ]; then echo "-sd is not defined" & return 1; fi
-    if [ -z ${su+x} ] || [ "${su}" == "" ] || [ "${su}" == "-su" ]; then echo "-su is not defined" & return 1; fi
-    if [ -z ${sn+x} ] || [ "${sn}" == "" ] || [ "${sn}" == "-sn" ]; then echo "-sn is not defined" & return 1; fi
-    if [ ! -z ${md+x} ] && [ ! -z ${mu+x} ] && [ ! -z ${mn+x} ]; then
-        if [ "${md}" == "" ] || [ "${md}" == "-md" ]; then echo "-md is not defined" & return 1; fi
-        if [ "${mu}" == "" ] || [ "${mu}" == "-mu" ]; then echo "-mu is not defined" & return 1; fi
-        if [ "${mn}" == "" ] || [ "${mn}" == "-mn" ]; then echo "-mn is not defined" & return 1; fi
+    # shellcheck disable=SC2154,SC2086
+    {
+    if unvalued "sd" $sd; then return 1; fi
+    if unvalued "su" $su; then return 1; fi
+    if unvalued "sn" $sn; then return 1; fi
+    }
+
+    # shellcheck disable=SC2154,SC2086
+    if defined $md && defined $mu && defined $mn; then
+
+        if unvalued "md" $md; then return 1; fi
+        if unvalued "mu" $mu; then return 1; fi
+        if unvalued "mn" $mn; then return 1; fi
+
         isCore=false
-    elif [ ! -z ${cd+x} ] && [ ! -z ${cu+x} ] && [ ! -z ${cn+x} ]; then
-        if [ "${cd}" == "" ] || [ "${cd}" == "-cd" ]; then echo "-cd is not defined" & return 1; fi
-        if [ "${cu}" == "" ] || [ "${cu}" == "-cu" ]; then echo "-cu is not defined" & return 1; fi
-        if [ "${cn}" == "" ] || [ "${cn}" == "-cn" ]; then echo "-cn is not defined" & return 1; fi
+
+    elif defined $cd && defined $cu && defined $cn; then
+
+        if unvalued "cd" $cd; then return 1; fi
+        if unvalued "cu" $cu; then return 1; fi
+        if unvalued "cn" $cn; then return 1; fi
+
         isCore=true
     else
         echo "module not defined" & return 1;
@@ -62,29 +71,25 @@ scaffold()
     coreExists="$(slb-git-exists.sh -url:"$cu$cn.git")"
     subExists="$(slb-git-exists.sh -url:"$mu$mn.git")"
 
-    if [ $superExists == true ]; then
+    if [ "$superExists" == true ]; then
         if [ $isCore == true ]; then
             echo "Cannot create a Core Submodule in a Superproject that already contains one!"
         else
-            if [ $subExists == true ]; then
-                addSubInSuper
-                echo "Added Submodule '$mn' in Superproject '$sn'"
+            if [ "$subExists" == true ]; then
+                addSubInSuper "$mn" "$sn"
             else
                 checkBare "$mu" "$mn"
-                genSubInSuper
-                echo "Created Submodule '$mn' in Superproject '$sn'"
+                genSubInSuper "$mn" "$sn"
             fi
         fi
     else
         if [ $isCore == true ]; then
             checkBare "$su" "$sn"
             checkBare "$cu" "$cn"
-            if [ $coreExists == true ]; then
-                genSuperAddCore
-                echo "Created Superproject '$sn' adding existent Core Submodule '$sn'"
+            if [ "$coreExists" == true ]; then
+                genSuperAddCore "$sn" "$cn"
             else
-                genSuperGenCore
-                echo "Created Superproject '$sn' and Core Submodule '$cn'"
+                genSuperGenCore "$sn" "$cn"
             fi
         else
             echo "Cannot create a Superproject without Core Submodule!"
@@ -108,7 +113,7 @@ checkBare()
         # check if directory do not exist
         if [ ! -d "$u$n.git" ]; then
             # initialize a bare local repo
-            git init --bare $u$n.git
+            git init --bare "$u$n.git"
         fi
     fi
 }
@@ -120,18 +125,18 @@ genSubInSuper()
 {
     # clone supermodule if needed
     if [ ! -d "$sd/$sn" ]; then
-        git clone $su$sn $sd/$sn > /dev/null 2>&1
+        git clone "$su$sn" "$sd/$sn" > /dev/null 2>&1
     fi
 
     # get core name from superproject
-    cn=$(head -n 1 $sd/$sn/.root)
+    cn=$(head -n 1 "$sd/$sn/.root")
 
     # create temp dir
     td=$(mktemp -d)
 
     # create submodule
-    git clone $mu$mn $td/$mn > /dev/null 2>&1
-    cd $td/$mn
+    git clone "$mu$mn" "$td/$mn" > /dev/null 2>&1
+    cd "$td/$mn" || exit
     slb-git-scf-net-smbase.sh -d:"$td" -n:"$mn"
     slb-symlnk.sh -f -l:"$td/$mn/.gitignore" -t:"$sd/$sn/modules/$cn/src/Git/.gitignore"  > /dev/null 2>&1
     slb-symlnk.sh -f -l:"$td/$mn/.gitattributes" -t:"$sd/$sn/modules/$cn/src/Git/.gitattributes"  > /dev/null 2>&1
@@ -140,14 +145,16 @@ genSubInSuper()
     git push -u origin master > /dev/null 2>&1
 
     # add submodule to superproject
-    cd $sd/$sn
-    git submodule add $mu$mn modules/$mn > /dev/null 2>&1
+    cd "$sd/$sn" || exit
+    git submodule add "$mu$mn" "modules/$mn" > /dev/null 2>&1
     git add . > /dev/null 2>&1
     git commit -m "submodule $mn added to superproject $sn" > /dev/null 2>&1
     git push -u origin master > /dev/null 2>&1
 
     # delete temp dir
-    rm -rf $td
+    rm -rf "$td"
+
+    echo "Created Submodule '$1' in Superproject '$2'"
 }
 
 #..................................................................................
@@ -155,7 +162,8 @@ genSubInSuper()
 #
 addSubInSuper()
 {
-    echo "addSubInSuper"
+    echo "TODO: addSubInSuper"
+    # echo "Added Submodule '$1' in Superproject '$2'"
 }
 
 #..................................................................................
@@ -167,26 +175,28 @@ genSuperGenCore()
     td=$(mktemp -d)
 
     # create core submodule
-    git clone $cu$cn $td/$cn > /dev/null 2>&1
-    cd $td/$cn
+    git clone "$cu$cn" "$td/$cn" > /dev/null 2>&1
+    cd "$td/$cn" || exit
     slb-git-scf-net-smcore.sh -d:"$td" -n:"$cn"
     git add . > /dev/null 2>&1
     git commit -m "submodule $cn created" > /dev/null 2>&1
     git push -u origin master > /dev/null 2>&1
 
     # create superproject adding core submodule
-    git clone $su$sn $sd/$sn > /dev/null 2>&1
-    cd $sd/$sn
+    git clone "$su$sn" "$sd/$sn" > /dev/null 2>&1
+    cd "$sd/$sn" || exit
     slb-git-scf-net-spbase.sh -d:"$sd" -n:"$sn" -c:"$cn"
     git add . > /dev/null 2>&1
     git commit -m "superproject $sn created" > /dev/null 2>&1
-    git submodule add $cu$cn modules/$cn > /dev/null 2>&1
+    git submodule add "$cu$cn" "modules/$cn" > /dev/null 2>&1
     git add . > /dev/null 2>&1
     git commit -m "submodule $cn added to superproject $sn" > /dev/null 2>&1
     git push -u origin master > /dev/null 2>&1
 
     # delete temp dir
-    rm -rf $td
+    rm -rf "$td"
+
+    echo "Created Superproject '$1' and Core Submodule '$2'"
 }
 
 #..................................................................................
@@ -195,15 +205,50 @@ genSuperGenCore()
 genSuperAddCore()
 {
      # create superproject adding core submodule
-    git clone $su$sn $sd/$sn > /dev/null 2>&1
-    cd $sd/$sn
+    git clone "$su$sn" "$sd/$sn" > /dev/null 2>&1
+    cd "$sd/$sn" || exit
     slb-git-scf-net-spbase.sh -d:"$sd" -n:"$sn" -c:"$cn"
     git add . > /dev/null 2>&1
     git commit -m "superproject $sn created" > /dev/null 2>&1
-    git submodule add $cu$cn modules/$cn > /dev/null 2>&1
+    git submodule add "$cu$cn" "modules/$cn" > /dev/null 2>&1
     git add . > /dev/null 2>&1
     git commit -m "submodule $cn added to superproject $sn" > /dev/null 2>&1
     git push -u origin master > /dev/null 2>&1
+
+    echo "Created Superproject '$1' adding existent Core Submodule '$2'"
+}
+
+#..................................................................................
+# Check if variable is empty
+#
+unvalued()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${2+x} ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    # if variable is set to it´s own name
+    if [ "${2}" == "-${1}" ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    return 1 # false
+}
+
+#..................................................................................
+# Check if variable is defined
+#
+defined()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${1+x} ]; then
+        return 1 # false
+    fi
+
+    return 0 # true
 }
 
 #..................................................................................

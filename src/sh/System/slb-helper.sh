@@ -13,14 +13,14 @@
 #   argument should have "#/" before documentation lines.
 #
 #   Inspired by
-#     -> https://www.cyberciti.biz/faq/howto-use-cat-command-in-unix-linux-shell-script/
-#     -> https://stackoverflow.com/questions/16136943/how-to-get-the-second-column-from-command-output
-#     -> https://unix.stackexchange.com/questions/449498/call-function-declared-below
-#     -> https://stackoverflow.com/questions/49857332/bash-exit-from-source-d-script
 #     -> https://datacadamia.com/os/process/exit_code
-#     -> https://unix.stackexchange.com/questions/79343/how-to-loop-through-arguments-in-a-bash-script
 #     -> https://linuxize.com/post/bash-check-if-file-exists/
 #     -> https://stackoverflow.com/questions/13788166/how-can-i-remove-the-first-part-of-a-string-in-bash
+#     -> https://stackoverflow.com/questions/16136943/how-to-get-the-second-column-from-command-output
+#     -> https://stackoverflow.com/questions/49857332/bash-exit-from-source-d-script
+#     -> https://unix.stackexchange.com/questions/449498/call-function-declared-below
+#     -> https://unix.stackexchange.com/questions/79343/how-to-loop-through-arguments-in-a-bash-script
+#     -> https://www.cyberciti.biz/faq/howto-use-cat-command-in-unix-linux-shell-script/
 #..................................................................................
 
 #..................................................................................
@@ -50,12 +50,15 @@ main()
 #
 checkSource()
 {
+    # shellcheck disable=SC2128
     # we don't want to end the user's terminal session!
     if [[ "$0" != "$BASH_SOURCE" ]] ; then
+        # shellcheck disable=SC2209
         # this script is executed via `source`,
         # an `exit` will close the user's console
         exit=return
     else
+        # shellcheck disable=SC2209
         # this script is not `source`-d,
         # it's safe to exit via `exit`
         exit=exit
@@ -71,7 +74,7 @@ showHelp()
 
     # if file not found, move 3 levels up (root dir) and append file name
     if ! test -f "${0}"; then
-        r=$(dirname ${PWD}); r=$(dirname ${r}); r=$(dirname ${r}); r=${r}/${0#*./};
+        r=$(dirname "${PWD}"); r=$(dirname "${r}"); r=$(dirname "${r}"); r=${r}/${0#*./};
     fi
 
     grep '^#/' "$r" | cut -c4-;
@@ -86,10 +89,14 @@ showVersion()
 
     # if file not found, move 3 levels up (root dir) and append file name
     if ! test -f "${0}"; then
-        r=$(dirname ${PWD}); r=$(dirname ${r}); r=$(dirname ${r}); r=${r}/${0#*./};
+        r=$(dirname "${PWD}"); r=$(dirname "${r}"); r=$(dirname "${r}"); r=${r}/${0#*./};
     fi
 
-    echo & cat ${r} | head -2 | tail -1 | sed 's/#//'
+    # print an empty line
+    echo
+
+    # shellcheck disable=SC2002
+    cat "${r}" | head -2 | tail -1 | sed 's/#//'
 }
 
 #..................................................................................

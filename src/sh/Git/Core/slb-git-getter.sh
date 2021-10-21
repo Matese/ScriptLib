@@ -20,10 +20,10 @@
 main()
 {
     # shellcheck source=/dev/null
+    {
     . slb-helper.sh && return 0
-
-    # shellcheck source=/dev/null
     . slb-argadd.sh "$@"
+    }
 
     # shellcheck disable=SC2154,SC2086
     if unvalued "r" $r; then return 1; fi
@@ -114,7 +114,7 @@ url()
 {
     url=$(echo "$1" | xargs)
     url=${url:6}
-    echo $url
+    echo "$url"
 }
 
 #..................................................................................

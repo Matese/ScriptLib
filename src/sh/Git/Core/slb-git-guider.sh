@@ -28,11 +28,11 @@
 #
 main()
 {
-    # default help
+    # shellcheck source=/dev/null
+    {
     . slb-helper.sh && return 0
-
-    # parse the arguments
     . slb-argadd.sh "$@"
+    }
 
     # if -dir argument is empty, set it to current directory
     if [ -z ${dir+x} ] || [ "${dir}" == "" ] || [ "${dir}" == "-dir" ]; then dir=$PWD; fi
@@ -43,7 +43,7 @@ main()
     setGitguiVar
 
     # check if has changes
-    if [[ `git status $dir --porcelain` ]]; then
+    if [[ $(git status "$dir" --porcelain) ]]; then
         # invoke git-gui
         eval "\"$wish\" \"$gitgui\" \"--working-dir\" \"$dir\"";
     fi

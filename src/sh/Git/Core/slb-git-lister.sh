@@ -23,10 +23,10 @@
 main()
 {
     # shellcheck source=/dev/null
+    {
     . slb-helper.sh && return 0
-
-    # shellcheck source=/dev/null
     . slb-argadd.sh "$@"
+    }
 
     # cache file
     f="$HOME/.scriptlib.lister"
@@ -56,32 +56,6 @@ main()
 
     # read cache file
     readCache "$f"
-}
-
-#..................................................................................
-# Check if variable is defined
-#
-defined()
-{
-    # if variable is unset or set to the empty string
-    if [ -z ${1+x} ]; then
-        return 1 # false
-    fi
-
-    return 0 # true
-}
-
-#..................................................................................
-# Check if file inexists
-#
-inexists()
-{
-    # if file do not exist
-    if [[ ! -f $1 ]]; then
-        return 0 # true
-    fi
-
-    return 1 # false
 }
 
 #..................................................................................
@@ -167,6 +141,32 @@ super()
     fi
 
     return 0 # true
+}
+
+#..................................................................................
+# Check if variable is defined
+#
+defined()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${1+x} ]; then
+        return 1 # false
+    fi
+
+    return 0 # true
+}
+
+#..................................................................................
+# Check if file inexists
+#
+inexists()
+{
+    # if file do not exist
+    if [[ ! -f $1 ]]; then
+        return 0 # true
+    fi
+
+    return 1 # false
 }
 
 #..................................................................................

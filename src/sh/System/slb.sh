@@ -34,11 +34,12 @@ main()
 
     # default help
     if [ "$cmd" == "-v" ] || [ "$cmd" == "--version" ] || [ "$cmd" == "--help" ] || [ "$cmd" == "/?" ]; then
+        # shellcheck disable=1091
         . slb-helper.sh && return 0
     fi
 
     # get all arguments but first and invoke the script
-    if [ "$cmd" != "" ]; then $cmd.sh ${@:2}; fi
+    if [ "$cmd" != "" ]; then $cmd.sh "${@:2}"; fi
 }
 
 #..................................................................................

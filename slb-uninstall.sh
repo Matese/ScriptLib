@@ -22,16 +22,18 @@ main()
     system=$PWD"/src/sh/System"
 
     # default help
-    . $system/slb-helper.sh && return 0
+    # shellcheck source=/dev/null
+    . "$system/slb-helper.sh" && return 0
 
     # parse the arguments
-    . $system/slb-argadd.sh "$@"
+    # shellcheck source=/dev/null
+    . "$system/slb-argadd.sh" "$@"
 
     # if not quiet
     if [ -z ${q+x} ]; then echo "Uninstalling ScriptLib..."; fi
 
     # clean .bash_profile
-    cleanBashProfile $q
+    cleanBashProfile "$q"
 
     # if not quiet
     if [ -z ${q+x} ]; then echo "Done!"; fi
@@ -46,13 +48,13 @@ cleanBashProfile()
     if [ ! -e "$HOME/.bash_profile" ] ; then touch "$HOME/.bash_profile"; fi
 
     # if file is empty, add a line to enable sed to work
-    [ -s $HOME/.bash_profile ] || echo "" >> "$HOME/.bash_profile"
+    [ -s "$HOME/.bash_profile" ] || echo "" >> "$HOME/.bash_profile"
 
     # variables
     line2="# ScriptLib"
     line16="#.................................................................................."
-    sline2=$(sed -n '2p' $HOME/.bash_profile)
-    sline16=$(sed -n '16p' $HOME/.bash_profile)
+    sline2=$(sed -n '2p' "$HOME/.bash_profile")
+    sline16=$(sed -n '16p' "$HOME/.bash_profile")
 
     # check if need to remove lines
     if [ "$line2" == "$sline2" ] && [ "$line16" == "$sline16" ]; then
@@ -61,6 +63,7 @@ cleanBashProfile()
     fi
 
     # reload
+    # shellcheck source=/dev/null
     source "$HOME/.bash_profile"
 
     # if not quiet
@@ -68,7 +71,7 @@ cleanBashProfile()
         echo
         echo User variables:
         echo
-        echo $PATH
+        echo "$PATH"
         echo
     fi
 }

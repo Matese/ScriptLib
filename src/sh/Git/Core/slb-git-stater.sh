@@ -13,6 +13,12 @@
 #
 main()
 {
+    # shellcheck source=/dev/null
+    {
+    . slb-helper.sh && return 0
+    . slb-argadd.sh "$@"
+    }
+
     # if there is no param
     if [ -z "$1" ]; then
         dir=${PWD}; # dir receives current dir
@@ -21,7 +27,7 @@ main()
     fi
 
     # check if has changes
-    if [[ `git status ${dir} --porcelain` ]]; then
+    if [[ $(git status "${dir}" --porcelain) ]]; then
         # save in file
         echo "There are changes in ${dir}" > /tmp/slb-git-stater.dat
 

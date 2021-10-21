@@ -17,6 +17,12 @@
 #
 main()
 {
+    # shellcheck source=/dev/null
+    {
+    . slb-helper.sh && return 0
+    . slb-argadd.sh "$@"
+    }
+
     # check if is a git repository directory
     if [ -d .git ]; then
         readBranchVar
@@ -32,24 +38,24 @@ main()
 #
 checkSuperproject()
 {
-    echo "checking superproject..." && git guider $PWD && git stater $PWD && readStaterVar
+    echo "checking superproject..." && git guider "$PWD" && git stater "$PWD" && readStaterVar
 
     if [ "$value" == "null" ]; then
-        git pull --quiet origin $current_branch && git stater $PWD && readStaterVar
+        git pull --quiet origin "$current_branch" && git stater "$PWD" && readStaterVar
 
         if [ "$value" == "null" ]; then
             git submodule foreach --quiet "git push --quiet origin $current_branch"
-            git push --quiet origin $current_branch
+            git push --quiet origin "$current_branch"
             git submodule foreach --quiet "git pull --quiet"
             git pull --quiet
             git submodule foreach --quiet 'git fetch --dry-run'
             git fetch --dry-run
             echo "finished"
         else
-            echo "fatal: cannot save. "$value
+            echo "fatal: cannot save. $value"
         fi;
     else
-        echo "fatal: cannot save. "$value
+        echo "fatal: cannot save. $value"
     fi;
 }
 
@@ -61,19 +67,23 @@ checkSubmodules()
     echo "checking submodules..."
 
     # invoke git-gui if status has changes, and then check status
+    # shellcheck disable=SC2016
+    {
     nullSater && git submodule foreach --quiet 'git guider $toplevel/$name'
     git submodule foreach --quiet 'git stater $toplevel/$name' && readStaterVar
+    }
 
     if [ "$value" == "null" ]; then
         # invoke git pull, and then check status
         git submodule foreach --quiet "git pull --quiet origin $current_branch"
+        # shellcheck disable=SC2016
         git submodule foreach --quiet 'git stater $toplevel/$name' && readStaterVar
     else
-        echo "fatal: cannot save. "$value
+        echo "fatal: cannot save. $value"
     fi;
 
     if [ "$value" != "null" ]; then
-        echo "fatal: cannot save. "$value
+        echo "fatal: cannot save. $value"
         exit 0
     fi;
 }
@@ -99,7 +109,7 @@ nullSater()
 #
 readStaterVar()
 {
-    value=`cat /tmp/slb-git-stater.dat`
+    value=$(cat /tmp/slb-git-stater.dat)
 }
 
 #..................................................................................

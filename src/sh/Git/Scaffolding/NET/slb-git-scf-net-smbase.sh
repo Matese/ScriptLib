@@ -13,15 +13,17 @@
 #
 main()
 {
-    # default help
+    # shellcheck source=/dev/null
+    {
     . slb-helper.sh && return 0
-
-    # parse the arguments
     . slb-argadd.sh "$@"
+    }
 
-    # check for empty arguments
-    if [ -z ${d+x} ] || [ "${d}" == "" ] || [ "${d}" == "-d" ]; then d=$PWD; fi
-    if [ -z ${n+x} ] || [ "${n}" == "" ] || [ "${n}" == "-n" ]; then echo "-n is not defined" & return 1; fi
+    # shellcheck disable=SC2154,SC2086
+    if unvalued "d" $f >/dev/null; then d=$PWD; fi
+
+    # shellcheck disable=SC2154,SC2086
+    if unvalued "n" $n; then return 1; fi
 
     # generate structure
     scaffold "$d/$n"
@@ -33,9 +35,8 @@ main()
 scaffold()
 {
     root=$1
-    core=$2
-    genSm $root
-    genReadme $root
+    genSm "$root"
+    genReadme "$root"
     slb-git-scf-net-licnse.sh -d:"$root"
 }
 
@@ -45,10 +46,10 @@ scaffold()
 genSm()
 {
     mkdir -p "$1"
-    mkdir -p "$1/docs" && >"$1/docs/.gitkeep"
-    mkdir -p "$1/lib" && >"$1/lib/.gitkeep"
-    mkdir -p "$1/src" && >"$1/src/.gitkeep"
-    mkdir -p "$1/tests" && >"$1/tests/.gitkeep"
+    mkdir -p "$1/docs" && :>"$1/docs/.gitkeep"
+    mkdir -p "$1/lib" && :>"$1/lib/.gitkeep"
+    mkdir -p "$1/src" && :>"$1/src/.gitkeep"
+    mkdir -p "$1/tests" && :>"$1/tests/.gitkeep"
 }
 
 #..................................................................................
@@ -57,17 +58,40 @@ genSm()
 genReadme()
 {
     f="$1/README.md"
-    >$f
-    echo "Submodule structure for .NET" >> $f
-    echo "" >> $f
-    echo "/" >> $f
-    echo "  docs/                 - Documentation (markdown, help, etc.)" >> $f
-    echo "  lib/                  - Libraries" >> $f
-    echo "  src/                  - Source code" >> $f
-    echo "  tests/                - Test projects" >> $f
-    echo "  LICENSE               - License" >> $f
-    echo "  README.md             - Readme" >> $f
-    echo "" >> $f
+    :>"$f"
+
+    {
+        echo "Submodule structure for .NET"
+        echo ""
+        echo "/"
+        echo "  docs/                 - Documentation (markdown, help, etc.)"
+        echo "  lib/                  - Libraries"
+        echo "  src/                  - Source code"
+        echo "  tests/                - Test projects"
+        echo "  LICENSE               - License"
+        echo "  README.md             - Readme"
+        echo ""
+    } >> "$f"
+}
+
+#..................................................................................
+# Check if variable is empty
+#
+unvalued()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${2+x} ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    # if variable is set to it´s own name
+    if [ "${2}" == "-${1}" ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    return 1 # false
 }
 
 #..................................................................................

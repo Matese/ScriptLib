@@ -17,24 +17,30 @@
 #
 main()
 {
-    # default help
+    # shellcheck source=/dev/null
+    {
     . slb-helper.sh && return 0
-
-    # parse the arguments
     . slb-argadd.sh "$@"
+    }
 
-    # optional arguments
-    if [ -z ${f+x} ] && [ -z ${d+x} ]; then echo "-d or -f is not defined" & return 1; fi
+    # shellcheck disable=SC2154,SC2086
+    {
+    if undefined "f" $f >/dev/null &&
+       undefined "d" $d >/dev/null ; then echo "-f or -d is not defined" & return 1; fi
 
-    # check for empty arguments
-    if [ -z ${l+x} ] || [ "${l}" == "" ] || [ "${l}" == "-l" ]; then echo "-l is not defined" & return 1; fi
-    if [ -z ${t+x} ] || [ "${t}" == "" ] || [ "${t}" == "-t" ]; then echo "-t is not defined" & return 1; fi
+    if unvalued "l" $l; then return 1; fi
+    if unvalued "t" $t; then return 1; fi
 
-    # file
-    if [ ! -z ${f+x} ]; then symlinkFile; fi
+    if defined $f; then
+        symlinkFile;
+        return 0
+    fi
 
-    # directory
-    if [ ! -z ${d+x} ]; then symlinkDirectory; fi
+    if defined $d; then
+        symlinkDirectory;
+        return 0
+    fi
+    }
 }
 
 #..................................................................................
@@ -70,6 +76,53 @@ symlinkDirectory()
     else
         ln -s "$t" "$l"
     fi
+}
+
+#..................................................................................
+# Check if variable is defined
+#
+defined()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${1+x} ]; then
+        return 1 # false
+    fi
+
+    return 0 # true
+}
+
+#..................................................................................
+# Check if variable is undefined
+#
+undefined()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${2+x} ]; then
+        echo "-${1} is not defined"
+        return 0 # true
+    fi
+
+    return 1 # false
+}
+
+#..................................................................................
+# Check if variable is empty
+#
+unvalued()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${2+x} ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    # if variable is set to it´s own name
+    if [ "${2}" == "-${1}" ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    return 1 # false
 }
 
 #..................................................................................

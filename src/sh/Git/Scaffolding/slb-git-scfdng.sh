@@ -9,9 +9,9 @@
 #
 # Remarks:
 #   Inspired by
+#     -> https://reactgo.com/bash-remove-first-character-of-string/
 #     -> https://stackoverflow.com/questions/3790101/bash-script-regex-to-get-directory-path-up-nth-levels
 #     -> https://stackoverflow.com/questions/918886/how-do-i-split-a-string-on-a-delimiter-in-bash
-#     -> https://reactgo.com/bash-remove-first-character-of-string/
 #     -> https://www.cyberciti.biz/faq/finding-bash-shell-array-length-elements/
 #..................................................................................
 
@@ -20,37 +20,34 @@
 #
 main()
 {
-    # default help
+    # shellcheck source=/dev/null
+    {
     . slb-helper.sh && return 0
-
-    # parse the arguments
     . slb-argadd.sh "$@"
+    }
 
-    # check for empty arguments
-    if [ -z ${ds+x} ] || [ "${ds}" == "" ] || [ "${ds}" == "-ds" ]; then echo "-ds is not defined" & return 1; fi
+    # shellcheck disable=SC2154,SC2086
+    if unvalued "ds" $ds; then return 1; fi
 
-    # Generate .NET superproject/submodule
-    if [ ! -z ${dm+x} ]; then
+    # shellcheck disable=SC2154,SC2086
+    if defined $dm; then
 
-        if [ "${dm}" == "" ] || [ "${dm}" == "-dm" ]; then echo "-dm is not defined" & return 1; fi
+        if unvalued "dm" $dm; then return 1; fi
 
         # read values
-        readDs $ds
-        readDm $dm
+        readDs "$ds" && readDm "$dm"
 
-        # generate
+        # generate .NET superproject/submodule
         slb-git-scf-net-genspm.sh -sd:"$dsdir" -su:"$dsups" -sn:"$dsnam" -md:"$dmdir" -mu:"$dmups" -mn:"$dmnam"
 
-    # Generate .NET superproject/core submodule
-    elif [ ! -z ${dc+x} ]; then
+    elif defined $dc; then
 
-        if [ "${dc}" == "" ] || [ "${dc}" == "-dc" ]; then echo "-dc is not defined" & return 1; fi
+        if unvalued "dc" $dc; then return 1; fi
 
         # read values
-        readDs $ds
-        readDc $dc
+        readDs "$ds" && readDc "$dc"
 
-        # generate
+        # generate .NET superproject/core submodule
         slb-git-scf-net-genspm.sh -sd:"$dsdir" -su:"$dsups" -sn:"$dsnam" -cd:"$dcdir" -cu:"$dcups" -cn:"$dcnam"
     else
         echo "-dm or dc is not defined"
@@ -114,7 +111,7 @@ readDc()
     if [ "$length" == "1" ]; then
         dcdir=$PWD
         dcups="$(slb.sh config -g:"upsurl")"
-        dcnam=${ADDR[0]} &&  if [[ $dcnam = [* ]]; then dcnam=${ADDR[0]:1}; fi
+        dcnam=${ADDR[0]} && if [[ $dcnam = [* ]]; then dcnam=${ADDR[0]:1}; fi
     elif [ "$length" == "2" ]; then
         dcdir=$PWD
         dcups=${ADDR[0]} && if [[ $dcups = [* ]]; then dcups=${ADDR[0]:1}; fi
@@ -124,6 +121,39 @@ readDc()
         dcups=${ADDR[1]} && if [[ $dcups = [* ]]; then dcups=${ADDR[1]:1}; fi
         dcnam=${ADDR[2]} && if [[ $dcnam = [* ]]; then dcnam=${ADDR[2]:1}; fi
     fi
+}
+
+#..................................................................................
+# Check if variable is empty
+#
+unvalued()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${2+x} ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    # if variable is set to it´s own name
+    if [ "${2}" == "-${1}" ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    return 1 # false
+}
+
+#..................................................................................
+# Check if variable is defined
+#
+defined()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${1+x} ]; then
+        return 1 # false
+    fi
+
+    return 0 # true
 }
 
 #..................................................................................

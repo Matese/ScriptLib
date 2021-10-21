@@ -19,40 +19,43 @@
 main()
 {
     # shellcheck source=/dev/null
-    # default help
+    {
     . slb-helper.sh && return 0
-
-    # shellcheck source=/dev/null
-    # parse the arguments
     . slb-argadd.sh "$@"
+    }
 
     # get
-    if [ ! -z ${g+x} ]; then
-        if [ "${g}" == "" ] || [ "${g}" == "-g" ]; then echo "-g is not defined" & return 1; fi
-        getConfig $g
+    # shellcheck disable=SC2154,SC2086
+    if defined $g; then
+        if unvalued "g" $g; then return 1; fi
+        getConfig "$g"
         return 0;
     fi
 
     # delete
-    if [ ! -z ${d+x} ]; then
-        if [ "${d}" == "" ] || [ "${d}" == "-d" ]; then echo "-d is not defined" & return 1; fi
-        delConfig $d
+    # shellcheck disable=SC2154,SC2086
+    if defined $d; then
+        if unvalued "d" $d; then return 1; fi
+        delConfig "$d"
         echo "Configuration deleted!"
         return 0;
     fi
 
     # set key/value
-    if [ ! -z ${sk+x} ] && [ ! -z ${sv+x} ]; then
-        if [ "${sk}" == "" ] || [ "${sk}" == "-sk" ]; then echo "-sk is not defined" & return 1; fi
-        if [ "${sv}" == "" ] || [ "${sv}" == "-sv" ]; then echo "-sv is not defined" & return 1; fi
-        setConfig $sk $sv
+    # shellcheck disable=SC2154,SC2086
+    if defined $sk && defined $sb; then
+        if unvalued "sk" $sk; then return 1; fi
+        if unvalued "sv" $sv; then return 1; fi
+        setConfig "$sk" "$sv"
         echo "Configuration updated!"
         return 0;
     fi
 
-    # check for empty arguments
-    if [ -z ${n+x} ] || [ "${n}" == "" ] || [ "${n}" == "-n" ]; then echo "-n is not defined" & return 1; fi
-    if [ -z ${e+x} ] || [ "${e}" == "" ] || [ "${e}" == "-e" ]; then echo "-e is not defined" & return 1; fi
+    # shellcheck disable=SC2154,SC2086
+    {
+    if unvalued "n" $n; then return 1; fi
+    if unvalued "e" $e; then return 1; fi
+    }
 
     # git config
     gitConfig
@@ -117,7 +120,40 @@ setConfig()
 #
 delConfig()
 {
-    test -f "$HOME/.scriptlib" && sed -i "/^$(echo $1 | sed -e 's/[]\/$*.^[]/\\&/g').*$/d" "$HOME/.scriptlib"
+    test -f "$HOME/.scriptlib" && sed -i "/^$(echo "$1" | sed -e 's/[]\/$*.^[]/\\&/g').*$/d" "$HOME/.scriptlib"
+}
+
+#..................................................................................
+# Check if variable is defined
+#
+defined()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${1+x} ]; then
+        return 1 # false
+    fi
+
+    return 0 # true
+}
+
+#..................................................................................
+# Check if variable is empty
+#
+unvalued()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${2+x} ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    # if variable is set to it´s own name
+    if [ "${2}" == "-${1}" ]; then
+        echo "-${1} is empty"
+        return 0 # true
+    fi
+
+    return 1 # false
 }
 
 #..................................................................................
