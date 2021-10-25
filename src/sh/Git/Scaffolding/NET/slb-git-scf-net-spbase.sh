@@ -20,13 +20,11 @@ main()
     }
 
     # shellcheck disable=SC2154,SC2086
-    if unvalued "d" $f >/dev/null; then d=$PWD; fi
-
-    # shellcheck disable=SC2154,SC2086
+    {
+    if unvalued "d" $d >/dev/null; then d=$PWD; fi
     if unvalued "n" $n; then return 1; fi
-
-    # shellcheck disable=SC2154,SC2086
     if unvalued "c" $c; then return 1; fi
+    }
 
     # generate structure
     scaffold "$d/$n" "${c}"
@@ -95,21 +93,22 @@ genReadme()
     :>"$f"
 
     {
-        echo "Superproject structure for .NET"
+        echo "# Superproject structure for .NET"
         echo ""
-        echo "/"
-        echo "  artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)"
-        echo "  packages/             - Packages (nuget, etc)"
-        echo "  modules/              - Git submodules"
-        echo "  .gitattributes        - https://git-scm.com/docs/gitattributes"
-        echo "  .gitignore            - https://git-scm.com/docs/gitignore"
-        echo "  .gitmodules           - https://git-scm.com/docs/gitmodules"
-        echo "  .root                 - Trick to find root directory"
-        echo "  .runsettings          - Unit tests configurations"
-        echo "  Directory.Build.props - Build customizations"
-        echo "  LICENSE               - License"
-        echo "  README.md             - Readme"
-        echo ""
+        echo "\`\`\`text"
+        echo "📂"
+        echo "┣📂artifacts/            - Build outputs (nupkgs, dlls, pdbs, etc.)"
+        echo "┣📂packages/             - Packages (nuget, etc)"
+        echo "┣📂modules/              - Git submodules"
+        echo "┣📜.gitattributes        - https://git-scm.com/docs/gitattributes"
+        echo "┣📜.gitignore            - https://git-scm.com/docs/gitignore"
+        echo "┣📜.gitmodules           - https://git-scm.com/docs/gitmodules"
+        echo "┣📜.root                 - Trick to find root directory and core module"
+        echo "┣📜.runsettings          - Unit tests configurations"
+        echo "┣📜Directory.Build.props - Build customizations"
+        echo "┣📜LICENSE               - License"
+        echo "┗📜README.md             - Readme"
+        echo "\`\`\`"
     } >> "$f"
 }
 

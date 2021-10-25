@@ -20,10 +20,10 @@ main()
     }
 
     # shellcheck disable=SC2154,SC2086
-    if unvalued "d" $f >/dev/null; then d=$PWD; fi
-
-    # shellcheck disable=SC2154,SC2086
+    {
+    if unvalued "d" $d >/dev/null; then d=$PWD; fi
     if unvalued "n" $n; then return 1; fi
+    }
 
     # generate structure
     scaffold "$d/$n"
@@ -61,16 +61,17 @@ genReadme()
     :>"$f"
 
     {
-        echo "Submodule structure for .NET"
+        echo "# Submodule structure for .NET"
         echo ""
-        echo "/"
-        echo "  docs/                 - Documentation (markdown, help, etc.)"
-        echo "  lib/                  - Libraries"
-        echo "  src/                  - Source code"
-        echo "  tests/                - Test projects"
-        echo "  LICENSE               - License"
-        echo "  README.md             - Readme"
-        echo ""
+        echo "\`\`\`text"
+        echo "📂"
+        echo "┣📂docs                 - Documentation (markdown, help, etc.)"
+        echo "┣📂lib                  - Libraries"
+        echo "┣📂src                  - Source code"
+        echo "┣📂tests                - Test projects"
+        echo "┣📜LICENSE              - License"
+        echo "┗📜README.md            - Readme"
+        echo "\`\`\`"
     } >> "$f"
 }
 
