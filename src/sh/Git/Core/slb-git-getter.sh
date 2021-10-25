@@ -53,6 +53,7 @@ main()
             # shellcheck disable=SC2154,SC2086
             if defined $u; then
                 echo "$url"
+                return 0 # true
             else
                 # clone the url (that will be found two lines down)
                 git clone "$url"
