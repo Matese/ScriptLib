@@ -58,11 +58,8 @@ main()
                 # clone the url (that will be found two lines down)
                 git clone "$url"
 
-                # go to cloned dir
-                cd "${PWD}/$r" || exit
-
                 # initialize the repository
-                init "$url" "$b"
+                init "$url" "$b" "${PWD}/$r"
             fi
 
             return 0 # true
@@ -81,9 +78,16 @@ main()
 init()
 {
     if super "$1"; then
+
+        # go to cloned dir
+        cd "$3" || exit
+
         git submodule update --init
         git submodule foreach git checkout "${2}"
     fi
+
+    # go to cloned dir
+    cd "$3" || exit
 
     git checkout "$2"
 }
