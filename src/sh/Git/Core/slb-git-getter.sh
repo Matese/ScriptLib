@@ -26,10 +26,10 @@ main()
     }
 
     # shellcheck disable=SC2154,SC2086
+    {
     if unvalued "r" $r; then return 1; fi
-
-    # shellcheck disable=SC2154,SC2086
-    if unvalued "b" $b; then return 1; fi
+    if unvalued "b" $f >/dev/null ; then b="master"; fi
+    }
 
     # cache file
     f=$HOME/.scriptlib.lister
@@ -49,23 +49,29 @@ main()
             # get the repository url
             url="$(url "${arr[i + 2]}")"
 
-            # clone the url (that will be found two lines down)
-            git clone "$url"
+            # check if just want to get the URL
+            # shellcheck disable=SC2154,SC2086
+            if defined $u; then
+                echo "$url"
+            else
+                # clone the url (that will be found two lines down)
+                git clone "$url"
 
-            # go to cloned dir
-            cd "${PWD}/$r" || exit
+                # go to cloned dir
+                cd "${PWD}/$r" || exit
 
-            # initialize the repository
-            init "$url" "$b"
+                # initialize the repository
+                init "$url" "$b"
+            fi
 
-            return 0
+            return 0 # true
         fi
 
     done
 
     echo "Reporitory not found!"
 
-    return 1
+    return 1 # false
 }
 
 #..................................................................................
@@ -136,6 +142,19 @@ repo()
 }
 
 #..................................................................................
+# Check if variable is defined
+#
+defined()
+{
+    # if variable is unset or set to the empty string
+    if [ -z ${1+x} ]; then
+        return 1 # false
+    fi
+
+    return 0 # true
+}
+
+#..................................................................................
 # Check if variable is empty
 #
 unvalued()
@@ -176,10 +195,11 @@ main "$@"
 #..................................................................................
 #..HELP...
 #/
-#/ Wish git-gui if status has changes.
+#/ Clone superproject and it´s submodules
 #/
-#/ slb-git-getter.sh <-r:> <-b:> [-v] [/?]
+#/ slb-git-getter.sh <-r:> [-b:] [-u] [-v] [/?]
 #/   -r         Repo
 #/   -b         Branch
+#/   -u         Do not clone, just get the reporitory URL
 #/   -v         Shows the script version
 #/   /?         Shows this help
