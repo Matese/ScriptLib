@@ -33,12 +33,18 @@ function main {
     $securityPolicySid = getSecurityPolicySid
 
     # check if needs to add symlink permission
-    if (-not $securityPolicySid.Contains($currentUserSid)) {
+    if (([string]::IsNullOrEmpty($securityPolicySid)))
+    {
         addSymlinkPermission $currentUserSid $securityPolicySid
     }
     else {
-        Write-Host "Account already in ""Create SymLink""" -ForegroundColor Green
-    }
+        if (-not $securityPolicySid.Contains($currentUserSid)) {
+            addSymlinkPermission $currentUserSid $securityPolicySid
+        }
+        else {
+            Write-Host "Account already in ""Create SymLink""" -ForegroundColor Green
+        }
+    } 
 }
 
 #..................................................................................
