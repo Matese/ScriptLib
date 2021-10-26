@@ -95,19 +95,19 @@ ENDLOCAL & GOTO :eof
 
     :: create new temp file
     SET -t="%TEMP%\temp_file.tmp"
-    DEL %-t% 2>nul
+    DEL %-t% 2>NUL
     TYPE NUL>%-t%
 
     :: copy existing file to a temporary file
-    COPY %-f% %-t% 1>nul
+    COPY %-f% %-t% 1>NUL
 
     :: create new file
-    DEL %-f% 2>nul
+    DEL %-f% 2>NUL
     TYPE NUL>%-f%
 
     :: get current encoding and then change it to UTF8
     FOR /f "tokens=2 delims=:." %%x IN ('chcp') DO SET cp=%%x
-    CHCP 65001 >nul
+    CHCP 65001 >NUL
 
     SETLOCAL EnableDelayedExpansion
 
@@ -131,7 +131,7 @@ ENDLOCAL & GOTO :eof
     SETLOCAL DisableDelayedExpansion
 
     :: set old encoding
-    CHCP %cp% >nul
+    CHCP %cp% >NUL
 
     :: append content of temp file
     FOR /F %%i IN (%-t:"=%) DO ECHO %%i >> %-f%

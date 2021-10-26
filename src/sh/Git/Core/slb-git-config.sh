@@ -18,6 +18,7 @@
 #
 main()
 {
+
     # shellcheck source=/dev/null
     {
     . slb-helper.sh && return 0
@@ -43,7 +44,7 @@ main()
 
     # set key/value
     # shellcheck disable=SC2154,SC2086
-    if defined $sk && defined $sb; then
+    if defined $sk && defined $sv; then
         if unvalued "sk" $sk; then return 1; fi
         if unvalued "sv" $sv; then return 1; fi
         setConfig "$sk" "$sv"
@@ -56,6 +57,27 @@ main()
     if unvalued "n" $n; then return 1; fi
     if unvalued "e" $e; then return 1; fi
     }
+
+    # upsurl
+    # shellcheck disable=SC2154,SC2086
+    if defined $u; then
+        if unvalued "u" $u; then return 1; fi
+        setConfig "upsurl" "$u"
+    fi
+
+    # upsgid
+    # shellcheck disable=SC2154,SC2086
+    if defined $i; then
+        if unvalued "i" $i; then return 1; fi
+        setConfig "upsgid" "$i"
+    fi
+
+    # upsapi
+    # shellcheck disable=SC2154,SC2086
+    if defined $t; then
+        if unvalued "t" $t; then return 1; fi
+        setConfig "upsapi" "$t"
+    fi
 
     # git config
     gitConfig
@@ -166,9 +188,12 @@ main "$@"
 #/
 #/ Create git configurations.
 #/
-#/ slb-git-config [-n:] [-e:] [-g:] [-d:] [-sk:-sv:] [-v] [/?]
+#/ slb-git-config <-n:> <-e:> [u:] [i:] [t:] [-g:] [-d:] [-sk:-sv:] [-v] [/?]
 #/   -n:       The name of the user
 #/   -e:       The email of the user
+#/   -u        Upstream URL
+#/   -i        Upstream Group ID
+#/   -t        Upstream API Authorization Token
 #/   -g:       Get a configuration
 #/   -d:       Delete a configuration
 #/   -sk:      Set configuration key
@@ -176,11 +201,6 @@ main "$@"
 #/   -v        Shows the script version
 #/   /?        Shows this help
 #/
-#/ Possible configurations are:
-#/   upsurl     Upstream URL
-#/   upsgid     Upstream Group ID
-#/   upsapi     Upstream API Authorization Token
-#/
 #/ Sample:
-#/    slb-git-config -n:"Juca Pirama" -e:jucapirama@bixao.com.br
-#/    slb-git-config -sk:upsurl -sv:"C:/Users/Bixao/Repos"
+#/    slb-git-config -n:"Juca Pirama" -e:jucapirama@bixao.com.br -u:https://gitlab.com/xxx -i:xxx -t:xxx
+#/    slb-git-config -n:"Juca Pirama" -e:jucapirama@bixao.com.br -u:"C:/Users/Bixao/Repos"

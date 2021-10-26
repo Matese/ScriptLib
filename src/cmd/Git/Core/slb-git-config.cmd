@@ -19,30 +19,34 @@
 @ECHO OFF
 SETLOCAL
 
+:: needs to go first (otherwise it can override arguments)
+CALL :installDependencies
+
 :: default help
 CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
 :: parse the arguments
 CALL slb-argadd %*
 
-:: install dependencies
-CALL :installDependencies
+:: script slb-git-config.sh
+SET -script=-sh:"%~dp0%0.sh"
+SET -script=%-script:src\cmd=src\sh%
 
 :: Get a configuration
 IF DEFINED -g (
-    CALL :getConfig %~f0 %~1 %~dp0%0.sh %*
+    CALL slb-wrappr %-script% '%*'
     GOTO :eof
 )
 
 :: Delete a configuration
 IF DEFINED -d (
-    CALL :delConfig %~f0 %~1 %~dp0%0.sh %*
+    CALL slb-wrappr %-script% '%*'
     GOTO :eof
 )
 
 :: Set a configuration
 IF DEFINED -sk (
-    CALL :setConfig %~f0 %~1 %~dp0%0.sh %*
+    CALL slb-wrappr %-script% '%*'
     GOTO :eof
 )
 
@@ -52,59 +56,31 @@ IF "%-n%" EQU "1" ECHO -n is not defined & GOTO :eof
 IF NOT DEFINED -e ECHO -e is not defined & GOTO :eof
 IF "%-e%" EQU "1" ECHO -e is not defined & GOTO :eof
 
-:: get this script path
+:: upsurl
+IF DEFINED -u (
+    CALL slb-wrappr %-script% '-sk:"upsurl" -sv:"%-u%"' >NUL
+)
+
+:: upsgid
+if DEFINED -i (
+    CALL slb-wrappr %-script% '-sk:"upsgid" -sv:"%-i%"' >NUL
+)
+
+:: upsapi
+if DEFINED -t (
+    CALL slb-wrappr %-script% '-sk:"upsapi" -sv:"%-t%"' >NUL
+)
+
+:: script dir as linux
 SET "-path=%~p0"
 SET "-drive=%~d0"
 SET "-scriptdir=/%-drive:~0,1%%-path:\=/%"
 SET -scriptdir=%-scriptdir:/ScriptLib/src/cmd/=/ScriptLib/src/sh/%
 CALL :gitConfig %-scriptdir%
 
+ECHO Configuration created!
+
 ENDLOCAL & GOTO :eof
-
-::......................................................................................................................
-:: Get configuration
-::
-:getConfig
-    SETLOCAL
-
-    :: boilerplate
-    CALL slb-helper "%1" "%2" >NUL
-    IF DEFINED -help SET -args=-arg:%-help%
-    IF NOT DEFINED -help SET -args='%4'
-    SET -script=-sh:"%3"
-    CALL slb-wrappr %-script% %-args%
-
-    ENDLOCAL & GOTO :eof
-
-::......................................................................................................................
-:: Set configuration
-::
-:setConfig
-    SETLOCAL
-
-    :: boilerplate
-    CALL slb-helper "%1" "%2" >NUL
-    IF DEFINED -help SET -args=-arg:%-help%
-    IF NOT DEFINED -help SET -args='%4'
-    SET -script=-sh:"%3"
-    CALL slb-wrappr %-script% %-args%
-
-    ENDLOCAL & GOTO :eof
-
-::......................................................................................................................
-:: Delete configuration
-::
-:delConfig
-    SETLOCAL
-
-    :: boilerplate
-    CALL slb-helper "%1" "%2" >NUL
-    IF DEFINED -help SET -args=-arg:%-help%
-    IF NOT DEFINED -help SET -args='%4'
-    SET -script=-sh:"%3"
-    CALL slb-wrappr %-script% %-args%
-
-    ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
 :: Create Git configuration
@@ -165,11 +141,13 @@ ENDLOCAL & GOTO :eof
 ::
 :installDependencies
     SETLOCAL
-
+    ECHO.
     CALL slb slperm
+    ECHO.
     CALL slb ichoco -i
-    CALL choco install jq
-
+    ECHO.
+    CALL C:\ProgramData\chocolatey\choco install jq
+    ECHO.
     ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
@@ -177,9 +155,12 @@ ENDLOCAL & GOTO :eof
 ::
 :: Create git configurations.
 ::
-:: slb-git-config <-n:> <-e:> [-g:] [-d:] [-sk:-sv:] [-v] [/?]
+:: slb-git-config <-n:> <-e:> [u:] [i:] [t:] [-g:] [-d:] [-sk:-sv:] [-v] [/?]
 ::   -n:       The name of the user
 ::   -e:       The email of the user
+::   -u        Upstream URL
+::   -i        Upstream Group ID
+::   -t        Upstream API Authorization Token
 ::   -g:       Get a configuration
 ::   -d:       Delete a configuration
 ::   -sk:      Set configuration key
@@ -187,11 +168,6 @@ ENDLOCAL & GOTO :eof
 ::   -v        Shows the script version
 ::   /?        Shows this help
 ::
-:: Possible configurations are:
-::   upsurl     Upstream URL
-::   upsgid     Upstream Group ID
-::   upsapi     Upstream API Authorization Token
-::
 :: Sample:
-::    slb-git-config -n:"Juca Pirama" -e:jucapirama@bixao.com.br
-::    slb-git-config -sk:upsurl -sv:"C:/Users/Bixao/Repos"
+::    slb-git-config -n:"Juca Pirama" -e:jucapirama@bixao.com.br -u:https://gitlab.com/xxx -i:xxx -t:xxx
+::    slb-git-config -n:"Juca Pirama" -e:jucapirama@bixao.com.br -u:"C:/Users/Bixao/Repos"
