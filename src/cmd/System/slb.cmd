@@ -27,6 +27,7 @@ IF "%_cmd%"=="scfdng" SET _cmd=slb-git-scfdng
 IF "%_cmd%"=="sender" SET _cmd=slb-git-sender
 IF "%_cmd%"=="stater" SET _cmd=slb-git-stater
 IF "%_cmd%"=="ichoco" SET _cmd=slb-win-ichoco
+IF "%_cmd%"=="igpedt" SET _cmd=slb-win-igpedt
 IF "%_cmd%"=="slperm" SET _cmd=slb-win-slperm
 IF "%_cmd%"=="svcmgr" SET _cmd=slb-win-svcmgr
 IF "%_cmd%"=="pthpty" SET _cmd=slb-pthpty
@@ -74,6 +75,7 @@ ENDLOCAL & GOTO :eof
 ::
 ::  (Windows)
 ::   ichoco      Chocolatey package manager installer
+::   igpedt      Group policy editor installer
 ::   slperm      Add Symlink permissions to Local Security Policy
 ::   svcmgr      Communicates with Service Control Manager interacting with services
 ::
