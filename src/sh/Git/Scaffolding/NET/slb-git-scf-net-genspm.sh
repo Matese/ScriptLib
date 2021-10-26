@@ -245,8 +245,8 @@ genSubInSuper()
     git clone "$mu$mn" "$td/$mn"
     cd "$td/$mn" || exit
     slb-git-scf-net-smbase.sh -d:"$td" -n:"$mn"
-    slb-symlnk.sh -f -l:"$td/$mn/.gitignore" -t:"$sd/$sn/modules/$cn/src/Git/.gitignore"
-    slb-symlnk.sh -f -l:"$td/$mn/.gitattributes" -t:"$sd/$sn/modules/$cn/src/Git/.gitattributes"
+    slb-symlnk.sh -f -l:".gitignore" -t:"../$cn/src/Git/.gitignore"
+    slb-symlnk.sh -f -l:".gitattributes" -t:"../$cn/src/Git/.gitattributes"
     git add .
     git commit -m "submodule $mn created"
     git branch -m master

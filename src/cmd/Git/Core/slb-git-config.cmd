@@ -19,11 +19,11 @@
 @ECHO OFF
 SETLOCAL
 
-:: needs to go first (otherwise it can override arguments)
-CALL :installDependencies
-
 :: default help
 CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
+
+:: needs to go first (otherwise it can override arguments)
+CALL :installDependencies
 
 :: parse the arguments
 CALL slb-argadd %*

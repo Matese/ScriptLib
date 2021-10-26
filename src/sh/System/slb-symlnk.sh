@@ -48,8 +48,8 @@ main()
 #
 parseWinPaths()
 {
-    l=$(cygpath --windows --absolute "$l")
-    t=$(cygpath --windows --absolute "$t")
+    l=$(cygpath --windows "$l")
+    t=$(cygpath --windows "$t")
 }
 
 #..................................................................................
