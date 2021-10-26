@@ -76,7 +76,7 @@ ENDLOCAL & GOTO :eof
         ECHO.
         ECHO User variables:
         ECHO.
-        ECHO %-path%
+        ECHO "%-path%"
         ECHO.
     )
 
