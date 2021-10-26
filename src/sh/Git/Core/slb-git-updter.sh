@@ -89,7 +89,7 @@ checkSubmodules()
 }
 
 #..................................................................................
-# Calls the main script
+# Read current branch name
 #
 readBranchVar()
 {
@@ -122,7 +122,6 @@ main "$@"
 #/
 #/ Update superproject and it´s submodules.
 #/
-#/ slb-git-updter.sh [-dir:] [-v] [/?]
-#/   -dir       Directory of the repository
+#/ slb-git-updter.sh [-v] [/?]
 #/   -v         Shows the script version
 #/   /?         Shows this help
