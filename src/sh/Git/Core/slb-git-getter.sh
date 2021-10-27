@@ -56,7 +56,7 @@ main()
                 return 0 # true
             else
                 # clone the url (that will be found two lines down)
-                git clone "$url"
+                git clone -c core.symlinks=true "$url"
 
                 # initialize the repository
                 init "$url" "$b" "${PWD}/$r"
@@ -82,7 +82,7 @@ init()
         # go to cloned dir
         cd "$3" || exit
 
-        git submodule update --init
+        git -c core.symlinks=true submodule update --init
         git submodule foreach git checkout "${2}"
     fi
 
