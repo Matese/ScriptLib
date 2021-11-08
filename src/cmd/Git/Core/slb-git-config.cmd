@@ -22,9 +22,6 @@ SETLOCAL
 :: default help
 CALL slb-helper "%~f0" "%~1" & IF DEFINED -help GOTO :eof
 
-:: needs to go first (otherwise it can override arguments)
-CALL :installDependencies
-
 :: parse the arguments
 CALL slb-argadd %*
 
@@ -134,20 +131,6 @@ ENDLOCAL & GOTO :eof
     :: set old encoding
     CHCP %cp% >nul
 
-    ENDLOCAL & GOTO :eof
-
-::......................................................................................................................
-:: Install dependencies
-::
-:installDependencies
-    SETLOCAL
-    ECHO.
-    CALL slb slperm
-    ECHO.
-    CALL slb ichoco -i
-    ECHO.
-    CALL C:\ProgramData\chocolatey\choco install jq
-    ECHO.
     ENDLOCAL & GOTO :eof
 
 ::......................................................................................................................
