@@ -41,15 +41,11 @@ checkSuperproject()
     echo "checking superproject..." && git guider "$PWD" && git stater "$PWD" && readStaterVar
 
     if [ "$value" == "null" ]; then
-        git pull --quiet origin "$current_branch" && git stater "$PWD" && readStaterVar
+        git pull origin "$current_branch" && git stater "$PWD" && readStaterVar
 
         if [ "$value" == "null" ]; then
-            git submodule foreach --quiet "git push --quiet origin $current_branch"
-            git push --quiet origin "$current_branch"
-            git submodule foreach --quiet "git pull --quiet"
-            git pull --quiet
-            git submodule foreach --quiet 'git fetch --dry-run'
-            git fetch --dry-run
+            git submodule foreach --quiet "git push origin $current_branch"
+            git push origin "$current_branch"
             echo "finished"
         else
             echo "fatal: cannot save. $value"
@@ -69,15 +65,15 @@ checkSubmodules()
     # invoke git-gui if status has changes, and then check status
     # shellcheck disable=SC2016
     {
-    nullSater && git submodule foreach --quiet 'git guider $toplevel/$name'
-    git submodule foreach --quiet 'git stater $toplevel/$name' && readStaterVar
+    nullSater && git submodule foreach 'git guider $toplevel/$name'
+    git submodule foreach 'git stater $toplevel/$name' && readStaterVar
     }
 
     if [ "$value" == "null" ]; then
         # invoke git pull, and then check status
-        git submodule foreach --quiet "git pull --quiet origin $current_branch"
+        git submodule foreach "git pull origin $current_branch"
         # shellcheck disable=SC2016
-        git submodule foreach --quiet 'git stater $toplevel/$name' && readStaterVar
+        git submodule foreach 'git stater $toplevel/$name' && readStaterVar
     else
         echo "fatal: cannot save. $value"
     fi;
