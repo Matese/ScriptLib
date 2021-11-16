@@ -271,8 +271,15 @@ genSubInSuper()
 #
 addSubInSuper()
 {
-    echo "TODO: addSubInSuper"
-    # echo "Added Submodule '$1' in Superproject '$2'"
+    # add submodule to superproject
+    cd "$sd/$sn" || exit
+    git submodule add "$mu$mn" "modules/$mn"
+    git add .
+    git commit -m "submodule $mn added to superproject $sn"
+    git branch -m master
+    git push -u origin master
+
+    echo "Added Submodule '$1' in Superproject '$2'"
 }
 
 #..................................................................................
