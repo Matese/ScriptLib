@@ -109,6 +109,7 @@ gitConfig()
         echo "	name = $n"
         echo "	email = $e"
         echo "[alias]"
+        echo "	chkred = !bash $scriptdir/slb-git-chkred.sh"
         echo "	puller = !bash $scriptdir/slb-git-puller.sh"
         echo "	getter = !bash $scriptdir/slb-git-getter.sh"
         echo "	lister = !bash $scriptdir/slb-git-lister.sh"

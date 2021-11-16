@@ -19,6 +19,7 @@ SETLOCAL
 
 :: parse command
 SET _cmd=%~1
+IF "%_cmd%"=="chkred" SET _cmd=slb-git-chkred
 IF "%_cmd%"=="config" SET _cmd=slb-git-config
 IF "%_cmd%"=="depend" SET _cmd=slb-git-depend
 IF "%_cmd%"=="getter" SET _cmd=slb-git-getter
@@ -65,6 +66,7 @@ ENDLOCAL & GOTO :eof
 :: slb [command] [-v] [/?]
 ::
 ::  (Git)
+::   chkred      Check git redirection warning
 ::   config      Create git configurations
 ::   getter      Clone projects and modules
 ::   lister      List projects and modules

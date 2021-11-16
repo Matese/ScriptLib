@@ -21,6 +21,7 @@ main()
 {
     # parse command
     cmd=$1
+    if [ "$cmd" == "chkred" ]; then cmd=slb-git-chkred; fi
     if [ "$cmd" == "config" ]; then cmd=slb-git-config; fi
     if [ "$cmd" == "getter" ]; then cmd=slb-git-getter; fi
     if [ "$cmd" == "lister" ]; then cmd=slb-git-lister; fi
@@ -55,6 +56,7 @@ main "$@"
 #/ slb [command] [-v] [/?]
 #/
 #/  (Git)
+#/   chkred      Check git redirection warning
 #/   config      Create git configurations
 #/   getter      Clone projects and modules
 #/   lister      List projects and modules

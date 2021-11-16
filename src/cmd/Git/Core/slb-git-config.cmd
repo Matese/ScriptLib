@@ -114,6 +114,7 @@ ENDLOCAL & GOTO :eof
     SET -content=!-content!	name = !-n!!LF!>> !-gitconfig!
     SET -content=!-content!	email = !-e!!LF!>> !-gitconfig!
     SET -content=!-content![alias]!LF!>> !-gitconfig!
+    SET -content=!-content!	chkred = ^^!bash !-scriptdir!slb-git-chkred.sh!LF!>> !-gitconfig!
     SET -content=!-content!	puller = ^^!bash !-scriptdir!slb-git-puller.sh!LF!>> !-gitconfig!
     SET -content=!-content!	getter = ^^!bash !-scriptdir!slb-git-getter.sh!LF!>> !-gitconfig!
     SET -content=!-content!	lister = ^^!bash !-scriptdir!slb-git-lister.sh!LF!>> !-gitconfig!
