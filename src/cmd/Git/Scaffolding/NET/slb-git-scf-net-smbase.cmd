@@ -1,1 +1,1 @@
-D:/02.github/Matese/ScriptLib/src/cmd/System/slb-invker.cmd
+../../../System/slb-invker.cmd
