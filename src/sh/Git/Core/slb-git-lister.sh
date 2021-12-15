@@ -83,6 +83,8 @@ addGroup()
 {
     echo "Group: $(readKey "$1" name)" >>"$2"
     echo "" >>"$2"
+    
+    echo "Group added: $1"
 }
 
 #..................................................................................
@@ -96,6 +98,8 @@ addRepo()
         echo "   				 			 SSH: $(readKey "$1" surl)"
         echo "   				 			HTTP: $(readKey "$1" hurl)"
     } >>"$2"
+    
+    echo "Repo added: $1"
 }
 
 #..................................................................................
@@ -103,6 +107,8 @@ addRepo()
 #
 getGroups()
 {
+    echo "Getting groups..."
+
     mapfile -t groups < <( \
         curl -s --location \
             --request GET "https://gitlab.com/api/v4/groups/$(slb.sh config -g:"upsgid")/subgroups" \
@@ -116,6 +122,8 @@ getGroups()
 #
 getProjects()
 {
+    echo "Getting projects..."
+
     mapfile -t projects < <( \
         curl -s --location \
             --request GET "https://gitlab.com/api/v4/groups/$1" \
