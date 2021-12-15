@@ -1,0 +1,30 @@
+# --------------------------------------------------
+# Best Practices
+# -> https://rehansaeed.com/gitattributes-best-practices/
+#
+
+# --------------------------------------------------
+# Introducing GitHub Linguist
+# -> https://medium.com/@bolajiayodeji/introducing-github-linguist-8f09273ddea1
+#
+setup/*.sh linguist-language=Dockerfile
+Makefile linguist-vendored
+
+# --------------------------------------------------
+# Force batch scripts to always use CRLF line endings so that if a repo is accessed
+# in Windows via a file share from Linux, the scripts will work.
+#
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+
+# --------------------------------------------------
+# Force bash scripts to always use LF line endings so that if a repo is accessed
+# in Unix via a file share from Windows, the scripts will work.
+#
+*.sh text eol=lf
+
+# --------------------------------------------------
+# Force sql scripts to always use LF line endings so that if a repo is accessed
+# in Unix via a file share from Windows, the scripts will work.
+#
+*.sql text eol=lf
