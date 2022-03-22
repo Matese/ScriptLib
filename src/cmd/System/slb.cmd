@@ -28,10 +28,13 @@ IF "%_cmd%"=="puller" SET _cmd=slb-git-puller
 IF "%_cmd%"=="scfdng" SET _cmd=slb-git-scfdng
 IF "%_cmd%"=="sender" SET _cmd=slb-git-sender
 IF "%_cmd%"=="stater" SET _cmd=slb-git-stater
+IF "%_cmd%"=="ctners" SET _cmd=slb-win-ctners
+IF "%_cmd%"=="hyperv" SET _cmd=slb-win-hyperv
 IF "%_cmd%"=="ichoco" SET _cmd=slb-win-ichoco
 IF "%_cmd%"=="igpedt" SET _cmd=slb-win-igpedt
 IF "%_cmd%"=="slperm" SET _cmd=slb-win-slperm
 IF "%_cmd%"=="svcmgr" SET _cmd=slb-win-svcmgr
+IF "%_cmd%"=="w10pro" SET _cmd=slb-win-w10pro
 IF "%_cmd%"=="pthpty" SET _cmd=slb-pthpty
 IF "%_cmd%"=="pthrem" SET _cmd=slb-pthrem
 IF "%_cmd%"=="pthsch" SET _cmd=slb-pthsch
@@ -77,6 +80,9 @@ ENDLOCAL & GOTO :eof
 ::   updter      Update projects and modules
 ::
 ::  (Windows)
+::   ctners      Container services installer
+::   hyperv      Hyper-V services installer
+::   w10pro      Windows 10 Pro registry key
 ::   ichoco      Chocolatey package manager installer
 ::   igpedt      Group policy editor installer
 ::   slperm      Add Symlink permissions to Local Security Policy
