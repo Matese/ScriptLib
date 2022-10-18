@@ -19,6 +19,7 @@ SETLOCAL
 
 :: parse command
 SET _cmd=%~1
+IF "%_cmd%"=="updter" SET _cmd=slb-git-updter
 IF "%_cmd%"=="chkred" SET _cmd=slb-git-chkred
 IF "%_cmd%"=="config" SET _cmd=slb-git-config
 IF "%_cmd%"=="depend" SET _cmd=slb-git-depend

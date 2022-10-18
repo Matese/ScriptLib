@@ -29,6 +29,7 @@ main()
     if [ "$cmd" == "scfdng" ]; then cmd=slb-git-scfdng; fi
     if [ "$cmd" == "sender" ]; then cmd=slb-git-sender; fi
     if [ "$cmd" == "stater" ]; then cmd=slb-git-stater; fi
+    if [ "$cmd" == "updter" ]; then cmd=slb-git-updter; fi
     if [ "$cmd" == "ostype" ]; then cmd=slb-ostype; fi
     if [ "$cmd" == "symlnk" ]; then cmd=slb-symlnk; fi
     if [ "$cmd" == "uuider" ]; then cmd=slb-uuider; fi
